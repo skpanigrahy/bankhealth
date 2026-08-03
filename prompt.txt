@@ -1,0 +1,23 @@
+This is the Branch Health MVP1 repo. Before doing anything, read these files in order:
+- README.md
+- ARCHITECTURE.md
+- docs/00_INDEX.md
+- frontend/README.md
+
+Then:
+1. cd frontend, run `npm install` and `npm run dev`.
+2. Open the app at the localhost URl it prints and confirm it renders without console errors.
+3. Compare what's rendered against the reference screenshots in docs/02_UX/ — check header bar
+   color/layout, the 5 Required Actions cards (icons + accent badges), Today's Meetings
+   timeline, Tech Readiness alert icons, Performance at a Glance cards, and Nearby Branches.
+4. List every visual difference you find between the running app and the docs/02_UX
+   screenshots, ranked by how noticeable they are. Don't fix anything yet — just report
+   the diff list back to me first.
+
+Constraints:
+- Don't modify api/openapi.yaml or database/schema/schema.sql — those are the source of
+  truth (see docs/00_INDEX.md precedence rule); if you think a widget needs a field that
+  isn't in the contract, flag it instead of inventing one.
+- Don't add new npm dependencies without telling me first.
+- Match the existing code style (MUI + the theme in frontend/src/theme/theme.ts) rather
+  than introducing a different styling approach.
