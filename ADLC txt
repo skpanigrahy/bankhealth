@@ -1,0 +1,38 @@
+Subject: Branch Health Greenfield Project. Guidance on ADLC Pipeline Adoption
+
+Hi ,
+
+Hope you're doing well.
+
+We recently kicked off the Branch Health initiative, which is a new Greenfield application being developed for the Branch organization. During our kickoff discussion, one of the key topics was evaluating the Agentic SDLC (ADLC) pipeline as our delivery methodology, since it appears to be well suited for Greenfield initiatives and provides end-to-end visibility, governance, and traceability throughout the software development lifecycle.
+
+Based on the discussion, we'd like to better understand how we can leverage the ADLC framework for Branch Health and would appreciate guidance from you and your team.
+
+Specifically, we'd like to understand:
+
+The overall ADLC process and recommended workflow for a Greenfield project.
+
+How a new project should onboard into the Synthesis, Grooming, and Execution pipelines.
+
+Expected inputs and outputs for each phase.
+
+Roles and responsibilities (Product, Engineering, Data, Architecture, etc.).
+
+Required artifacts, templates, and documentation.
+
+Best practices and lessons learned from teams already using ADLC.
+
+How Jira Epics, Stories, and backlog refinement integrate with the pipeline.
+
+Any tooling, repositories, or setup prerequisites we should establish before we begin.
+
+Recommendations on where Branch Health should start, given that we already have initial UX mockups, high-level requirements, and are currently building our backlog.
+
+
+Our objective over the next few weeks is to finalize our development approach, refine our backlog, identify data sources and APIs, and prepare high-level estimates. Understanding the ADLC process early will help us align with the recommended engineering practices and avoid rework later.
+
+Would you or someone from your team be available for a walkthrough sometime this week or early next week? We believe this discussion will help us establish the right foundation for the project.
+
+Looking forward to your guidance.
+
+Thanks, Santosh Panigrahy
