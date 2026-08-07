@@ -1,0 +1,1790 @@
+Based on everything we've worked on for the Branch Health. Branch Manager View, this first backlog grooming call is your opportunity to align everyone on scope and avoid ambiguity. The two slides you shared also indicate Eric is tracking Decision Log and Action Items, so expect several design and functional clarifications.
+
+Here are the most important points you should be prepared to discuss.
+
+1. Confirm Product Scope
+
+Start by ensuring everyone agrees that:
+
+Branch Health is a standalone application.
+
+It launches from the Know Your Branch (KYB) landing page through a hyperlink.
+
+It is not another widget inside KYB.
+
+Authentication and user context are inherited from KYB/Banker Portal.
+
+
+2. Home Page Priorities
+
+Confirm the Branch Manager home page includes:
+
+Health Score
+
+Priority Action Cards
+
+CTR/MIPL Work Returns
+
+Banker Notifications
+
+AI Insights
+
+Branch KPIs
+
+Quick Actions
+
+Branch Locator
+
+Recent Activity
+
+
+3. Clarify Backlog Stories
+
+For every story ask:
+
+Business objective
+
+User persona
+
+Acceptance criteria
+
+API dependency
+
+Design availability
+
+Data source
+
+Error handling
+
+Empty state
+
+
+4. Questions Around CTR/MIPL Work Returns
+
+Eric already raised this.
+
+You can ask:
+
+Are these the only cards with due dates?
+
+Should overdue items be highlighted?
+
+Should completed items disappear automatically?
+
+Is sorting by due date mandatory?
+
+
+5. Notifications
+
+Another decision already logged.
+
+Clarify:
+
+Is notification count user specific?
+
+Does opening notification clear it?
+
+Read vs unread?
+
+Mark all as read?
+
+Persistent across devices?
+
+
+6. Branch Locator
+
+Already in decision log.
+
+Good questions:
+
+Show 5 nearest branches only?
+
+Search radius configurable?
+
+Filters needed?
+
+Branch detail overlay fields?
+
+Open in Google Maps or internal map?
+
+
+7. AI Insights
+
+Since Branch Health is AI-enabled.
+
+Ask:
+
+Static recommendations or GenAI generated?
+
+Explain why recommendation is shown?
+
+Feedback (Helpful / Not Helpful)?
+
+Confidence score?
+
+
+8. Health Score
+
+Clarify:
+
+Formula available?
+
+Real-time or batch?
+
+Component weightage?
+
+Drill-down supported?
+
+
+9. Data Refresh
+
+Important question.
+
+Ask:
+
+Real time?
+
+Hourly?
+
+Daily batch?
+
+Manual Refresh button?
+
+
+10. Technical Questions
+
+Be ready to ask:
+
+REST APIs finalized?
+
+Databricks ownership?
+
+ETL frequency?
+
+Pagination?
+
+Sorting?
+
+Filtering?
+
+Authorization model?
+
+
+11. Definition of Done
+
+For every story confirm:
+
+UX approved
+
+API available
+
+Unit tests
+
+Accessibility
+
+Responsive
+
+Error handling
+
+Loading state
+
+Empty state
+
+
+Action Items You Can Volunteer For
+
+Since you're leading the engineering discussions, you can offer to own:
+
+API contract review.
+
+UI feasibility review.
+
+Technical spike for complex stories.
+
+Story decomposition.
+
+Dependency tracking with data team.
+
+
+Questions You Can Ask Eric
+
+Which stories are MVP for Release 1?
+
+Any stories blocked by UX?
+
+Any dependencies on APO/Data team?
+
+Can development start with mock APIs?
+
+Which stories have highest business priority?
+
+Do we estimate today or only refine?
+
+What are the sprint goals after grooming?
+
+
+These questions will help drive a productive backlog refinement session and demonstrate ownership of the Branch Health project while surfacing risks ea
+rly.
+
+understand and start doing like kind of like our high-level estimate, because I know that Jay is going to be asking us, when could we do it? Again, this is our t-shirt size effort, right? We will know more as we dig and dig and dig, but at least get that initial like, hey, we think it's this big. That's why I've broken, I haven't waited to get all of this into Jira, so we at least can start talking through these things in our stand-ups and start going, okay, well, that's part of this, that's part of this, and get those questions. Like I said, I already have questions because there are a few things. From there, like I said, I want to refine everything, get stories in there, and then start talking about all this, chasing down all the source data from those with the help of those APIs of where does your data sit? Most of these, though, honestly, I think we have some, right? I know that this is kind of something that people would want like, lots of background work, which looking great, right, help some, of course the backlogs. But we still don't know, like, do we want to run this through the additional synthesis, right, through the AI, right, and like further like get to the level of those cards that you do, right? Do we want to immediately, will we be able to immediately produce some outcomes from those cards and start throwing some pieces of code, right, and start testing them and playing with them? I almost feel like maybe priority should be kind of get the process going, as I'm tempted to speculate on some dates without even process starting. Get the process going, right, get pieces out to understand which, you know, the cycle pattern are we using, and then, then we can be a bit more effective about, and this, what the date can look like if people ask us for a date. Sorry, I can't assume that was all part of that kickoff, right, with us talking about what we're doing and that you're synthesizing how we would do it, where we would build it, and doing those sides. It's probably not going to solve this like in one hour session, but if you feel like saying that there is a kickoff process, as far like thing with like telling that we discovered a kickoff process like figuring out the dev cycle and the patterns and whatever else, that is fine, and we can treat it that. Yeah, what I was thinking was, like, we would do all of that in like the next several weeks, right? Like, I was hoping by the end of August we would have an idea of like, okay, this is how we're going to do our dev cycle, this is the places we're going to put things, this is what we're starting, like all of those pieces to kind of like essentially call this our kickoff or assemble, right? Kind of our storming phase, if you will, to kind of gather that in the next few weeks, and that's what we'll use the stand-up time for, is like, okay, so where are, what's our next questions? What do we need for clarity from requirements? What do we need clarity from environment setups, et cetera? I know you've mentioned potentially using the KoaB sealed just temporarily to get this started, right? Like just start, like how will that work? Right, this is certainly go process, right? I'm not going to like come up with anything else. I was talking more about like the actual, the agenda process we're going to use, because there are several methods, right, that is used for integrations and space, right? There is like, and there are some other things, right? So we just need to agree which ones would work for us and maybe even start trying one, and saying, yes, this would work, it'd be good, or like, we tried this like a dozen, it's like it's kind of spinning a bunch of wheels, right, and puts it back in time, and gets that, press it forward. And you're right, like I think a few weeks probably, right, seem to stabilize it, and at the time by the end of that stretch, we'll be able to say, okay, now I think I said I can probably speculate much better on the when they're going to. Yeah. And what I would like to do with that is kind of like document real quickly like what do we need to address to your point, like what are each item that we need to consider to kind of get there. So I want to actually create a log of that, kind of like we see I have a decision log, but our considerations, right? So what are all the things we need to consider when we're going through that? We can do that today or we can start kind of just kicking those around, but I'd like just a running list, to your point, of like what methodology are we using? Like what are the things we need to identify to say I need to do all of this to be comfortable giving a t-shirt, a timeline estimate by the end of the month. So what are all the things we need to get to do that? Yep. I don't know if there's a standard list already that we kind of have in our minds or if that's something we need to go through as a group. But I want to get that running list going. Yeah, hold on. I'll try to find something because we can continue because I can find.
+
+This discussion provides a very clear picture of Eric's expectations for the Branch Health project over the next few weeks. It wasn't about specific backlog items yet. It was about how the team will estimate, organize, and execute the project.
+
+Key takeaways
+
+1. No commitment to delivery dates yet
+
+Eric explicitly said:
+
+Don't commit to implementation dates yet.
+
+First understand the work.
+
+Give only a high-level T-shirt estimate (S/M/L/XL).
+
+Refine estimates as requirements become clearer.
+
+
+
+---
+
+2. August is the "Storming / Kickoff" phase
+
+The goal by end of August is to have:
+
+Development process finalized
+
+Architecture agreed
+
+Development cycle defined
+
+Story refinement completed
+
+APIs identified
+
+Data sources identified
+
+Environment ready
+
+Initial backlog ready
+
+Better delivery estimates
+
+
+Not production code.
+
+
+---
+
+3. Standups will not be normal status meetings
+
+Instead they'll focus on:
+
+Requirement clarification
+
+Unknowns
+
+Technical blockers
+
+Environment setup
+
+API discovery
+
+Design questions
+
+Architecture decisions
+
+
+
+---
+
+4. Need a "Consideration Log"
+
+Besides Decision Log and Action Items, Eric wants another living document.
+
+Something like:
+
+Category	Consideration	Owner	Status
+
+Architecture	Standalone app vs KYB module	Eric	Open
+Development	Repository strategy	Team	Open
+APIs	Source system identified?	Data Team	Open
+AI	AI synthesis required?	Open	Open
+UI	Approved mockups complete?	UX	Open
+Security	Authentication approach	Security	Open
+Infrastructure	Existing KYB infrastructure reuse?	Team	Open
+
+
+This document will help determine when the team is comfortable giving timeline estimates.
+
+
+---
+
+Things Eric wants identified before estimation
+
+Functional
+
+User stories
+
+Acceptance criteria
+
+Dependencies
+
+Business priority
+
+
+Technical
+
+Repository
+
+Tech stack
+
+APIs
+
+Databases
+
+Authentication
+
+Hosting
+
+Deployment
+
+Logging
+
+Monitoring
+
+
+Data
+
+Data owners
+
+API availability
+
+Refresh frequency
+
+Source systems
+
+Data quality
+
+
+AI
+
+AI required?
+
+AI optional?
+
+AI output format
+
+AI orchestration
+
+Prompt flow
+
+
+Development Process
+
+Dev methodology
+
+Integration strategy
+
+Branching model
+
+CI/CD
+
+Sprint cadence
+
+
+Environment
+
+Development environment
+
+Test environment
+
+Access requests
+
+Secrets
+
+Configuration
+
+
+
+---
+
+What this means for you
+
+Since you'll be involved in estimating stories, every backlog item should eventually answer questions like:
+
+What is the business goal?
+
+Which API provides the data?
+
+Is the API available?
+
+Is UI ready?
+
+Is AI involved?
+
+What are the dependencies?
+
+Any external teams?
+
+Technical risks?
+
+T-shirt size (S/M/L/XL)?
+
+Unknowns before implementation?
+
+
+
+---
+
+Suggested "Project Considerations Log"
+
+You can propose creating a shared document with these sections:
+
+1. Project Scope
+
+
+2. Architecture Decisions
+
+
+3. Development Methodology
+
+
+4. UI/UX Readiness
+
+
+5. API & Data Sources
+
+
+6. AI Integration Strategy
+
+
+7. Security & Authentication
+
+
+8. Infrastructure & Environments
+
+
+9. DevOps & Deployment
+
+
+10. Testing Strategy
+
+
+11. Risks & Dependencies
+
+
+12. Open Questions
+
+
+13. Assumptions
+
+
+14. Estimation Readiness Checklist
+
+
+
+This aligns closely with Eric's vision of building a structured list of considerations before committing to timelines. It would also become a central reference during backlog refinement and stand-up discussions.
+
+Item is due, right? And some of them do have dates. One of them is actually only one type has a due date. They have two business days to complete those and then, or they get essentially a black mark against the branch itself that does not leave for that year. So we need to get a couple of those clarified. Our branch view, there are additional details, kind of like what we do in just Chase.com, that we don't have initially set here. It is too much. this one out, but then we'll have those types all defined. This is all actually going to its own card. Each of these items and epics are essentially what I will turn into our stories, right? So epics are pretty much out there. I'm going to get all of this documented here for our questions and then start building out our Jira board. It is a temporary Jira board, just in a place I have available, right? So it's a basic Kanban board once we get more stuff going and we need to move it around, we can do that. I know enough Jira wizardry to copy stuff over pretty quickly between boards. I know we've kind of had a high level went through the dashboard, we've gone through a couple of questions. But anything that came up, kind of as we, you know, Antonia, I know you've seen it again through kind of like the two minutes I had with Jay, but I want to make sure like any questions that have come up, anything you guys thought of as we kind of like had a minute to digest what we're chasing. I don't think I had any follow-up because like, I mean, this was actually very sort of work that you guys done, right? So like it's those reasons, or like, you know, confirmation from those. Like, I think one of the questions is still the problem starts seeing quickly is that how often do we go to the system of records, right? Whether we already have the data for the purposes because KVP has like those data elements, and are we going to data lake? Are we going to the EBATs, right? Like, are we going to RM for ATM? So, and kind of justify it. And I think this is also kind of revolves around the speaker data store that we would want that Jay wants to have for the whole branch data that is, can be pulled from there, and then what is the, you know, the currency of the data like? Is it up to date? Is this something of yesterday? Yeah. I have a, oh sorry, I have a rough idea of this. So what I can do is I can kind of break them down by section and say, hey, these are ones we would need to refresh X, here are stuff that's like a daily thing, right? Because some of this stuff is daily, weekly, we can debate those, but at least what we think is real-time slash near real-time, I can probably, I can pull those out relatively easy to say, these are the ones that are real-time slash near real-time, here are the ones that is like, honestly, aren't going to refresh that often. We have a basis of that kind of built out here, but I can do that in more detail. Again, these ones are, I can do that real quick, yeah. I can break most of those out, calendars like something we have to get real-time because that can change, but a lot of like other stuff is like monthly, weekly. Branch data is only for the closures. So I'll break that out, Antonia, let me do that and like kind of break that out because the branch, whether or not it's new, right, is like kind of like an update that's not, that's like maybe once a day. But a closure is like, you know, is in a Kafka event. So I can define all of that in more detail. Would that be better? That way at least we can kind of get more eyes on that? Yeah, I think it's like a level like just buckets, it's like this is like, once a week, this once a day, this like up to the minute or whatever like, you know. Because, and if you, I agree, like if you start looking in, people would want to see like, yeah, like, oh, you went to, I just populated a couple of things, I'm not, right? I don't see it, so there's going to be a conflict from the PM and like somebody in the branch, right? So yeah. So I'll do more detail around refresh. I'll create an entire grid for that. And then just display to everybody on the email in our, in this meeting with a quick HTML. This was reviewed I think earlier this year as like three possible methodologies since I can all, like as a development delivery team. And I know like Santosh is not familiar, well, because he's familiar in general, but this more of the branch space, what he didn't follow in, and then Santosh familiar because India team is actually doing one of those since. Which one, if any of them, we want to follow, right? Just besides saying that, yes, I'm going to suck and have compiled it on code, hit right and use them whenever I need to, but it's a little more structured. And some of them, you know, more kind of like formalizing the others. However, like I do know that Intenrapids references, he was kind of like, yeah, I like what Sumitra can do just because it provides this like end-to-end visibility and auditability of everything that is being done. But that's kind of like, works really well for the greenfield, which we are. But I also feel like you've done already lots of those since and that's all since this part. That kind of stuck with, like I don't really know what my requirements are, I need to kind of come up with what is like my, what do I think it is good enough to go forward. I think that is probably already past that point in many senses. But I still, I think we can potentially use that pipeline. So, maybe like I would defer to you, can you maybe sync up with, I don't know, like who is the lead there, at Sumitra, but I'm trying to recall gentleman's name. Sugandh, Sugandh and Sumitra. Yes, Sugandh, Sugandh. So, maybe we need to sync up with, hey, we are greenfield, we haven't that since, however, we already have like, you know, DC and few designs in the rebel, we even have like some pipeline cards. What would be the right way for us to plug into the pipeline? Because I still want to experiment with pipeline because it seems to be like lots of branch apps in places using that. And Tim Roberts was kind of like, was a fan of it, right? So, like I would like to maybe see if we can somehow get into it, right, support. If not, if we're realizing this is not the right scenario, good reasons why, I'm okay with whatever else. But it's sort of like a trio of things that was recommended under like little matrix of pros and cons. Yeah. Yeah, and we can build this out and totally try it out. Yeah, a lot of this we, to your point, we're going to have a little bit of a head start on, which is education addressed as much as I can. Right. So, and again, so pretty good, so like please familiarize yourself with the terms that, but just what follows technology that is in the future space, roughly following those three principles. And Santosh, please, we don't want to come like, comprehend, spend too much time comprehending all the things in the best place to kind of get Sugandh's input saying that. Right. And they're probably going to come up with a recommendation. So today we can be more efficient with spending too much wheels trying to dissect this. Sure. Yeah, I will talk to them tomorrow. Okay. Sounds good. Thank you. Yep. So let's kind of add in there, six, this, we need, refresh. That's on me.
+This part of the meeting is even more valuable because it identifies the technical workstreams before any development begins. Since you (Santosh) were specifically mentioned, here's a breakdown.
+
+Meeting Summary (Part 2)
+
+1. Only one dashboard item has a strict SLA
+
+Eric clarified:
+
+> CTR/MIPL Work Returns is the only component with a due date.
+
+
+
+Business rule:
+
+Branch has 2 business days to complete it.
+
+If not completed, the branch receives a permanent negative mark for that year.
+
+This requires additional clarification before development.
+
+
+Action: Create backlog stories around:
+
+Due date handling
+
+Countdown
+
+Overdue state
+
+Business rules
+
+
+
+---
+
+2. Every dashboard component becomes an Epic
+
+Eric explained his Jira strategy.
+
+Dashboard Component
+        ↓
+Epic
+        ↓
+User Stories
+        ↓
+Tasks
+
+Examples:
+
+Health Score → Epic
+
+Notifications → Epic
+
+Branch Locator → Epic
+
+AI Insights → Epic
+
+Work Returns → Epic
+
+
+Each Epic will later be decomposed into stories.
+
+
+---
+
+3. Temporary Jira Board
+
+Current plan:
+
+Temporary Kanban board
+
+Build backlog
+
+Move to official Jira later
+
+No concern about migration
+
+
+
+---
+
+4. Biggest Technical Question. Data Source Strategy
+
+This became the major architecture discussion.
+
+Questions raised:
+
+Where should data come from?
+
+KYB existing data?
+
+Data Lake?
+
+EBAT?
+
+RM?
+
+ATM systems?
+
+System of Record?
+
+
+This is one of the biggest architectural decisions.
+
+
+---
+
+5. Data Refresh Frequency Matrix
+
+Eric volunteered to prepare a matrix.
+
+Instead of every API separately, categorize them.
+
+Example:
+
+Module	Refresh Type
+
+Calendar	Real-time
+Branch Closure	Kafka Event
+Notifications	Near Real-time
+Work Returns	Near Real-time
+Branch Information	Daily
+KPIs	Daily
+Staffing	Weekly
+Financial Metrics	Monthly
+
+
+This matrix helps decide:
+
+Kafka?
+
+REST?
+
+Batch?
+
+Cache?
+
+Scheduler?
+
+
+
+---
+
+6. Currency of Data
+
+Another important question.
+
+When Branch Manager opens dashboard:
+
+Should data be:
+
+Live?
+
+5 minutes old?
+
+Hourly?
+
+Yesterday?
+
+Weekly?
+
+
+Every widget will have different expectations.
+
+
+---
+
+7. Greenfield Project
+
+Antonia pointed out:
+
+Branch Health is essentially a Greenfield application.
+
+Meaning:
+
+New architecture
+
+New codebase
+
+New delivery process
+
+Opportunity to adopt modern engineering practices
+
+
+
+---
+
+8. Development Methodology Discussion
+
+Interesting discussion.
+
+Apparently Branch Technology has three recommended delivery methodologies.
+
+They haven't decided which one to adopt.
+
+One methodology mentioned:
+
+Sumitra Pipeline
+
+Benefits:
+
+End-to-end visibility
+
+Auditability
+
+Structured delivery
+
+Good for Greenfield projects
+
+
+
+---
+
+9. Santosh Action Item
+
+You were specifically mentioned.
+
+Antonia said:
+
+> Santosh is familiar generally, but not with Branch technology.
+
+
+
+Then immediately clarified:
+
+Don't spend time trying to understand everything yourself.
+
+Instead:
+
+Talk to Sugandh.
+
+Purpose:
+
+Understand Sumitra pipeline
+
+Ask how a Greenfield project should integrate
+
+Get recommendation
+
+Save time
+
+
+Eric agreed.
+
+You accepted.
+
+
+---
+
+10. Your Immediate Action
+
+You committed:
+
+> "I will talk to them tomorrow."
+
+
+
+That is now your first action item.
+
+
+---
+
+Updated Action Items
+
+Owner	Action
+
+Eric	Create Jira backlog
+Eric	Break dashboard into Epics
+Eric	Prepare Data Refresh Matrix
+Eric	Document refresh frequencies
+Eric	Clarify due-date business rules
+Santosh	Meet Sugandh about Sumitra Pipeline
+Team	Decide delivery methodology
+Team	Finalize architecture
+Team	Identify systems of record
+
+
+
+---
+
+Key Risks Identified
+
+1. Data source ownership
+
+
+2. Refresh frequency
+
+
+3. Real-time vs batch architecture
+
+
+4. Development methodology selection
+
+
+5. AI integration approach
+
+
+6. API availability
+
+
+7. Branch data consistency
+
+
+8. SLA handling for CTR/MIPL Work Returns
+
+
+
+What you should prepare before the next meeting
+
+When you speak with Sugandh, try to get answers to questions like:
+
+What is the recommended development pipeline for a new Greenfield Branch application?
+
+How does the Sumitra pipeline work end-to-end?
+
+At what stage should requirements, designs, and user stories enter the pipeline?
+
+What artifacts are expected (design docs, architecture docs, APIs, etc.)?
+
+How does it integrate with Jira and the development lifecycle?
+
+Are there templates or best practices the Branch team should follow?
+
+Are there any successful Branch applications already using this pipeline that the team can reference?
+
+
+Getting clarity on these points will help the team choose the right delivery methodology without spending time evaluating every option independently.
+
+Perfect. The new ARRs deal process, how we actually interacting with them, how we're doing this, so, and it's gonna kinda make sure agree on approach, what branch health workstream, if you're always gonna use this initially. We don't have to marry to it. If something doesn't work for us, we can always pivot to another, but let's agree which one we start with, right? Yep.
+
+This is the closing decision from the kickoff meeting. Eric is trying to establish a working model for the team rather than finalize technical details.
+
+What was decided
+
+Objective
+
+Agree on one development/work delivery process for Branch Health.
+
+Use it consistently for the initial phase.
+
+Evaluate it as the project progresses.
+
+
+Key points
+
+The team will adopt the new ARR (or ARRs) development/delivery process as the initial workflow.
+
+Everyone should understand how requirements move through the process, how the team interacts, and how work is tracked.
+
+This is not a permanent commitment.
+
+If the process proves ineffective, the team can pivot to another methodology.
+
+The immediate goal is to avoid wasting time by trying multiple approaches simultaneously.
+
+
+Eric's message in simple terms
+
+> "Let's pick one methodology, start using it, learn from it, and if it doesn't fit Branch Health, we'll change later. But we need one agreed starting point."
+
+
+
+Meeting Outcome
+
+Topic	Decision
+
+Delivery methodology	Start with the new ARR/Branch delivery process
+Team agreement	Everyone follows the same approach
+Flexibility	Process can change later if needed
+Immediate focus	Learn the process, build the backlog, refine stories, estimate work, and begin development
+
+
+Overall outcome of the first backlog kickoff
+
+By the end of this meeting, the team aligned on:
+
+✅ Branch Health is a Greenfield project.
+
+✅ Each dashboard component will become an Epic.
+
+✅ Jira backlog will be created.
+
+✅ High-level T-shirt estimates will be prepared first.
+
+✅ Data sources and refresh frequencies need to be identified.
+
+✅ Development methodology will be agreed upon before implementation.
+
+✅ Sugandh will be consulted for guidance on the recommended pipeline.
+
+✅ The team will start with one agreed process and adjust only if necessary.
+
+
+This establishes a solid foundation for the upcoming backlog refinement sessions and sprint planning.
+Open epics feature, epics, and then each of the story levels there we can continue to refine as we go. I'll use this just kind of as our running log initially just to keep other things outs that we don't have in Jira, just kind of open that we can review. Other items, other things we need to consider. I kind of, like I said, I do want to build this a timeline, but I think getting a timeline out per our earlier conversation, I would like target towards the end of this month, so the end of August. Obviously that can change and we might need to move things around depending on what we find out, but I think that would be kind of our goal is we think we understand what we need to do, our approach to it, and here's roughly what we think our timeline is at a high level, right? It's not a detailed timeline, it's not a guarantee. Say it's our plus minus 50 at this point, just kind of understanding. But anything else that we need to cover, questions, things that we need to consider?
+
+This is the wrap-up of the first Branch Health backlog kickoff meeting. Here's what Eric is communicating and what the team agreed on.
+
+Final Meeting Summary
+
+1. Jira Structure is finalized
+
+Eric's plan is:
+
+Branch Health Project
+        │
+        ├── Epic 1
+        │      ├── Story
+        │      ├── Story
+        │      └── Story
+        │
+        ├── Epic 2
+        │      ├── Story
+        │      └── Story
+        │
+        ├── Epic 3
+        │      └── Story
+
+The Epics will be created first, and the user stories will be refined gradually as requirements become clearer.
+
+
+---
+
+2. Running Log
+
+Besides Jira, Eric wants a separate running document for items that don't belong in Jira yet.
+
+This log will contain:
+
+Open questions
+
+Unknowns
+
+Assumptions
+
+Risks
+
+Decisions pending
+
+Items needing clarification
+
+Technical considerations
+
+
+Think of it as a "parking lot" for unresolved discussions.
+
+
+---
+
+3. Timeline Target
+
+Eric gave an important expectation.
+
+Goal by the end of August:
+
+Not to finish development, but to have:
+
+Epics completed
+
+Stories largely refined
+
+Major questions answered
+
+Architecture understood
+
+Development methodology selected
+
+APIs identified
+
+Data sources understood
+
+High-level timeline prepared
+
+
+
+---
+
+4. Timeline Confidence
+
+Eric specifically said this is not a committed delivery plan.
+
+Instead, it is a high-level estimate.
+
+He described it as:
+
+> ±50% accuracy
+
+
+
+Meaning:
+
+If the team estimates 4 months today, the actual delivery could reasonably range from about 2 to 6 months because many unknowns still exist.
+
+This is a common practice for early-stage Greenfield projects.
+
+
+---
+
+5. Team Discussion
+
+Eric asked one final question:
+
+> "Is there anything else we need to cover? Any questions? Anything we need to consider?"
+
+
+
+This indicates he wants the team to actively identify risks and gaps rather than wait until implementation.
+
+
+---
+
+Deliverables by End of August
+
+The team should aim to have:
+
+Deliverable	Status Goal
+
+Epics	Defined
+Stories	Mostly refined
+Jira Board	Ready
+Development Methodology	Agreed
+Architecture	Understood
+APIs	Identified
+Data Sources	Identified
+Refresh Frequency Matrix	Completed
+Risks	Documented
+Dependencies	Documented
+High-Level Timeline	Prepared
+T-shirt Estimates	Completed
+
+
+
+---
+
+Overall Kickoff Outcome
+
+This first backlog session was focused on project initiation, not implementation. The team aligned on:
+
+Establishing the backlog structure with Epics and Stories.
+
+Using a temporary Jira board and a separate running log for open questions.
+
+Spending the next few weeks refining requirements, understanding dependencies, and agreeing on the development approach.
+
+Targeting the end of August to produce a high-level timeline and T-shirt estimates, with the understanding that these are early estimates with roughly ±50% accuracy.
+
+Treating this period as the project's discovery and planning phase before committing to detailed delivery dates.
+
+
+This gives the team a clear roadmap for moving from requirements discovery to implementation planning.
+
+We can see whether time trust plugin and its architecture side. I will discuss with John and, like, report, like, what do they need, because they're generally aware of the health and KYP, right? So we're not doing anything like risky and all that. Okay. Okay. I'll just, I'll add that as another one. And it's like just anything from an architecture perspective. And all the APIs and data sources already identified, right? It depends, although we don't know maybe greater details about. Essentially, like, when we're talking about systems, right, I would guarantee every one of those guys have their own organization journey, so they're in one place today, they move into the next place tomorrow, so we need to kind of like figure out, navigate that. Got it, okay. Yeah, that's kind of what I'm hoping we can, once we do our kickoff with the API, we can kind of get a little more detail with that. What this is, is essentially, what we've identified from the data perspective is where it's hosted today, so where the branch managers go to get this data. What I'm setting up right now, trying to schedule is calendars, is to get with every one of those folks, tell them what we're doing, kind of, again, we're bringing just this data in, create launching point into their apps, understand, you know, who's the right folks to talk to from a data perspective that we can get to those things just to pull in, right? That's kind of what we're gonna kick off here.
+
+This is another important discussion because it defines how the team will engage with architecture and data provider teams before implementation.
+
+Meeting Summary (Architecture & API Planning)
+
+1. Architecture Review
+
+Antonia said he will:
+
+Discuss the Branch Health architecture with John.
+
+Validate whether the proposed architecture aligns with Branch Technology standards.
+
+Bring back recommendations to the team.
+
+
+Action Item
+
+Owner: Antonia
+
+Meet John and review the proposed architecture and approach.
+
+
+
+---
+
+2. Existing APIs Are Already Known
+
+Eric clarified that the team has already identified where most of the required data currently resides.
+
+However, they still need to understand:
+
+API contracts
+
+Data ownership
+
+Access process
+
+Technical implementation details
+
+
+So they know the systems, but not yet the integration details.
+
+
+---
+
+3. Systems Will Change Over Time
+
+Antonia made an important architectural observation:
+
+> Every application has its own modernization journey.
+
+
+
+Meaning:
+
+Today's System of Record may change tomorrow.
+
+APIs may migrate.
+
+Databases may move.
+
+Applications may be modernized.
+
+
+Therefore, Branch Health should integrate in a way that minimizes dependency on underlying implementation changes.
+
+
+---
+
+4. API Kickoff Meetings
+
+Eric explained his immediate next step.
+
+He is scheduling meetings with each application owner.
+
+Objectives of these meetings:
+
+Explain what Branch Health is.
+
+Explain that Branch Health will consume their data.
+
+Identify the correct technical contacts.
+
+Understand available APIs.
+
+Understand authentication.
+
+Understand refresh mechanisms.
+
+Discuss integration approach.
+
+
+
+---
+
+5. Branch Health Is Not Replacing Existing Applications
+
+Eric clarified the vision.
+
+Branch Health is not recreating existing applications.
+
+Instead it will:
+
+Aggregate information.
+
+Surface health indicators.
+
+Provide deep links (launch points) into existing applications.
+
+
+So the architecture is essentially:
+
+Branch Manager
+        │
+        ▼
+ Branch Health Dashboard
+        │
+ ├── Health Score
+ ├── Notifications
+ ├── Work Returns
+ ├── Calendar
+ ├── Branch Metrics
+ └── Launch Links
+        │
+        ▼
+ Existing Source Applications
+
+This significantly reduces duplication and ownership concerns.
+
+
+---
+
+New Action Items
+
+Owner	Action
+
+Antonia	Review architecture with John
+Eric	Schedule API kickoff meetings with all application owners
+Eric	Identify technical contacts for each source system
+Eric	Document APIs and integration approach
+Team	Validate data sources and ownership
+
+
+
+---
+
+Architecture Principles Emerging from the Meeting
+
+The discussion suggests Branch Health should follow these principles:
+
+1. Single dashboard for Branch Managers.
+
+
+2. Consume data from existing systems, not duplicate it.
+
+
+3. Provide launch links to source applications where deeper actions are needed.
+
+
+4. Use APIs wherever possible instead of direct database access.
+
+
+5. Design for changing backend systems, since source applications may evolve over time.
+
+
+6. Engage data owners early to understand APIs, authentication, refresh frequency, and integration constraints.
+
+
+
+Overall, this conversation shows the team is moving from high-level planning into integration discovery, which is a critical step before estimating development effort or beginning implementation.
+
+These screenshots, combined with the meeting transcript, provide a good understanding of the initial Branch Health MVP, the open design decisions, and the delivery process the team intends to follow.
+
+Overall MVP Scope
+
+The Branch Manager View currently has these major epics:
+
+1. Header / Welcome
+
+Branch selector (for managers with multiple branches)
+
+Branch operational status
+
+Last refresh timestamp (every 15 minutes)
+
+Manual refresh
+
+
+
+2. Required Actions
+
+Control Exceptions
+
+Cash Management
+
+Branch Dashboard
+
+ICSC
+
+Banker Notifications
+
+
+
+3. Nearby Branches / Financial Centers / ATMs
+
+Show the 5 closest locations
+
+Map with pins
+
+Branch cards
+
+Meet with Us
+
+ATM availability
+
+Branch services
+
+Distance
+
+
+
+
+
+---
+
+Decision Log Items
+
+From the Decision Log slide, the open questions are:
+
+CTR/MIPL Work Returns
+
+Only item with a strict 2-business-day SLA.
+
+Should it be highlighted separately from other Required Actions?
+
+
+Banker Notifications
+
+How should unread count be decremented?
+
+On click?
+
+Per notification?
+
+Mark all read?
+
+
+Branch Locator
+
+Decision:
+
+Display the closest 5 branches.
+
+
+Open question:
+
+Support filters similar to chase.com?
+
+Branch Type
+
+Services
+
+ATM access
+
+
+
+Branch Detail Overlay
+
+Still needs UX design for the expanded branch information.
+
+
+---
+
+Required Actions Design
+
+The "Required Actions" slide defines the source application for each card.
+
+Card	Source Application	Notes
+
+Control Exceptions	Branch Dashboard	No due date
+Cash Management	My Cash Manager	No due date
+Branch Dashboard	Business Metric Dashboard	Includes CTR/MIPL
+ICSC	Branch Dashboard	Monthly countdown
+Banker Notifications	Banker Homepage	Notification count
+
+
+An important takeaway is that Branch Health is acting as an aggregation layer, not the system of record.
+
+
+---
+
+Branch Locator Requirements
+
+The Branch Locator epic already has fairly detailed requirements.
+
+Each branch card should include:
+
+Branch Name
+
+Branch Address
+
+Phone Number
+
+Distance
+
+Branch Status
+
+ATM Status
+
+Branch Services
+
+Meet With Us button
+
+
+Status examples:
+
+Open until 5 PM
+
+Closed until tomorrow
+
+Temporarily closed
+
+
+ATM example:
+
+5 of 6 ATMs operational
+
+
+
+---
+
+Map Behaviour
+
+The map requirements are clearly documented.
+
+The map should:
+
+Show pins for the closest five branches.
+
+Include the current branch.
+
+Blue pin = Open.
+
+Red pin = Closed.
+
+Highlight the selected branch.
+
+Synchronize the selected pin and branch card.
+
+
+
+---
+
+Data Refresh Strategy
+
+The Header specifies:
+
+Refresh every 15 minutes.
+
+Display the last refresh timestamp.
+
+Allow manual refresh.
+
+
+This aligns with the earlier discussion about categorizing data by refresh frequency.
+
+
+---
+
+Agentic SDLC Pipeline
+
+The other screenshots show the development process Antonia mentioned.
+
+Phase 1 - Synthesis
+
+Requirement analysis
+
+Q&A clarification
+
+Requirement KB
+
+Epic decomposition
+
+Product approval
+
+
+Phase 2 - Grooming
+
+JIRA input
+
+Context loading
+
+Draft stories
+
+Stakeholder reviews
+
+Consistency checks
+
+
+Phase 3 - Execution
+
+Pre-flight validation
+
+Engineering
+
+Testing
+
+Validation
+
+Git commit
+
+PR
+
+
+The team intends to evaluate whether this pipeline is appropriate for Branch Health before fully adopting it.
+
+
+---
+
+Suggested Initial Epics
+
+Based on the mockups, your Jira could start with something like:
+
+Epic	Description
+
+BH-001	Branch Manager Home Dashboard
+BH-002	Required Actions Aggregation
+BH-003	Branch Operational Status
+BH-004	Branch Locator & Map
+BH-005	Nearby Branch Cards
+BH-006	Banker Notifications
+BH-007	Branch Health Score
+BH-008	Data Aggregation Layer
+BH-009	Refresh & Synchronization
+BH-010	Navigation & Deep Links
+
+
+
+---
+
+What the team still needs to resolve
+
+Before detailed development begins, the key open questions remain:
+
+Finalize data owners and API contracts.
+
+Define refresh frequency for each widget.
+
+Decide how notification counts behave.
+
+Decide how CTR/MIPL items are highlighted.
+
+Complete the Branch Detail overlay design.
+
+Select and validate the Agentic SDLC (or alternative) delivery methodology.
+
+Complete T-shirt sizing and high-level estimates.
+
+
+Overall, the first kickoff meeting was successful in defining the MVP scope, identifying the major epics, documenting the initial decision log, and setting the team's focus for the coming weeks: refine requirements, validate integrations, choose the delivery process, and prepare high-level estimates before committing to implementation timelines.
+
+Yes. That was actually one of the major discussions in the meeting. It wasn't just about the Branch Health backlog. A significant portion was dedicated to how the team will execute the project using the Agentic SDLC (ADLC) pipeline.
+
+Here's a consolidated summary.
+
+1. Purpose of the ADLC Discussion
+
+The team agreed that before committing to delivery dates, they first need to agree on how development will happen.
+
+Eric emphasized:
+
+Don't estimate based only on stories.
+
+First establish the development process.
+
+Then estimate using that process.
+
+
+
+---
+
+2. Branch Health is a Greenfield Project
+
+This was repeatedly mentioned.
+
+Because it's a Greenfield project, the team has an opportunity to adopt the new Agentic SDLC pipeline instead of a traditional development workflow.
+
+
+---
+
+3. Three Development Methodologies Exist
+
+Antonia mentioned there are three recommended methodologies used within Branch Technology.
+
+Rather than inventing a new process, the team should:
+
+Evaluate the recommended approaches.
+
+Select one.
+
+Start with it.
+
+
+
+---
+
+4. Agentic SDLC Was the Preferred Starting Point
+
+The screenshots show the proposed pipeline.
+
+Phase 1. Synthesis
+
+Purpose: Transform business requirements into structured, approved Epics.
+
+Activities:
+
+Requirement ingestion
+
+AI-assisted synthesis
+
+Socratic Q&A
+
+Confidence gate
+
+Requirement Knowledge Base
+
+Epic decomposition
+
+Product approval
+
+
+Output: Approved Epics ready for grooming.
+
+
+---
+
+Phase 2. Grooming
+
+Purpose: Convert approved Epics into execution-ready stories.
+
+Activities:
+
+Jira input
+
+Context loading
+
+Clarity scoring
+
+Stakeholder reviews (QUAD)
+
+Product review
+
+Architecture review
+
+Data review
+
+Engineering review
+
+Consistency checks
+
+
+Output: Implementation-ready stories.
+
+
+---
+
+Phase 3. Execution
+
+Purpose: Develop and validate the solution.
+
+Activities:
+
+Pre-flight readiness
+
+Story implementation
+
+Validation
+
+Green log verification
+
+Acceptance Criteria validation
+
+Human Git operations
+
+Pull Request
+
+
+Output: Production-ready implementation.
+
+
+---
+
+5. RACI Responsibilities
+
+The pipeline clearly defines responsibilities for:
+
+Product
+
+Engineering
+
+Data
+
+Architecture
+
+DCE
+
+Pipeline Agents
+
+
+This gives end-to-end ownership and auditability.
+
+
+---
+
+6. Why Eric Likes This
+
+Eric highlighted several benefits:
+
+Better visibility.
+
+Better traceability.
+
+Better planning.
+
+Better refinement.
+
+Higher confidence before implementation.
+
+
+
+---
+
+7. No Commitment Yet
+
+One important point.
+
+The team did not decide that Agentic SDLC would definitely be used.
+
+Instead they agreed:
+
+> Let's start with it.
+
+
+
+If it works:
+
+Continue.
+
+
+If it doesn't:
+
+Pivot to another methodology.
+
+
+
+---
+
+8. Action Items from the ADLC Discussion
+
+Antonia
+
+Discuss the Agentic SDLC approach with John.
+
+
+Santosh
+
+Meet Sugandh.
+
+Understand how the pipeline works.
+
+Learn how a Greenfield Branch project should plug into it.
+
+Bring back recommendations.
+
+
+Eric
+
+Continue creating Epics.
+
+Create Jira board.
+
+Build backlog.
+
+Prepare the project using the selected methodology.
+
+
+
+---
+
+9. Overall Development Flow Agreed in the Meeting
+
+Business Requirements
+        │
+        ▼
+   Synthesis Pipeline
+        │
+ Approved Epics
+        │
+        ▼
+ Grooming Pipeline
+        │
+ Execution-ready Stories
+        │
+        ▼
+ Execution Pipeline
+        │
+ Development
+        │
+ Validation
+        │
+ Git / PR
+        │
+ Deployment
+
+
+---
+
+Key Outcome of the First Kickoff
+
+The meeting had two parallel objectives:
+
+Functional Track
+
+Review the Branch Health dashboard.
+
+Define MVP scope.
+
+Identify Epics.
+
+Capture open questions in the Decision Log.
+
+Prepare high-level T-shirt estimates.
+
+
+Process Track
+
+Evaluate the Agentic SDLC (ADLC) delivery methodology.
+
+Decide how the team will move requirements from ideas to production.
+
+Assign follow-up actions (John, Sugandh, API owners).
+
+Use the next few weeks to validate the process before committing to detailed delivery timelines.
+
+
+So, the first kickoff was as much about establishing the engineering delivery process as it was about defining the Branch Health features. This ADLC discussion is likely to shape how your entire project is planned, groomed, implemented, and reviewed.
+
+
