@@ -1,0 +1,69 @@
+Opening
+
+“Thanks for taking the time. I thought it would be good to have a proper 1:1, especially since we’re already past the mid-year point and I’ve been working with you for the last few months.
+
+I mainly wanted to give you a quick view of what I’ve been working on, where I think I’ve added value, and then get your perspective on where I should focus for the rest of the year.”
+
+1. Start with the bigger picture
+
+“Over the last few months, my work has been spread across a few areas rather than just one product. The common theme for me has been trying to take ownership beyond just implementation, understand the problem properly, and help shape what we should actually build.”
+
+2. CertGuardian / CertGuardian Neo
+
+“On CertGuardian, I’ve continued to work on the existing platform and some of the operational and performance challenges around it.
+
+At the same time, with CertGuardian Neo, I’ve been looking at how we can move toward a cleaner architecture and a more scalable solution rather than continuing to stretch the existing implementation.
+
+One thing I’ve been particularly focused on is understanding the actual usage and bottlenecks, rather than just doing a technology rewrite for the sake of it. For example, we’ve looked at the scale of the data and metrics, the database side, filtering and performance, and how the new dashboard and backend should work together.
+
+So I see Neo less as just a replacement application and more as an opportunity to address some of the limitations we’ve learned from CertGuardian.”
+
+3. Branch Health / newer initiatives
+
+“More recently, I’ve also been involved with Branch Health. That has been interesting because it’s not just another technical implementation. We’ve been trying to define what the MVP should actually be, how it fits into the Banker Homepage, and what the Branch Manager experience should look like.
+
+I’ve been involved in understanding the scope, looking at the broader operational picture, and then bringing that back down to something practical that we can actually deliver as an MVP with the available development capacity.
+
+I think that kind of work is something I’d like to continue doing, where I’m involved from the problem and solution-definition side and not only once the requirements are already finalized.”
+
+4. KYB / broader platform work
+
+“I’ve also been involved in the KYB discussions and the broader blueprint around the different modules and how we can reuse existing capabilities where it makes sense, while still keeping things independently deployable.
+
+That has helped me think more from a platform and architecture perspective rather than looking at every application in isolation.”
+
+5. What you think your contribution has been
+
+“So if I look back at the first half of the year, I think my biggest contribution has been ownership and trying to connect the business problem, architecture, and actual implementation.
+
+I’m still very much hands-on technically, but I’ve been trying to operate a little more broadly, challenge things when I think there’s a better approach, and help bring some structure when the problem or scope isn’t completely clear.”
+
+6. Pause and ask for feedback
+
+“But that’s my perspective. I’d really like to hear your view.
+
+How do you see my contribution so far this year? Are there areas where you think I should be doing more, or where I need to change the way I’m working?”
+
+Let him talk here. Don’t immediately fill the silence.
+
+7. Discuss second-half priorities
+
+“For the rest of the year, what would you consider the most important things for me to focus on?
+
+I have CertGuardian/Neo, Branch Health and some of these broader initiatives, so I’d like to make sure I’m spending my time on the things that are most valuable from your perspective.”
+
+8. Career / growth question
+
+“And one other thing I wanted to discuss is my growth.
+
+I’d like to understand what you would expect from me to move toward the next level. I feel I’m already taking on some responsibilities beyond pure development, especially around architecture, solutioning and ownership.
+
+So it would be useful to know what gaps you see and what I should demonstrate over the next few months.”
+
+9. Close
+
+“That’s really what I wanted to get out of this discussion. I’d like to make sure we’re aligned on what success looks like for me for the rest of the year.
+
+And if there are areas where you think I can take more ownership, I’m definitely interested in doing that.”
+
+“Thanks. This was helpful. I’d also like to keep this kind of regular conversation going so I can make sure I’m aligned with your expectations.”
