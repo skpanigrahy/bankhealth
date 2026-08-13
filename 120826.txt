@@ -1,0 +1,288 @@
+Absolutely. The discussion has now produced a fairly clear set of UX requirements. I would give Copilot a focused implementation/design instruction, rather than asking it to interpret the whole conversation.
+
+Summary of the discussion
+
+1. Required Actions is an urgency tile
+
+The Branch Dashboard should surface Required Actions as a prominent tile.
+
+These actions are different from normal aging work because some have a genuine short completion window, for example 48 hours / 2 days.
+
+The tile should therefore communicate urgency, not simply the total backlog.
+
+2. Use an urgency waterfall
+
+The tile should show the most urgent current state.
+
+For example:
+
+2 items due today → "2 items due today"
+
+If nothing is due today, but 3 are due tomorrow → "3 items due tomorrow"
+
+If there are no dated items but 5 outstanding actions → "5 items"
+
+After the urgent items are completed, the tile automatically waterfalls to the next applicable state.
+
+
+Do not clutter the tile with:
+
+> 2 today · 3 tomorrow · 5 aging · 4 upcoming
+
+
+
+The detailed view is where that information belongs.
+
+3. "Due" and "aging" are different
+
+Not every Required Action has an actual due date.
+
+Some items have a hard completion window. Others simply should not be allowed to age beyond a particular threshold.
+
+So avoid treating everything as "due."
+
+Think in terms of:
+
+Due today
+
+Due tomorrow / upcoming
+
+Outstanding
+
+Aging
+
+
+The exact terminology can be refined later.
+
+4. Keep the tile sticky
+
+Even when there are no urgent actions, the tile should remain visible.
+
+For example:
+
+> Cash Management
+0 items due
+
+
+
+This is intentional. Branch managers use the dashboard to confirm that they aren't missing anything, not only to find something that needs action.
+
+5. Clicking the tile opens the detailed dashboard
+
+The tile is a launch point, not the complete task-management experience.
+
+Clicking it should take the user to the detailed dashboard where they can see:
+
+All applicable action items
+
+The three relevant categories
+
+Current status
+
+Due dates where they exist
+
+Aging information where applicable
+
+The ability to work ahead on future items
+
+
+The detailed view should give them the complete picture even though the tile only shows the highest current urgency.
+
+6. Control Exceptions remain separate
+
+Control Exceptions should not be merged into Required Actions.
+
+They represent a separate, very high-priority class of work and therefore deserve their own dashboard entry/action.
+
+7. Completion status may not be real time
+
+This is an important technical/product requirement.
+
+The Branch Dashboard is dependent on the underlying system of record/API for completion status.
+
+A user may complete an action in another system, return to Branch Dashboard, and still see it as outstanding because the source system has not propagated the update yet.
+
+Therefore:
+
+> Do not assume completion status is real time.
+
+
+
+For every action type, we need to establish:
+
+System of record
+
+API/source
+
+Whether completion can be queried immediately
+
+Expected update latency
+
+Refresh mechanism
+
+
+Some items may update immediately. Others may take hours or until the next day.
+
+8. Don't blindly add "Mark Complete"
+
+There was a suggestion that users could manually say "I completed this."
+
+That could be useful, but it should not change the official status unless the source system confirms it.
+
+If eventually needed, a safer state would be something like:
+
+> Completed by user. Awaiting system confirmation
+
+
+
+But this should be a deliberate requirement, not something Copilot invents.
+
+9. Notifications are different
+
+Notifications can use a simpler model.
+
+If the user clicks the Notifications tile, we know they navigated to the notification area. We don't necessarily know whether every notification was read.
+
+Therefore, clicking can clear the current notification count, while anything arriving afterward becomes a new notification count.
+
+
+---
+
+What I would give Copilot
+
+You can paste this directly:
+
+Branch Dashboard Required Actions UX Requirements
+
+Implement/design the Branch Dashboard Required Actions experience based on the following product rules.
+
+1. Required Actions tile
+
+The Required Actions tile is an urgency indicator and launch point, not a complete task-management list.
+
+The tile should remain visible even when there are no currently urgent items. For example:
+
+- "0 items due"
+- "2 items due today"
+- "3 items due tomorrow"
+- "5 items"
+
+The tile must prioritize the most urgent current state.
+
+2. Urgency waterfall
+
+Use a waterfall approach.
+
+Show the most urgent applicable state first:
+
+1. Items due today
+2. Items due next / tomorrow
+3. Other applicable upcoming items
+4. Outstanding items without a hard due date
+
+Do not display multiple urgency buckets simultaneously on the tile.
+
+For example, do NOT create a tile that says:
+
+"2 today · 3 tomorrow · 5 aging"
+
+Instead, show the highest current urgency and allow the user to click through to the detailed view for the complete picture.
+
+When the most urgent items are completed or no longer fall into the current urgency window, the tile should automatically waterfall to the next applicable state after the dashboard receives updated source data.
+
+3. Due vs aging
+
+Not every Required Action has a hard due date.
+
+Some actions have a defined completion window, such as 48 hours.
+
+Other actions are aging-based. They can be completed at any point before reaching their aging threshold. They should not be incorrectly represented as having a hard due date.
+
+Support distinct concepts such as:
+
+- Due today
+- Due tomorrow/upcoming
+- Outstanding
+- Aging
+
+Do not invent a due date for an aging-only item.
+
+4. Detailed view
+
+Clicking the Required Actions tile should navigate to the detailed Branch Dashboard/action area.
+
+The detailed view should show the complete set of relevant outstanding actions across the applicable categories.
+
+Each item should expose, where available:
+
+- Action/item name
+- Category
+- Current status
+- Due date or completion window
+- Aging information/threshold
+- Priority/urgency
+- Any other information required to take action
+
+Users should be able to see upcoming and aging items even when those items are not currently represented as the highest urgency on the tile.
+
+5. Control Exceptions
+
+Keep Control Exceptions separate from Required Actions.
+
+Control Exceptions represent a distinct, very high-priority class of work and should have their own dashboard entry/tile/action.
+
+Do not merge Control Exceptions into the Required Actions count or urgency calculation.
+
+6. Completion status and data freshness
+
+Do not assume that completion status is real time.
+
+The Branch Dashboard depends on the underlying system of record/API for each action type.
+
+A user may complete an action in another system and return to the Branch Dashboard before that system has propagated the completion status. The dashboard may therefore temporarily continue to show the action as outstanding.
+
+For each action type, the implementation should allow us to define:
+
+- System of record
+- API/source
+- Completion status availability
+- Expected update latency
+- Refresh behavior
+
+The UI should not falsely imply real-time completion if the underlying data source cannot support it.
+
+Consider displaying a concise informational note where appropriate, such as:
+
+"Completion status may take time to update."
+
+Do not add this everywhere by default. Use it where the underlying API/update behavior requires it.
+
+7. Manual completion
+
+Do not automatically add a generic "Mark Complete" function.
+
+The official completion state should continue to come from the system of record.
+
+If a future requirement needs a user acknowledgement such as "I completed this," treat it as a separate state such as "Completed by user / Awaiting system confirmation" rather than changing the official source-of-record status.
+
+8. Notifications
+
+Notifications are different from Required Actions.
+
+For Notifications, clicking the tile can be treated as acknowledgement that the user has visited the notification area.
+
+The system does not need to determine whether every notification was individually read.
+
+The current notification count can therefore be cleared when the user navigates to the notification area, while new notifications received afterward should count as new items.
+
+9. Core UX principle
+
+The Branch Dashboard should answer two different questions at two different levels:
+
+Dashboard tile:
+"What is the most urgent thing I need to know right now?"
+
+Detailed view:
+"What are all of my outstanding, upcoming, and aging items?"
+
+Keep the tile simple, highly scannable, and urgency-focused. Put the detailed information and complete backlog in the drill-down experience.
