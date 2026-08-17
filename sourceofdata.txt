@@ -1,0 +1,243 @@
+Yes. This note gives us a much clearer picture. I would consolidate it into a Branch Health Data Source + Action Item Matrix. I can distinguish the items where the source is reasonably clear from the ones that need confirmation.
+
+1. Branch Health segments and identified data sources
+
+Branch Health area	What we need	Identified source / owner	Status
+
+Control Exceptions	Control exceptions requiring immediate attention	BMD	✅ Identified
+Branch Dashboard	Branch-level dashboard information	BMD	✅ Identified
+ICSC / ICSC Reset	ICSC reset-related information	BMD	✅ Identified
+Cash Management	Cash-related branch information	Teller	✅ Identified
+Banker Notifications	Notifications/actions for bankers	Banker system	⚠️ Need exact source/system
+Tech Readiness	ATM, tablets, workstations, connectivity, etc.	Multiple systems	🔍 Needs source mapping
+OSAT / Customer Experience	Customer experience / satisfaction	CB SIG / Champa?	🔍 Confirm
+Convenience	Convenience-related branch/customer information	LNA	🔍 Confirm exact source
+One Chase Sales	Sales / product activity	Multiple sources	🔍 Needs mapping
+Banker Availability	Banker availability, schedules, appointments	TBD / IEXP data?	🔍 Needs confirmation
+Nearby Branches	Nearby branch information / CX data	BPDW / BLDS	🔍 Confirm
+
+
+
+---
+
+2. Tech Readiness is the important one for your current work
+
+From your note, I can see the Tech Readiness discussion has identified several possible systems:
+
+Tech Readiness → BDIS
+→ ATM
+→ EAGLE
+→ Channel Management
+→ Linq / Branch OS
+→ possibly OCEP or another system noted above BDIS
+
+And your specific example:
+
+> “8 out of 10 tablets”
+
+
+
+This is exactly the type of branch-level operational metric that should eventually appear in Tech Readiness.
+
+So I would not hard-code EAGLE as the source.
+
+Instead, the current architecture assumption should be:
+
+> Tech Readiness = aggregated branch infrastructure readiness from multiple systems of record.
+
+
+
+Eagle can potentially be one of the sources, but it should not automatically be treated as the authoritative source.
+
+
+---
+
+3. Action items coming out of the discussion
+
+A. Tech Readiness
+
+Action: Meet with Champa / Srini and identify the authoritative source for each Tech Readiness metric.
+
+Specifically confirm sources for:
+
+ATM total / operational / unavailable
+
+Teller / Teller Express availability
+
+Workstations
+
+Tablets
+
+Internet connectivity
+
+Cellular / backup connectivity
+
+Channel availability
+
+Branch technology status
+
+Any other infrastructure readiness metric shown in the UX
+
+
+Important: For each metric, capture the System of Record, not merely a system that currently happens to expose the data.
+
+
+---
+
+B. OSAT / Customer Experience
+
+Your note appears to connect:
+
+OSAT → Customer Experience → Champa → CB SIG
+
+Action: Confirm with Champa what the actual source of record is for OSAT/customer-experience data and how it can be queried at the branch level.
+
+
+---
+
+C. Convenience
+
+Your note indicates:
+
+Convenience → LNA
+
+There is also a handwritten note:
+
+> “How to compute the % ...”
+
+
+
+So there are actually two questions here:
+
+1. What is the source of the Convenience data?
+
+
+2. How is the Convenience percentage/score calculated?
+
+
+
+Action: Confirm the LNA data and the business calculation/formula.
+
+
+---
+
+D. One Chase Sales
+
+The note indicates that this may require several business metrics, including things like:
+
+Deposit / first-month activity
+
+ACAPS / credit card
+
+Banker productivity
+
+Portfolio / contact activity
+
+Customer engagement / CX
+
+
+Action: Don't treat "One Chase Sales" as a single data source. Identify the individual metrics and their respective systems of record.
+
+
+---
+
+E. Banker Availability
+
+The note suggests:
+
+Banker Availability → meetings / schedules / appointments
+
+and possibly IEXP data.
+
+Action: Confirm whether IEXP is the authoritative source and what branch-level information can be obtained, for example:
+
+Banker availability
+
+Appointment slots
+
+Scheduled meetings
+
+Banker capacity
+
+Upcoming appointments
+
+
+
+---
+
+F. Nearby Branches
+
+Your note appears to identify:
+
+Nearby Branches → BPDW (part of BCAD?) → BLDS
+
+with Srini & Shaji mentioned.
+
+Action: Confirm with Srini/Shaji:
+
+Source of nearby branch information
+
+Branch location/master data
+
+Distance calculation
+
+Branch availability/status
+
+Whether BLDS is the source of record
+
+
+
+---
+
+4. The bigger architectural picture
+
+This is actually becoming a very good structure for your Branch Health application:
+
+BRANCH HEALTH
+                         │
+                 Branch Manager View
+                         │
+        ┌────────────────┼─────────────────┐
+        │                │                 │
+   Branch Actions    Branch Status    Insights
+        │                │                 │
+        ├─ Control Exceptions → BMD
+        ├─ Branch Dashboard  → BMD
+        ├─ ICSC Reset        → BMD
+        ├─ Cash Management   → Teller
+        ├─ Banker Notification → Banker System
+        │
+        ├─ Tech Readiness
+        │      ├─ ATM
+        │      ├─ Tablets
+        │      ├─ Workstations
+        │      ├─ Network
+        │      ├─ Backup connectivity
+        │      └─ Channel systems
+        │
+        ├─ OSAT / CX
+        ├─ Convenience
+        ├─ One Chase Sales
+        ├─ Banker Availability
+        └─ Nearby Branches
+
+The key principle
+
+Branch Health is the aggregation/orchestration layer.
+
+It should not become the system of record for these individual business domains.
+
+Each domain should point to its authoritative source, and Branch Health brings the information together into one daily operational view for the Branch Manager.
+
+
+---
+
+5. What I would tell Copilot / your development team
+
+The implementation requirement can be summarized very simply:
+
+> Do not build the Branch Health backend around the current mock-data structure or assume one source system per segment. The UX defines the required business information, while the backend must integrate with the appropriate systems of record for each data point. For Tech Readiness in particular, do not use Eagle as the assumed long-term source. Validate the authoritative sources with Champa/Srini, including BLDS, BDIS, ATM, Channel Management, Branch OS/Linq and other relevant systems. Keep the integration layer modular so individual source systems can be replaced without changing the Branch Health UI or business layer.
+
+
+
+That last point is especially important because Eagle is already on a decommission/recovery path. You don't want your new Branch Health application to inherit that dependency.
