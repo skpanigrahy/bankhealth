@@ -1,0 +1,935 @@
+Yes. Based on the entire discussion today, including the screenshots and the technical-readiness discussion, I would give Copilot one consolidated instruction rather than adding separate prompts.
+
+You can paste the following as one note:
+
+Branch Health Dashboard - Consolidated Product, UX and Technical Requirements
+
+Use this as the current consolidated product, UX, navigation, data, and technical-readiness direction for the Branch Health Dashboard. Do not introduce new UX assumptions where the requirements below are explicit.
+
+1. Product purpose and persona
+
+This is a Branch Manager view.
+
+The Branch Manager opens this dashboard regularly to quickly understand:
+
+- What requires attention now
+- What is urgent
+- What is outstanding
+- What control exceptions exist
+- What meetings/actions are upcoming
+- How the branch is performing
+- Whether the branch's technology/readiness is healthy
+- What nearby branches are relevant
+
+The dashboard should be a quick operational overview and launch point, not a replacement for every underlying application.
+
+Keep the experience highly scannable and avoid overwhelming the Branch Manager with unnecessary detail.
+
+---
+
+2. Main dashboard structure
+
+The Branch Health Dashboard should contain the major areas identified in the current Branch Manager design:
+
+1. Required Actions
+2. Control Exceptions
+3. Today's Meetings
+4. Tech Readiness
+5. Performance at a Glance
+6. Nearby Branches, Financial Centers and ATMs
+7. Notifications where applicable
+
+Required Actions and Control Exceptions must remain separate.
+
+---
+
+3. Required Actions
+
+Required Actions are primarily an urgency signal.
+
+Some actions have an actual completion window, for example actions that must be completed within approximately 48 hours.
+
+Other actions do not have a hard due date. They are aging-based and should simply not be allowed to reach an undesirable aging threshold.
+
+Do not treat every outstanding item as having a hard due date.
+
+Required Actions tile
+
+The tile should remain visible even when there are no urgent items.
+
+Examples:
+
+- "0 items due"
+- "2 items due today"
+- "3 items due tomorrow"
+- "5 items"
+
+Use an urgency waterfall.
+
+The tile should show the most urgent applicable state rather than displaying every urgency bucket simultaneously.
+
+Do NOT create a tile such as:
+
+"2 today · 3 tomorrow · 5 aging · 4 upcoming"
+
+That makes the tile too complicated and reduces the urgency signal.
+
+Instead:
+
+- If items are due today, show those.
+- Otherwise show the next applicable urgent deadline.
+- If there are no hard deadlines but there are outstanding items, show the outstanding count without incorrectly calling them "due."
+
+Important distinction
+
+Use these concepts separately:
+
+- Due today
+- Due tomorrow / upcoming
+- Outstanding
+- Aging
+
+Do not invent a due date for an aging-only item.
+
+Detailed Required Actions view
+
+When the user clicks Required Actions, take them to the detailed dashboard/action experience.
+
+The detailed view should show the complete set of relevant items, including:
+
+- Urgent items
+- Upcoming items
+- Aging items
+- Status
+- Due date where applicable
+- Aging threshold where applicable
+- Priority
+- Action/take-action capability
+- Relevant branch details
+
+Users should be able to work ahead even when an item is not currently represented as the highest urgency on the tile.
+
+---
+
+4. Control Exceptions
+
+Control Exceptions are a separate, high-priority experience.
+
+Do not combine them with Required Actions.
+
+The Branch Manager should see a separate Control Exceptions tile/entry when applicable.
+
+Clicking it should take the user to the existing Control Exceptions experience where they can:
+
+- View unresolved exceptions
+- View branch exceptions
+- View other assigned exceptions where applicable
+- See status/date information
+- Take action to resolve an exception
+
+The current reference design shows Control Exceptions as a separate tab/area from Branch Dashboard action items.
+
+---
+
+5. Completion and data freshness
+
+Do not assume that completion status is always real time.
+
+A Branch Manager may complete an item in another system and return to Branch Health before the source system has updated or propagated the completion.
+
+Therefore the dashboard may temporarily continue showing an item as outstanding.
+
+For every data source, determine:
+
+- System of record
+- Integration mechanism
+- Update cadence
+- Expected latency
+- Completion-status latency
+- Dashboard refresh requirement
+
+Where necessary, the UI can communicate that completion status may take time to update.
+
+Do not promise real-time status if the source does not support it.
+
+Manual completion
+
+Do not automatically add a generic "Mark Complete" action.
+
+The official completion state should come from the system of record.
+
+If a future requirement needs a user acknowledgement, it should be represented separately, for example:
+
+"Completed by user - Awaiting system confirmation"
+
+It must not overwrite the official source-system status.
+
+---
+
+6. Notifications
+
+Notifications are different from Required Actions.
+
+The dashboard can use a "last viewed" concept.
+
+Example:
+
+- User clicks Notifications at 9:40 AM.
+- Notifications existing at or before 9:40 AM can be treated as acknowledged/seen.
+- New notifications arriving after 9:40 AM contribute to the new notification count.
+
+The exact decrement/acknowledgement logic still needs to be finalized.
+
+Do not assume clicking means every individual notification was actually read.
+
+---
+
+7. Today's Meetings
+
+Today's Meetings is a separate dashboard area.
+
+Known source/application references include:
+
+- Branch Calendar → Client Central
+- Banker Calendar View → Client Central
+
+The source and API/integration details still need to be validated with the owning application team.
+
+---
+
+8. Performance at a Glance
+
+Performance metrics have different cadences.
+
+Do not infer cadence from mock data.
+
+Known examples from the current source/reference material:
+
+- OSAT → monthly/quarterly comparison depending on the specific metric definition. Validate the exact comparison logic.
+- Convenience → monthly
+- One Chase Sales → monthly
+- Banker Availability → daily/real-time as confirmed by the source
+
+The current mock had some cadence labels incorrectly translated. Use the latest source/reference documentation as authoritative.
+
+The data model should support:
+
+- Current value
+- Previous/comparison value
+- Percentage change
+- Comparison period
+- Data cadence
+- Source system
+- Last updated time
+
+---
+
+9. Tech Readiness
+
+Tech Readiness is one of the areas where the data sources are relatively well understood.
+
+Known/current sources include:
+
+Network
+
+Source/application:
+"Cortex"
+
+Cadence:
+Real-time
+
+ATM Status
+
+Source:
+"ATM Reporting and Monitoring / ARM"
+
+Integration:
+Kafka/event stream
+
+Tablets
+
+Source:
+"Splunk / Polar"
+
+Integration details are being validated with the relevant team.
+
+Existing Splunk-based readiness information
+
+Existing Splunk queries have already been created and should be reused/replicated where appropriate rather than creating a completely new query model.
+
+Do not hardcode source-system assumptions into UI components.
+
+---
+
+10. Teller / Branch operational data
+
+There is already an existing Branch Pulse dashboard that provides live branch/teller operational information.
+
+The reference implementation includes information such as:
+
+- Branches online
+- Bankers
+- Branches active
+- Decline rate
+- Branch status
+- Processing
+- Idle
+- Not logged in
+- Closed
+- Teller transaction health
+- Total transactions
+- Transaction success rate
+- Transaction type breakdown
+
+Existing query infrastructure also demonstrates event-based teller transaction queries.
+
+The Branch Health Dashboard should investigate/reuse the existing Branch Pulse data/integration pattern rather than creating a completely independent teller-data solution.
+
+The key technical question is:
+
+«How does Branch Pulse obtain and process the teller data today, and how can Branch Health consume the same approved source/pipeline?»
+
+Do not assume the UI should directly query Splunk.
+
+There may be an existing pipeline/database/service layer between the source and the UI.
+
+---
+
+11. Data architecture
+
+Do not hardcode source integrations directly into individual frontend components.
+
+Use a data-provider/service abstraction.
+
+Conceptually:
+
+Branch Health UI
+→ Dashboard backend/integration layer
+→ Normalized dashboard data model
+→ Source-specific integrations
+
+Examples:
+
+Teller
+→ Existing event/query/pipeline infrastructure
+→ Dashboard service
+→ Teller data model
+→ UI
+
+ATM
+→ ARM/Kafka
+→ Dashboard service
+→ ATM status model
+→ UI
+
+BLDS
+→ Kafka/data source
+→ Dashboard service
+→ Branch location model
+→ UI
+
+Unknown sources
+→ Mock provider initially
+→ Replace with real provider when source is confirmed
+
+This allows mock data and real data to coexist during development.
+
+---
+
+12. Data cadence
+
+The dashboard combines data from multiple systems and must support different cadences.
+
+Known categories:
+
+- Real-time / near real-time
+- Daily
+- Weekly if applicable
+- Monthly
+- Sources requiring dashboard refresh
+
+Some sources are marked with an asterisk in the current technical-readiness matrix.
+
+These sources may require a 15-minute refresh to identify completed items or newly available data.
+
+Important:
+
+A 15-minute dashboard refresh does NOT mean the upstream source produces new data every 15 minutes.
+
+The implementation must distinguish between:
+
+- Upstream publication cadence
+- Dashboard refresh cadence
+- Completion-status latency
+
+The current UDP reference implementation also shows pipelines processing data in fixed 15-minute windows.
+
+---
+
+13. Real-time integration options
+
+For real-time/near-real-time information, the source mechanism may be:
+
+1. Kafka/event stream
+2. API endpoint
+3. Existing approved application/service integration
+
+Do not assume every real-time source is an API.
+
+Examples already identified:
+
+- ATM → ARM/Kafka
+- BLDS → Kafka
+- Network → Cortex
+- Teller → existing Splunk/event/pipeline pattern
+
+For each unknown data element, first determine how the existing application gets the information today.
+
+The preferred question to the owning team is:
+
+«"How does your existing application get this data today?"»
+
+If the existing application already displays the required data at the required cadence, investigate whether Branch Health can reuse the same approved integration pattern.
+
+---
+
+14. Batch data
+
+Do not automatically assume that daily/monthly data comes from the Data Lake.
+
+For each batch source, ask the owning application:
+
+- Where does the application get the data?
+- Is it Data Lake?
+- Database?
+- Batch feed?
+- API?
+- Existing internal service?
+- Other pipeline?
+
+The application currently hosting/displaying the data should be treated as the starting point for source discovery.
+
+---
+
+15. Technical readiness/source discovery
+
+The current source matrix should be maintained as the technical source of truth.
+
+For each dashboard data element capture:
+
+- Dashboard section
+- Component/data element
+- Application used to view the data today
+- Application/Product Owner/APO
+- Data Owner
+- Source system
+- Integration mechanism
+- Real-time/daily/weekly/monthly cadence
+- Dashboard refresh requirement
+- Data accessed status
+- Data validated status
+- Expected completion/update latency
+- Access/request required
+
+Do not mark a source as confirmed until it has been validated with the owning team.
+
+---
+
+16. Development vs research priority
+
+From a research/source-discovery perspective, prioritize the areas where the source is still unknown:
+
+1. Required Actions
+2. Today's Meetings
+3. Performance at a Glance
+4. Notifications
+5. Then validate Tech Readiness
+6. Then validate Nearby Branches
+
+From a development perspective, we can start proving the architecture using areas where real data/source information is already known:
+
+- Tech Readiness
+- Nearby Branches
+- Teller/operational data
+- ATM
+- Network
+- Tablets
+- BLDS
+
+Do not wait for every source to be known before building.
+
+However, do not hardwire mock data into the UI. Use mock providers that can later be replaced by real providers.
+
+---
+
+17. Existing application navigation
+
+Use real existing application URLs when they are provided.
+
+Known navigation examples include:
+
+- C Details → Client Central
+- C Tickets → My Tech Check
+- Discover → existing Discover application
+- Neath → existing Neath application
+- Branch Offers → existing Branch Offers application
+- My Cash Manager → existing My Cash Manager
+- Banker Homepage → existing Banker Homepage
+- Notifications → existing Notifications experience
+
+Keep URLs in centralized configuration.
+
+Do not invent URLs.
+
+If the development environment cannot access the URL, that is acceptable for the prototype. The real URL should still be used rather than creating a fake blank page.
+
+Top Daily Trends is currently TBD. Do not create navigation for it until the product decision is confirmed.
+
+---
+
+18. Nearby Branches map
+
+Nearby Branches is specifically designed for the Branch Manager persona.
+
+The manager already has a primary/home branch.
+
+When the dashboard loads:
+
+- Center the map on the manager's branch.
+- Use an appropriate local zoom level automatically.
+- Immediately show the nearby branches.
+- Surface approximately the top five nearest branches.
+- Do not make the user zoom out, pan, search, and zoom back in.
+- Calculate nearby branches based on geographic distance from the manager's branch.
+- Clearly distinguish "My Branch" from nearby branches.
+
+The map should feel familiar, fast, and intuitive, similar to a modern consumer mapping experience, but should be purpose-built for branch managers.
+
+The existing internal/Visions map can be used as a technical reference.
+
+Investigate:
+
+- Mapping technology
+- BLDS integration
+- Branch location source
+- Existing geographic calculations
+- Whether approved components/patterns can be reused
+
+Do not copy the existing map's default zoom or UX blindly.
+
+The key question is:
+
+«"What branches are near my branch?"»
+
+The manager should be able to answer that almost immediately.
+
+---
+
+19. Branch details
+
+The Branch Manager should be able to access useful branch-level information without being overwhelmed by a full Chase.com-style experience.
+
+The detailed branch experience should provide high-value operational/pedigree information such as:
+
+- Branch phone/contact information
+- ATM availability/status where applicable
+- Relevant branch attributes
+- Other concise branch information required by managers
+
+Use progressive disclosure.
+
+The dashboard should show only the high-value summary. Clicking can open the deeper branch-detail experience.
+
+Existing Branch Information / Client Central applications can be used as the source/reference for detailed branch information.
+
+---
+
+20. Core UX principle
+
+The Branch Dashboard should answer different questions at different levels.
+
+Dashboard tile
+
+«"What needs my attention right now?"»
+
+Detailed action view
+
+«"What are all my outstanding, upcoming and aging items?"»
+
+Branch details
+
+«"What do I need to know about this branch?"»
+
+Nearby Branches
+
+«"What branches are near my branch?"»
+
+Technical readiness
+
+«"Is my branch operationally/technically healthy?"»
+
+Do not turn the dashboard into a collection of full application replicas.
+
+The dashboard is the single operational starting point, with focused summaries and links/drill-downs into existing systems.
+
+---
+
+21. Implementation principle
+
+The current application can continue using mock data where source information is not yet available.
+
+However:
+
+- Do not hardcode mock data into presentation components.
+- Create typed data models/interfaces.
+- Create service/data-provider abstractions.
+- Keep source-specific logic outside UI components.
+- Keep URLs configurable.
+- Keep cadence configurable.
+- Keep refresh intervals configurable.
+- Keep source-system metadata configurable.
+- Make it possible to replace each mock provider independently with a real integration.
+
+The goal is to allow incremental migration:
+
+"Mock Data → Confirmed Source → Real Integration"
+
+without redesigning the dashboard UI.
+
+Final rule
+
+Do not invent data sources, APIs, URLs, cadences, or completion behavior.
+
+Where the source is known, use the confirmed source/integration pattern.
+
+Where the source is unknown, clearly mark it as TBD and keep the implementation behind a replaceable provider.
+
+The existing applications, Branch Pulse dashboard, UDP pipeline, Splunk queries, Cortex, ARM/Kafka, BLDS, and existing internal maps should be treated as references to understand and reuse approved patterns rather than rebuilding capabilities unnecessarily.
+
+Yes. This is exactly the right use case for the Branch Manager dashboard, and the existing map shown in your screenshot can be used as the technical reference. But I would not use its current map behavior as-is.
+
+What we want
+
+When a Branch Manager logs in:
+
+> Logged-in branch = origin
+
+
+
+The system should already know the branch, for example:
+
+Sunbury, OH
+
+Then immediately:
+
+1. Get the coordinates of Sunbury.
+
+
+2. Find the nearest branches by geographic distance.
+
+
+3. Return the top 5 nearest branches.
+
+
+4. Center the map on Sunbury.
+
+
+5. Zoom to a local level that shows those five branches clearly.
+
+
+6. Display those five markers immediately.
+
+
+7. Selecting a marker shows branch details/distance.
+
+
+
+So the user should see something like:
+
+Branch B
+                    ●
+
+       Branch A ●       ● Branch C
+
+                  ★
+             MY BRANCH
+               Sunbury
+
+             ● Branch D
+
+                  ● Branch E
+
+No national map. No zooming out. No searching. No panning.
+
+
+---
+
+Which API is the existing application using?
+
+We cannot determine the API from this screenshot alone. The screenshot shows the map and branch markers, but not the underlying network request.
+
+However, because your earlier technical-readiness matrix identifies:
+
+> Nearby Branches → Branch Location Data Store (109913) → Real-time
+
+
+
+and you've already identified BLDS, I would investigate the existing application as the first source.
+
+Don't start by looking for a Google Maps API
+
+There are actually two separate things:
+
+1. Map rendering
+
+Something like:
+
+Mapbox
+
+Google Maps
+
+internal mapping component
+
+other approved mapping library
+
+
+2. Branch location/nearest-branch data
+
+This is what we care about for the Branch Health use case:
+
+> BLDS / Branch Location Data Store → branch coordinates → nearest 5 calculation
+
+
+
+The map library doesn't necessarily provide the branch data.
+
+
+---
+
+How I would find the existing API
+
+Since you have access to the existing application, this is very straightforward.
+
+Open the existing Nearby Branches application in Chrome:
+
+F12 → Network → Fetch/XHR
+
+Then:
+
+1. Reload the page.
+
+
+2. Filter by fetch / XHR.
+
+
+3. Search requests for terms such as:
+
+branch
+
+location
+
+nearby
+
+distance
+
+latitude
+
+longitude
+
+BLDS
+
+locationData
+
+
+
+4. Click a branch marker.
+
+
+5. See whether another request fires.
+
+
+6. Inspect the Request URL, parameters, response JSON and headers.
+
+
+
+You're looking for something conceptually like:
+
+GET /branches?latitude=...&longitude=...&radius=...
+
+or:
+
+GET /branch-locations
+
+or:
+
+GET /branches/nearby?branchId=...
+
+or potentially a GraphQL request.
+
+That is the API we should first investigate for reuse.
+
+
+---
+
+What I recommend for Branch Health
+
+If the existing application already has an API that provides branch locations, I would prefer:
+
+Logged-in Branch
+        ↓
+Branch ID
+        ↓
+BLDS / existing Branch Location API
+        ↓
+Branch coordinates
+        ↓
+Nearest-5 calculation
+        ↓
+Branch Health API
+        ↓
+Map component
+
+Ideally, the backend should perform the nearest-five calculation rather than downloading thousands of branch locations to the browser.
+
+For example:
+
+GET /api/branches/nearby?branchId=12345&limit=5
+
+Response:
+
+{
+  "origin": {
+    "branchId": "12345",
+    "name": "Sunbury",
+    "latitude": 40.862,
+    "longitude": -82.812
+  },
+  "branches": [
+    {
+      "branchId": "12346",
+      "name": "Branch A",
+      "distanceMiles": 4.2,
+      "latitude": 40.901,
+      "longitude": -82.755
+    },
+    {
+      "branchId": "12347",
+      "name": "Branch B",
+      "distanceMiles": 6.8,
+      "latitude": 40.812,
+      "longitude": -82.690
+    }
+  ]
+}
+
+The exact API contract will depend on what BLDS provides.
+
+
+---
+
+Should we use BLDS directly?
+
+Possibly, but I would not decide that yet.
+
+First ask the team:
+
+> "Does BLDS already provide a nearest-branch/location API, or does it provide the complete branch-location dataset and expect the consuming application to calculate proximity?"
+
+
+
+There are two possibilities.
+
+Option A. BLDS already supports proximity
+
+Best case:
+
+Branch ID
+   ↓
+BLDS
+   ↓
+Nearest 5 branches
+
+Use that capability if it is an approved supported API.
+
+Option B. BLDS only provides branch locations
+
+Then:
+
+BLDS
+ ↓
+Branch ID + latitude + longitude
+ ↓
+Branch Health service
+ ↓
+Geospatial nearest-5 calculation
+
+This is still very straightforward.
+
+
+---
+
+What I would NOT do
+
+I wouldn't do:
+
+Browser
+ ↓
+Download every Chase branch
+ ↓
+Calculate distance in JavaScript
+ ↓
+Show five
+
+That may work for a prototype, but it is not the architecture I'd recommend for production.
+
+And I wouldn't use an external mapping/places API just to determine which Chase branches are nearby if BLDS already owns the authoritative internal branch-location data.
+
+Use the approved internal branch-location source for the data. Use the approved map library only for visualization.
+
+
+---
+
+One more important UX point
+
+The screenshot you've shown is a fleet/operational map. It makes sense that it starts zoomed out because its purpose is to see the entire footprint.
+
+Our map has a completely different purpose.
+
+Existing application
+
+> "Show me the branch network."
+
+
+
+Branch Health
+
+> "Show me the five branches closest to MY branch."
+
+
+
+Therefore, even if we reuse the same underlying API or mapping technology, the default query, viewport and UX should be different.
+
+I would make this a specific technical requirement:
+
+> On Branch Manager login, automatically identify the manager's assigned/home branch and retrieve the five geographically nearest branches. Center the map on the manager's branch and automatically calculate an appropriate local viewport so the five nearby branches are clearly visible without requiring manual zooming or panning.
+
+
+
+What I would ask the Visions/BLDS team
+
+You can ask them these four questions:
+
+1. What API/data source does this existing map use to retrieve branch locations?
+
+
+2. Is the source BLDS / Branch Location Data Store?
+
+
+3. Does the API support nearest-branch/radius queries, or does it only return branch coordinates?
+
+
+4. What map component/library is the existing application using?
+
+
+
+If they give you those answers, send them to me. I can then tell you exactly what we should reuse for Branch Health and whether we need a new backend endpoint or can directly consume an existing one.
