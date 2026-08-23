@@ -162,7 +162,19 @@ VS Code lets you commit editor configuration to the repo, so a single file appli
 Adjust the disabled language list to your stack — for a Java/Spring project, XML/YAML/properties are the big wins since `pom.xml` and `application.yml` are large, frequently open, and rarely benefit from AI completion. For a Node/TS project, you'd instead care about lockfiles and generated `.d.ts` files.
 
 **Daily habits that pair with this:**
-- Reload settings via the Command Palette after a content-exclusion or settings change, without restarting VS Code.
+- Reload settings via the Command Palette after a content-exclusion or settings change, without restarting VS Code. 
+It's about not having to fully quit and reopen VS Code every time a Copilot setting changes.
+
+The problem it solves: When an admin updates Content Exclusion rules on GitHub.com, or you update .vscode/settings.json, VS Code doesn't always pick up the change immediately in an already-running session — the plugin cached the old config when it started.
+
+The fix: Open the Command Palette (Ctrl+Shift+P / Cmd+Shift+P on Mac) and run a reload command instead of closing the whole app:
+
+Developer: Reload Window — the general-purpose one. Reloads the VS Code window (extensions included) without a full app restart. This is the one that picks up most Copilot config changes.
+There's also a narrower GitHub Copilot: ... entry in some plugin versions specifically for refreshing Copilot's own settings/session — worth typing "Copilot" into the palette to see what your installed version exposes, since it changes across plugin updates.
+
+Why it matters for token optimization specifically: if you just changed Content Exclusion or edited .vscode/settings.json to disable Copilot on certain file types, and you don't reload, Copilot may keep using the old config for the rest of your session — meaning you think you've cut context but you actually haven't, until you either reload or restart.
+
+So practically: after any Copilot-related config change, hit Ctrl+Shift+P → Reload Window rather than assuming it took effect immediately.
 - Use **"Close Other Editors"** when switching tasks — open tabs are part of every request's context.
 - Prefer inline ghost-text completions over Chat for routine work; Chat pulls in repo-wide index context, inline completion doesn't.
 - For Chat, ask about a **selection**, not the whole codebase — "explain this method" costs a fraction of "explain the auth system."
