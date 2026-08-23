@@ -1,0 +1,239 @@
+# GitHub Copilot Token Optimization: A Practical Setup Guide (VS Code + IntelliJ)
+
+If you're on a metered or usage-capped Copilot plan, token consumption isn't an abstract concern — it's a monthly bill or a hard quota. This guide is a complete, repeatable setup you can apply to any project, in either VS Code or IntelliJ, without needing admin access to anything (with a couple of exceptions called out explicitly).
+
+---
+
+## 1. Why Copilot burns tokens the way it does
+
+Every Copilot request — whether it's an inline suggestion or a Chat message — assembles context from several sources before it ever reaches the model:
+
+- The file currently open in your editor
+- Any code you've selected or highlighted
+- Other files Copilot judges "relevant" (via repo indexing, in Chat and Agent modes)
+- Your conversation history in the current session
+- System instructions and tool schemas the IDE sends on every turn
+- The contents of `.github/copilot-instructions.md`, if present
+
+The core principle is blunt: **more context in scope = more tokens per request**, regardless of whether that context actually helps the answer. Most of the levers below exist to shrink what's in scope without shrinking what's useful.
+
+Two mechanical details worth knowing:
+
+- **Code tokenizes worse than prose.** Brackets, indentation, arrow functions, and boilerplate patterns often tokenize per-character or per-symbol rather than per-word. A dense function definition can cost several times the tokens of an English sentence of equal length.
+- **Editors cap the effective window.** Even when the underlying model supports a huge context window, IDE integrations typically enforce a much smaller effective limit (commonly cited around 128K tokens) to keep latency reasonable — and a meaningful chunk of that is pre-consumed by system prompts and tool schemas before your code ever enters the picture.
+
+---
+
+## 2. Universal levers (apply once, work in every IDE)
+
+These live at the repo or org level and apply regardless of which editor a developer opens the project in.
+
+### 2.1 `.gitignore` — reduce what's indexable
+
+Not a hard exclusion mechanism, but it keeps build artifacts, logs, and generated code out of what gets indexed for repo-wide context in Chat/Agent modes.
+
+```gitignore
+# Build output
+target/
+build/
+dist/
+out/
+*.class
+*.jar
+*.war
+
+# Generated files
+generated/
+generated-sources/
+*.generated.*
+
+# Logs
+*.log
+logs/
+
+# IDE metadata
+.idea/
+*.iml
+.vscode/*.log
+.settings/
+.classpath
+.project
+```
+
+Adjust the build-output section to your stack (`node_modules/`, `__pycache__/`, `.next/`, etc.).
+
+### 2.2 `.github/copilot-instructions.md` — the highest-cost-per-line file you own
+
+This file is loaded into **every single Copilot request**, in every IDE, for every developer working in the repo. Treat every line as a permanent tax, not documentation.
+
+**Rule of thumb: keep it under 20 lines.**
+
+Include only things Copilot would otherwise get wrong or guess badly:
+
+- Stack and framework, one line
+- Non-obvious conventions that are actually load-bearing (would break a review or a build if violated)
+- A short "don't touch" list — generated code, prod config, migration files
+
+Leave out:
+
+- Architecture rationale, history, "why we built it this way" — put that in a README or wiki instead
+- Anything the code already makes obvious
+- Style preferences that don't affect correctness
+
+**Template:**
+
+```markdown
+## Project: [name] — [one-line description]
+## Stack: [language/framework/version]
+
+## Standards
+- [rule Copilot would otherwise guess wrong]
+- [rule 2]
+- [rule 3]
+
+## Do Not Suggest
+- Changes to [generated/config files]
+- Edits to [prod/staging config]
+```
+
+Past ~20 lines, this file usually costs more in tokens-per-request than it saves in avoided corrections.
+
+### 2.3 Content Exclusion — the single highest-impact lever (needs org/enterprise admin)
+
+Configured once at **Enterprise Settings → AI Controls → Copilot → Content Exclusion** (or at the organization level for narrower scope), this removes specified files from Copilot's context *everywhere* — inline suggestions, Chat, code review — across the whole org, in every IDE, automatically. You don't need to configure anything extra per-IDE; both VS Code and IntelliJ honor these rules without additional setup.
+
+Recommended baseline patterns:
+
+```yaml
+"*":
+  - "**/target/**"
+  - "**/build/**"
+  - "**/out/**"
+  - "**/*.class"
+  - "**/*.jar"
+  - "**/*.log"
+  - "**/generated/**"
+  - "**/*.yaml"
+  - "**/*.yml"
+  - "**/*.properties"
+  - "**/.env"
+  - "**/secrets/**"
+  - "**/credentials/**"
+```
+
+You likely don't have access to this yourself unless you administer Copilot for your org — but it's worth raising with whoever does. It's the one lever that helps every developer on every project at once, and it's a one-time setup.
+
+Two things to know about how it behaves:
+- Changes can take up to ~30 minutes to propagate to already-running IDEs.
+- Content exclusion blocks *direct* file access but can't fully prevent indirect leakage (e.g. type/symbol references from an excluded file surfacing via a non-excluded one). It's a strong lever, not a perfect one.
+
+---
+
+## 3. VS Code-specific setup
+
+VS Code lets you commit editor configuration to the repo, so a single file applies the same settings to every developer who clones it.
+
+### `.vscode/settings.json`
+
+```json
+{
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "json": false,
+    "properties": false,
+    "plaintext": false,
+    "markdown": false
+  },
+  "files.exclude": {
+    "**/target": true,
+    "**/build": true,
+    "**/node_modules": true,
+    "**/generated": true
+  },
+  "search.exclude": {
+    "**/target": true,
+    "**/build": true,
+    "**/generated": true
+  }
+}
+```
+
+Adjust the disabled language list to your stack — for a Java/Spring project, XML/YAML/properties are the big wins since `pom.xml` and `application.yml` are large, frequently open, and rarely benefit from AI completion. For a Node/TS project, you'd instead care about lockfiles and generated `.d.ts` files.
+
+**Daily habits that pair with this:**
+- Reload settings via the Command Palette after a content-exclusion or settings change, without restarting VS Code.
+- Use **"Close Other Editors"** when switching tasks — open tabs are part of every request's context.
+- Prefer inline ghost-text completions over Chat for routine work; Chat pulls in repo-wide index context, inline completion doesn't.
+- For Chat, ask about a **selection**, not the whole codebase — "explain this method" costs a fraction of "explain the auth system."
+- Switch models deliberately: Command Palette → *GitHub Copilot: Change Completions Model* — use a standard model for boilerplate, save premium models for genuine reasoning tasks.
+- Use the **Snooze Inline Suggestions** control in the status bar while reading code, not writing it.
+
+---
+
+## 4. IntelliJ-specific setup
+
+IntelliJ's plugin architecture doesn't currently support a repo-committable equivalent of `.vscode/settings.json` — per-language toggles are a personal IDE setting, not something you can push to teammates via git. (This is a widely-requested feature on GitHub's community forum; no `.copilotignore`-style file exists yet.) Plan accordingly: the two things you *can* commit for IntelliJ users are `.gitignore` and `copilot-instructions.md` from Section 2 — both apply identically regardless of IDE.
+
+### Per-developer settings (not committable)
+
+`Settings/Preferences → Languages & Frameworks → GitHub Copilot` → uncheck file types/languages that shouldn't trigger completions (XML, YAML, properties, JSON, etc.). Each developer needs to do this individually.
+
+### Chat context control
+
+Copilot Chat in IntelliJ has an "IDE context" indicator in the chat input — toggle it off to stop the currently open file and selection from being auto-attached to every message, then use `@file` references to attach only what's actually relevant to your question.
+
+### Reload behavior
+
+Unlike VS Code, IntelliJ doesn't hot-reload content exclusion or plugin settings changes while running — if an admin updates exclusion rules, a full IDE restart is required to pick them up.
+
+**Daily habits that pair with this:**
+- Same principles as VS Code — fewer open tabs, one module/service at a time, selection-scoped Chat questions, standard model for boilerplate.
+- If you use Agent mode for larger tasks, check the per-agent toggles in the Copilot settings page (recent plugin versions expose Agent mode, Coding Agent, and Custom Agent as independent switches) — leave heavier agent modes off unless you're actively using them.
+- If your org has rolled out enterprise-managed settings for JetBrains (a newer capability), plugin governance and permission modes may already be centrally controlled — worth checking with your platform team before duplicating effort locally.
+
+---
+
+## 5. Copilot CLI (if you use it alongside the IDE)
+
+Different context model, different controls:
+
+- **`/context`** — shows a breakdown of current token usage: system prompt, history, tool schemas, and free space remaining. Use it to diagnose why the model seems to be "forgetting" earlier instructions.
+- **`/compact`** — manually summarizes older conversation history to free space. Can be steered: `/compact focus on the database connection logic` keeps what you specify and purges the rest.
+- **`/sandbox enable`** — restricts filesystem/network access during a session, preventing large directory listings or log dumps from flooding your context.
+- Automatic compaction kicks in near 95% of the token limit as a safety net, but treat hitting it as a signal you're already running context-inefficient, not a solved problem.
+
+---
+
+## 6. Implementation checklist
+
+**One-time, repo-level (works for both IDEs):**
+- [ ] Commit `.gitignore` with build/generated/log directories excluded
+- [ ] Commit a `.github/copilot-instructions.md` under 20 lines
+- [ ] (VS Code teams) Commit `.vscode/settings.json` with Copilot disabled for low-value file types
+
+**One-time, org-level (needs admin — worth escalating):**
+- [ ] Request Content Exclusion configuration at the enterprise/org level
+- [ ] Confirm premium model access is policy-restricted for routine completions
+- [ ] Check whether JetBrains enterprise-managed settings are already in place before duplicating locally
+
+**Daily habits (either IDE):**
+- [ ] Keep 3–5 tabs open max; close files from services you're not touching
+- [ ] Work in one module/service at a time
+- [ ] Prefer inline completion over Chat for routine code
+- [ ] Scope Chat prompts to a selection, not the whole repo
+- [ ] Use the standard model for boilerplate; switch to premium only for real reasoning
+
+---
+
+## 7. Sources
+
+- [GitHub Docs: Content Exclusion Concepts](https://docs.github.com/en/copilot/concepts/context/content-exclusion)
+- [GitHub Docs: Configuring Content Exclusion](https://docs.github.com/copilot/managing-copilot/configuring-and-auditing-content-exclusion/excluding-content-from-github-copilot)
+- [GitHub Docs: Copilot Context Concepts](https://docs.github.com/en/copilot/concepts/context)
+- [VS Code Copilot Settings Reference](https://code.visualstudio.com/docs/copilot/reference/copilot-settings)
+- [GitHub Docs: Changing the Completion Model](https://docs.github.com/en/copilot/how-tos/use-ai-models/change-the-completion-model)
+- [GitHub Docs: Configuring GitHub Copilot in Your Environment (JetBrains)](https://docs.github.com/en/copilot/managing-copilot/configure-personal-settings/configuring-github-copilot-in-your-environment)
+- Additional practices synthesized from community reporting on IntelliJ plugin limitations and JetBrains enterprise-managed settings rollout (2026)
+
+*Note: some IDE-level behaviors (hot-reload timing, per-agent toggles) change frequently as GitHub ships plugin updates — verify against current docs before publishing this as reference material for a team.*
