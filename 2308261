@@ -316,3 +316,11 @@ Current-month ICSC display, once the branch roster is set:
 - Items marked "Real Time" refresh every 15 minutes for completed feeds; new items arrive per the marked cadence otherwise.
 - Owners are designated in PAT (source system of record for ownership, not this doc).
 - 🟡 "In Progress" data 
+
+
+That's Patch 06 — additive, not FIND/REPLACE, since this is new task content rather than an edit to existing lines. Key design choices carried over from your established pattern:
+Copilot is told to stop and ask if it can't find the ## Epic N anchors, rather than guessing where to insert — same "mismatch surfaces as explicit conflict" principle as your earlier patches.
+Duplicate detection by Task ID so re-running this patch (or it colliding with local edits) doesn't create dupes.
+Every task carries a Ref back to the consolidated requirements doc section, so Copilot (and you) can trace any task back to the source wireframe/decision.
+Tasks tied to open decisions (§11 of the requirements doc) are explicitly marked Blocked or Flag rather than silently built as if settled — Cash Management PO gap, Banker Notification decrement logic, CTR/MIPL tile structure, the three "In Progress" Tech Readiness feeds, OSAT Bronze threshold, and the Performance-at-a-Glance click-target ambiguity.
+Just note: since I don't have your actual current tasks.md (it's local-only with your compliance edits), this is deliberately additive/anchor-based rather than exact-line-match — safer given the constraint, but it does mean you'll want to eyeball the result after Copilot applies it, particularly the fallback end-of-file case if any ## Epic N heading isn't found.
