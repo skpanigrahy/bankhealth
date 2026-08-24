@@ -1,0 +1,39 @@
+# Patch 07 — Token-Conscious Workflow Checklist (README addition)
+**Applies to:** `README.md` (root-level monorepo README). Not `constitution.md` — this is team process guidance, not a binding architectural standard, so it doesn't belong alongside the ADR-backed decisions.
+**Delivery format:** Additive insertion, same conflict-safe approach as Patch 06.
+
+---
+
+## How to apply this patch (give this to Copilot Chat verbatim)
+
+**Copilot instructions:**
+
+1. Open the root `README.md`.
+2. Search for a heading matching `## Contributing` or `## Development Workflow` (any casing/wording close to these).
+   - **If found:** insert the section below immediately after that heading's content (before the next `##` heading).
+   - **If NOT found:** append the section below to the **end of the file**, and tell the user it was appended rather than inserted under an existing section, so they can re-file it if they'd prefer it elsewhere.
+3. If a heading titled `## Token-Conscious Workflow` already exists anywhere in the file, **skip insertion entirely** and report "already present — skipped."
+4. Do not modify any other content in the file.
+
+---
+
+## Section to insert
+
+```markdown
+## Token-Conscious Workflow
+
+This team uses AI tooling (Copilot in IntelliJ, Claude for design/requirements work) heavily across the KYB monorepo. A few habits keep that fast and cheap without losing rigor:
+
+**When working with Copilot:**
+- Prefer patches over full-file regeneration. Ask for a diff/summary of changes, not a full file reprint, when the change is small.
+- Close unrelated editor tabs before a Copilot Chat turn — open files are often pulled into context automatically.
+- Batch related multi-file changes into one Copilot turn instead of one file per message.
+- Reference existing Task IDs, ADR numbers, or component names (e.g., `BH-EP2-08`, `ADR-006`) instead of re-describing prior decisions — they're the durable record; point to them, don't restate them.
+
+**When working with Claude (design/requirements):**
+- Paste text instead of screenshotting where possible; when a screenshot is unavoidable, crop to the content region.
+- State what changed rather than asking for a full re-generation of a document that mostly hasn't changed.
+- Ask for one deliverable at a time if that's all you need right now.
+
+**Shared principle:** `constitution.md`, ADRs, and `tasks.md` Task IDs exist specifically so future conversations — with either Copilot or Claude — can reference a decision instead of re-deriving or re-explaining it. Treat them as the source of truth to point back to, not context to re-paste.
+```
