@@ -1,0 +1,318 @@
+# Branch Health Dashboard — Branch Manager View (MVP1)
+## Consolidated Requirements — Sync from PO Design/Decision Package
+
+**Source materials this document consolidates:**
+- Branch Health Dashboard wireframes (annotated), pages 1, 3, 4, 5, 6, 7, 6-perf, 7-nearby
+- Confluence "Branch Health Single Pane of Glass – Branch Manager View" (Epics 1–4 user stories, Eric Prock's space)
+- Decision Log (Eric Prock, owner) — 7/31–8/7/26 entries
+- Branch Health Observability – Branch Manager View (cadence + data ownership matrix)
+- Branch Dashboard reference guides (Action Items, Control Exceptions, Categories/escalation contacts)
+- Banker Homepage – Notifications reference
+- Banker Availability Tableau report (Client Central)
+- Internal Controls Self Check (ICSC) reference
+- Epic Breakdown summary slide (6 epics confirmed for MVP1)
+
+> **Status flag legend used below:** ✅ Decided · ⚠️ Open question (do not build against an assumption — flag for Jay/Eric before implementing) · 🔧 Integration dependency outside current team's control
+
+---
+
+## 0. Epic Summary (confirmed MVP1 scope — 6 Epics)
+
+| # | Epic | Section on dashboard |
+|---|------|----------------------|
+| 1 | Header / Welcome Bar | Top of page |
+| 2 | Required Actions | Below Welcome Bar |
+| 3 | Tech Readiness | Right column, below Required Actions |
+| 4 | Today's Meetings | Left column, below Required Actions |
+| 5 | Performance at a Glance | Below Today's Meetings/Tech Readiness |
+| 6 | Nearby Branches, Financial Centers & ATMs | Bottom of page |
+
+**Application considerations (from PO):**
+- Must be able to integrate with other applications (deep-link out to Client Central, My Cash Manager, Branch Dashboard, Banker Homepage, Meeting Scheduler).
+- Must function on a tablet form factor (this is a tablet-first UI per wireframe device chrome).
+
+---
+
+## 1. Epic: Header / Welcome Bar
+
+### US1 — Header Bar: Single Branch Manager
+**As a** branch manager who manages 1 branch, **I want** to see my branch's name **so that** I know which branch is in context.
+- Blue header bar containing app title + branch name, driven by the user's assigned branch.
+- Example: `Branch Health Dashboard | Powell Rd`
+- ⚠️ Need a design/fallback state for: no branch assigned to user, or branch/page data fails to load.
+- Depends on RBAC + branch lookup for the logged-in user.
+
+### US2 — Header Bar: Multiple Branch Manager
+**As a** branch manager who manages more than 1 branch, **I want** a dropdown to select the branch I'm viewing **so that** I can pick which branch to view.
+- Dropdown appears in header when user is assigned >1 branch (~343 branch managers fall into this bucket today).
+- Changing the branch selection re-renders every widget on the page to the newly selected branch.
+- Dropdown options sorted alphabetically.
+- Examples: `Branch Health Dashboard | Sunbury` (single) vs. `Branch Health Dashboard | <Dropdown: Elkview / Charleston Main / Mini Bank Downtown>` (multiple).
+
+### US3 — Welcome Bar: Greeting
+**As a** branch manager, **I want** a personalized greeting **so that** I can confirm I'm logged in correctly.
+- Located directly below the header bar.
+- Time-of-day greeting + first name, evaluated in the **user's local timezone**:
+  - 5:00 AM–11:59 AM → "Good morning, {FirstName}"
+  - 12:00 PM–4:59 PM → "Good afternoon, {FirstName}"
+  - 5:00 PM–8:59 PM → "Good evening, {FirstName}"
+- Example: `Good afternoon, Nick`
+
+### US4 — Welcome Bar: Branch Status
+**As a** branch manager, **I want** to see overall branch health **so that** I can quickly understand how the branch is operating.
+- Located below the greeting.
+- "Your branch is operational" / degraded state — **rating is derived from Tech Readiness** (roll-up of Teller Express, ATM, Network, Tablets).
+- ⚠️ Exact rollup logic/thresholds for this field are still open — flagged in source notes as "How do we define this field?"
+
+### Additional Welcome Bar elements (from wireframe, page 6)
+- `Last updated {timestamp} ET | Refresh` — auto-refresh every 15 minutes; manual Refresh link available.
+- `Customize` button — **out of scope for MVP1** ("Not in MVP 1" per annotation).
+
+---
+
+## 2. Epic: Required Actions
+
+### US1 — Required Actions Section
+Create a "Required actions" section directly below the Welcome Bar.
+
+### US2 — Required Actions: Total Items Due Soon
+**As a** branch manager, **I want** a total count of items due next **so that** I know how many items require my immediate attention.
+- Display total count of **all** due items grouped by due date:
+  - If open items have due dates → `"<Total Number of Items> action items are due <today, tomorrow, or x days>"` + group items by due date, display the next-due group.
+  - If open items exist with no due date → `"<Total Number of Items> action items due"`
+  - If no open items → `"No action items due"`
+- Example from wireframe: `"5 action items are due today."`
+
+### US3 — Required Actions: Control Exceptions
+- Source app: **Branch Dashboard** (Business Metric Dashboard — SEAL 84329)
+- Data elements: total unresolved exceptions on the Controls Exception tab. **No due date included.**
+- Same grouping display logic as US2 (today/tomorrow/x days).
+- On-click → launch Branch Dashboard.
+- 🔧 Assumption: a new API is required to access this data (per Confluence notes).
+
+### US4 — Required Actions: Cash Management
+- Source app: **My Cash Manager** (Enterprise Cash Management System UI — SEAL 89850)
+- Data elements: total count of open My Cash Manager tasks (ATM, TCR, Cash boxes, Cash vaults). **No due date included.**
+- Note: Cash Audits are handled by the Branch Ops team, **not** shown in this tile.
+- On-click → launch My Cash Manager.
+- ⚠️ Product Owner for this data source is currently unassigned — "Meeting with Zane and Amber to review" (per observability matrix). Data Owner: Ravi Patel.
+- 🔧 Assumption: a new API is required.
+
+### US5 — Required Actions: Branch Dashboard (aggregate tile)
+- Source app: **Branch Dashboard** (SEAL 84329)
+- Data elements: Action Items → Missing Documentation/Validation, Open Issues.
+- ✅ **Decision (7/31/26, Eric Prock):** Tiles display the count of upcoming due items and the number of days until they're due. If no items are due, show the count of items with no due date.
+- ⚠️ Open question: CTR/MIPL Work Returns must be completed within 2 days — should this get a **separate callout tile**, or stay rolled into this aggregate tile? *Not yet decided — build the aggregate tile now; leave a clean extension point for a possible dedicated CTR/MIPL tile.*
+- On-click → launch Branch Dashboard.
+
+### US6 — Required Actions: ICSC
+- Launched from Branch Dashboard (SEAL 84329).
+- Data elements: count of open items for the current month. `"due in <x> days"` = countdown to the **last business day of the month**.
+- On-click → launch Branch Dashboard (ICSC view). See §7 for full ICSC field spec (reference for a related/adjacent view, useful for tile logic).
+
+### US7 — Required Actions: Banker Notifications
+**As a** branch manager, **I want** to see unread Banker Notifications **so that** I'm aware of items needing my attention.
+- Source app: **Banker Homepage** (SEAL 104294)
+- Data elements: any items on the Notifications tab + stories tagged "Control".
+- Decrement logic: when the user clicks the tile, **assume all notifications are read and reset the counter to zero.** "Unread" = any notification posted since the last time the user clicked the tile.
+- ⚠️ Still flagged as an open functional question in the Decision Log (7/31/26) — treat the above as the working assumption, confirm before hardening the counter-reset behavior.
+- On-click → launch Banker Homepage.
+
+---
+
+## 3. Epic: Tech Readiness
+
+Section header text: **"Manage your ability to service customers."** — located below Required Actions.
+
+### US1 — Tech Readiness Section
+Create the "Tech readiness" section below Required Actions; display the subtitle above.
+
+### US2 — Tech Readiness: Teller Express
+- Source: **Splunk** (query pattern TBD — see KT dependency below)
+- Status priority order (highest wins):
+  1. 🔴 Priority 1 — All Teller Express workstations are down
+  2. 🔴 Priority 2 — Teller Express is in store mode ("Transactions will be processed when server is back online")
+  3. 🟡 Priority 3 — Some Teller Express workstations are down → message: `"<X> out of <X> workstations are currently down"`
+  4. 🟢 Priority 4 — All workstations online
+- 🔧 Dependency: Hila Morgan / Ravi Kota captured this data manually; team needs a **KT session to learn how to query CCB Splunk** for this feed.
+
+### US3 — Tech Readiness: Branch Network
+- Source: **Cortex**
+- Status priority order:
+  1. 🔴 Priority 1 — Branch Network is down
+  2. 🟡 Priority 2 — Branch is operating on cell backup ("Internet may be slow")
+  3. 🟡 Priority 3 — Branch devices may be experiencing issues
+  4. 🟢 Priority 4 — All workstations online
+- 🔧 Dependency: Hila Morgan worked with the Network team on Cortex data; **KT session needed** to learn how to query it.
+
+### US4 — Tech Readiness: ATM
+- Source: **ATM Reporting and Monitoring** (SEAL 110976), onboarding via Kafka
+- Status priority order:
+  1. 🔴 Priority 1 — All ATMs are down
+  2. 🟡 Priority 2 — Some ATMs are down and/or not fully functional
+  3. 🟢 Priority 3 — All ATMs are online and functional
+- Enumerated per-ATM statuses to support the rollup: `Fully Operational`, `Fully Out of Service`, `Withdrawals Unavailable`, `Withdrawals Unavailable + Cash Deposits Unavailable`, `Check Deposits Unavailable`, `Cash Deposits Unavailable`, `Cash Deposits Unavailable + Check Deposits Unavailable`.
+- 🔧 Dependency: onboard to ARM team's Kafka topics — **ATM Availability Topic** (contact D590690), **Asset Topic** (contact O789595).
+- ⚠️ Open question: do we also need data from the Digital Locator tool?
+
+### US5 — Tech Readiness: Tablet
+- Source: **Splunk/Polar**
+- Display logic (from wireframe): total count of Online Tablets vs. total Tablets.
+  - 🟢 Green — all tablets online and logged in
+  - 🟡 Amber — 1+ tablets not online
+  - 🔴 Red — all tablets offline
+- Example from wireframe: `"8 out of 10 tablets are online"`
+
+### US6 — Tech Readiness: See Tickets
+- "See tickets" action on the Tech Readiness card → **launches My Tech Check** on click.
+
+### Widget-level "See details" (Today's Meetings side)
+- "See details" button on Today's Meetings → **launches Client Central** on click (see Epic 4).
+
+### Network status display rule (consolidated, from wireframe annotations)
+- 🟢 Green — network operational
+- 🟡 Amber — branch may experience issues processing transactions
+- 🔴 Red — branch experiencing network issues, cannot process transactions
+- 🟡 "Network using Cell Backup" — branch may experience issues processing transactions
+
+### ATM rollup display rule (Required Actions/Tech Readiness shared logic)
+- Display total count of Operational ATMs vs. total ATMs at the branch.
+- 🟢 Green — all ATMs operational · 🟡 Amber — 1+ ATMs not operational · 🔴 Red — all ATMs not operational
+
+---
+
+## 4. Epic: Today's Meetings
+
+- Section subtitle: **"Prepare for customer appointments."**
+- Legend: `Scheduled` (blue) vs. `Prospects` (teal).
+- Timeline view, 8 AM–6 PM, with `<` / `>` arrows to move to previous/next day.
+- Displays the **entire branch calendar from Client Central**, including the manager.
+- Highlight rule: if a banker has **no meetings scheduled** for the day being viewed, highlight/flag that banker row.
+- ⚠️ Open question: how should All Day events be represented?
+- Source app: **Client Central** (SEAL 102242). Real-time cadence.
+- "See details" button → launches Client Central.
+
+*(No standalone user story text was captured for this epic beyond the wireframe annotations above; treat the wireframe as the spec of record until Confluence Epic 4 rows are transcribed.)*
+
+---
+
+## 5. Epic: Performance at a Glance
+
+Section subtitle: **"Track your branch's progress."**
+
+### OSAT
+- Metrics: Score, Greeted, Called by name, Thanked — each with a % value and week-over-week delta.
+- On-click → navigate to OSAT report: `https://customer-experience-ui-prod.jpmchase.net/reports`
+- "OSAT Overall Score" is a distinct linked sub-element.
+- **OSAT Badging** — badge based on branch OSAT percentile vs. all branches:
+  - 🥇 Gold: Top 10%
+  - 🥈 Silver: Next 10%
+  - 🥉 Bronze: (tier boundary not specified in source — confirm with PO)
+  - All others: no indicator
+- "Change over time" comparison example: `Q2'26 + Q3'26 compared to Q4'25 + Q1'26`
+- Source: Performance Homepage, Product/Data Owner: Chad Laman(?) / Yanina Jonesan. Monthly cadence.
+
+### Convenience
+- Monthly counts: Wealth Plan, Credit Journey, Discover Needs, AAO — each with count + delta.
+- On-click → navigate to Convenience report: `https://rsreporting.jpmchase.net/apps/OneChase/Convenience.aspx`
+- "Display the frequency of the data displayed" (i.e., surface the refresh cadence label on this card).
+- Source: Performance Homepage. Daily cadence.
+
+### One Chase Sales
+- Monthly counts: Credit Card Open, First Time Investors, Banker Productivity, Portfolio Contact — each with count + delta.
+- On-click → navigate to One Chase Sales report: `https://rsreporting.jpmchase.net/apps/onechase/production.aspx?status_cd=a`
+- Source: Performance Homepage. Daily cadence.
+
+### Banker Availability
+- Weekly % and Monthly % availability figures with deltas.
+- Underlying source: **Client Central Banker Availability (Tableau)** — `Availability Summary`, `Future Availability Detail`, `Past Availability Detail`, `Monthly Averages` tabs. Categories: `More Than 2 Hours Availability`, `<=2 hours Availability`, `No (0 hours) Availability`, `Closed on Saturday`.
+- On-click → navigate to Banker Availability report: `https://prod-useast-b.online.tableau.com/t/ccb/views/ClientCentralBankerAvailability/AvailabilitySu...`
+- Source: Client Central (SEAL 102242), Product Owner Nick Brown / Data Owner Sandy Clarke. Real-time cadence.
+
+### Top Daily Trends Reports (links, not tiles)
+- **Discover Needs** → launches Client Central.
+- **Branch Offers** → navigate to `https://prod-useast-b.online.tableau.com/t/ccb/views/BranchOffers/BranchOffers?embed=y&linktarget...`
+
+⚠️ **Wireframe callout-arrow ambiguity:** the wireframe's arrows for "navigate to Banker Availability report" and "navigate to discover needs" appear to cross between the One Chase Sales and Banker Availability cards. Confirm exact click-target mapping with Eric Prock before wiring navigation — don't guess from the arrow crossing alone.
+
+---
+
+## 6. Epic: Nearby Branches, Financial Centers & ATMs
+
+Section subtitle: **"See which locations are open or closed."**
+
+### Map + card list behavior
+- Display a pin for each of the **5 closest branches and/or standalone ATMs**.
+  - Include a pin for the branch the banker is currently in (center marker).
+  - Order 1–5, closest to furthest.
+  - 🔵 Blue pin = open · 🔴 Red pin = closed.
+  - Selected pin renders larger; the corresponding card in the list is highlighted.
+
+### Branch card fields
+- **Branch Services label:**
+  - "Chase Branch with drive up and ATM" → rendered as `Chase branch | Drive-Up | ATM`
+  - "Chase Branch with ATM" → rendered as `Chase branch | ATM`
+- Branch Name
+- Distance from the branch in session, formatted `X.XX mi.`
+- **Branch Status** (mutually exclusive):
+  - `Open until <X> PM today` — shown during branch operational hours
+  - `Closed until <X> AM today` — shown outside operational hours
+  - `Temporarily closed` — shown if the branch was reported closed via BLDS (Branch Location Data Store)
+- **ATMs Available at the Branch:** operational ATM count out of total ATMs at that branch.
+- Branch Phone Number (external-facing number).
+- **"Meet with us"** button → on click, navigate to the Meeting Scheduler.
+
+### ATM card fields
+- Label format: `Chase ATM | <ATM Type>`. ATM Types: `Walk Up`, `Drive Up`, `Indoor`, `Vestibule`, `Lobby`.
+- ATM Name.
+- Distance in session, `X.XX mi.` format.
+- `available 24 hours` — display **only if** the ATM is available 24 hours.
+- `Temporarily closed` — display **only if** the ATM is unavailable.
+
+- Source: **Branch Location Data Store** (SEAL 109913), Product Owner David Jordan, Data Owner Kola Oladejo. Real-time cadence.
+
+---
+
+## 7. Supporting Reference — Internal Controls Self Check (ICSC)
+
+*Not a Branch Health MVP1 tile itself, but the source view the ICSC Required Actions tile launches into — useful context for scoping the tile's count/day-countdown logic (§2, US6).*
+
+Current-month ICSC display, once the branch roster is set:
+1. Line-items completed count, e.g. `2 of 8 line-items complete (25%)`.
+2. Entry Overview shows each ICSC line-item.
+3. Each item is tagged **employee-level** or **branch-level**, with % complete:
+   - Employee-level: `# employees completed / # employees in target audience`
+   - Branch-level: counts as 1 item (typically an inspection process, e.g. Safety Meeting, signage check)
+4. Target Audience shows job roles included (e.g., AB, PCB) for employee-level items; branch-level items show `Branch-level inspection`.
+5. Issue/Follow-Ups shows count of issues/follow-ups, if any.
+6. Overall completion = `# items complete / # total items` (each employee tested on an employee-level question counts as 1 item).
+7. General Assessments section includes BM Sign-off (expand icon to view detail).
+8. Open Follow-Ups table: ICSC Month, Follow-Up Date, Follow-Up Description, Issue Description, Employee, Entry Overview.
+
+---
+
+## 8. Supporting Reference — Data Source & Ownership Matrix
+
+| Section | Component | Source App (SEAL) | Product Owner | Data Owner | Cadence | Data Status |
+|---|---|---|---|---|---|---|
+| Required Actions | Control Exceptions | Branch Dashboard (84329) | Tony Roth | Kola Oladejo | Real Time | Accessed & Validated |
+| Required Actions | Cash Management | My Cash Manager (89850) | ⚠️ TBD (mtg w/ Zane & Amber) | Ravi Patel | Daily | Accessed & Validated |
+| Required Actions | Branch Dashboard (3 data points) | Branch Dashboard (84329) | Tony Roth | Kola Oladejo | Real Time | Accessed & Validated |
+| Required Actions | ICSC | Branch Dashboard (84329) | Tony Roth | Kola Oladejo | Monthly | Accessed & Validated |
+| Required Actions | Banker Notifications | Banker Homepage (104294) | Tony Roth | Kola Oladejo | Real Time | Accessed & Validated |
+| Today's Meetings | Branch Calendar | Client Central (102242) | Nick Brown | Sandy Clarke | Real Time | Accessed & Validated |
+| Today's Meetings | Banker Calendar view | Client Central (102242) | Nick Brown | Sandy Clarke | Real Time | Accessed & Validated |
+| Tech Readiness | Teller Express – Overall Status | Splunk | Matt Thiedt | Kola Oladejo | Real Time | 🟡 In Progress |
+| Tech Readiness | Connection Status (Branch Network) | Cortex | Tim Freeman | Srinivas Kati | Real Time | 🟡 In Progress |
+| Tech Readiness | ATM Status | ATM Reporting & Monitoring (110976) | Dan McGinnis | Nihari Paladugu | Real Time | 🟡 In Progress |
+| Tech Readiness | Tablets | Splunk/Polar | Joe Raquepaw | Kola Oladejo | Real Time | Accessed & Validated |
+| Performance at a Glance | OSAT (4 data points) | Performance Homepage | Chad Laman(?) | Yanina Jonesan | Monthly | Accessed & Validated |
+| Performance at a Glance | Convenience (4 data points) | Performance Homepage | Chad Laman(?) | Yanina Jonesan | Daily | Accessed & Validated |
+| Performance at a Glance | One Chase Sales (4 data points) | Performance Homepage | Chad Laman(?) | Yanina Jonesan | Daily | Accessed & Validated |
+| Performance at a Glance | Banker Availability (2 data points) | Client Central (102242) | Nick Brown | Sandy Clarke | Real Time | Accessed & Validated |
+| Nearby Branches | Branches within \<X\> miles of user | Branch Location Data Store (109913) | David Jordan | Kola Oladejo | Real Time | Accessed & Validated |
+
+**Notes:**
+- Items marked "Real Time" refresh every 15 minutes for completed feeds; new items arrive per the marked cadence otherwise.
+- Owners are designated in PAT (source system of record for ownership, not this doc).
+- 🟡 "In Progress" data 
