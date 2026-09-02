@@ -1,0 +1,726 @@
+# Branch Dashboard - Complete UX/UI Requirements Update
+
+Use this document to update the existing Branch Dashboard requirements, UI queries, components, states, and interaction behavior. Do not overwrite previously confirmed requirements unless this document explicitly changes them.
+
+The objective is to capture the decisions and clarifications from the latest design discussion and ensure the UI reflects them consistently.
+
+---
+
+# 1. Required Actions / Action Tray
+
+The Branch Dashboard may surface actions originating from systems such as Branch Dashboard, My Cash Manager, or other enterprise/source applications.
+
+The current concept is a compact tray/module that surfaces important actions.
+
+## UI direction
+
+The tray should:
+
+* Surface the most important/high-priority actions.
+* Initially show approximately two items.
+* Provide a quick summary/detail so the user understands what each action represents.
+* Not replace the actual action/workflow.
+* Allow the design to expand to additional items in the future if required.
+
+The design should support different numbers of items without breaking the layout.
+
+## IMPORTANT INTERACTION DECISION
+
+A user should be able to interact directly with the individual action/item.
+
+If an action is shown as a high-priority item, clicking that item should take the user directly to the relevant workflow/action in the appropriate source application.
+
+The user should NOT be required to:
+
+1. Click a generic link.
+2. Open the source application.
+3. Search for the action again.
+4. Then initiate the action.
+
+The dashboard should minimize navigation friction and allow the user to start the relevant action directly.
+
+Example:
+
+If the tray shows:
+
+**ATM Cash Replenishment Review**
+
+the user should be able to select that item and go directly to the appropriate workflow.
+
+---
+
+# 2. Source Application Considerations
+
+Some current source applications may be legacy applications and may contain significantly more information than the dashboard needs.
+
+For example, an existing Branch Dashboard/related application may contain many additional fields and information and may be visually cluttered.
+
+A newer application is being developed/migrated, but it is not necessarily in production yet.
+
+Therefore:
+
+* The Branch Dashboard should provide a focused experience.
+* Do not reproduce the entire source application's UI inside the Branch Dashboard.
+* The dashboard should surface only the relevant information/action.
+* Navigation should take the user to the appropriate source workflow when additional interaction is required.
+* The design should remain flexible enough to work with the future/new source application.
+
+---
+
+# 3. Data Mapping / Architecture Work
+
+The team is preparing a first-pass architecture and data mapping.
+
+This is intentionally NOT the final detailed mapping.
+
+The first view should identify:
+
+* Which dashboard/application components require which data.
+* Which source application/system provides the data.
+* The relationship between dashboard widgets and source systems.
+* How the data is expected to flow into the dashboard.
+
+The mapping should be refined after information is received from the relevant source/application teams.
+
+## Architecture and estimation areas
+
+Capture estimates for:
+
+1. Architecture.
+2. Architecture timeline.
+3. Technical/development effort.
+4. Requirements/data-source identification.
+5. Data integration.
+6. Testing.
+7. UAT.
+
+The testing/UAT estimate will be coordinated separately with the testing team.
+
+Champa and Shri are involved in the architecture discussion, including ODS/data architecture considerations.
+
+Shri may potentially provide formal architecture sign-off where appropriate.
+
+---
+
+# 4. Data Source Questions
+
+For every data source, capture the following questions:
+
+1. What system/application owns the data?
+2. Where is the data hosted?
+3. Where/how are the APIs exposed?
+4. What gateway/integration mechanism is used?
+5. What data is available?
+6. What data does the dashboard actually need?
+7. How frequently is the data updated?
+8. What is the expected data freshness?
+9. What happens when the source is unavailable?
+10. Can the dashboard rely on cached data, or should the data be considered unavailable?
+
+These questions should feed the data mapping and architecture work.
+
+---
+
+# 5. Data Freshness / Stale / Offline State
+
+This is a critical requirement.
+
+## DECISION
+
+When a source system is unavailable, DO NOT display the last cached/stale value as though it is current.
+
+The dashboard should not present outdated information that could be interpreted as live/current data.
+
+Instead, the affected widget should explicitly communicate that its data is unavailable.
+
+Every widget needs a consistent pattern for this state.
+
+---
+
+# 6. Widget-Level Unavailable State
+
+When an individual data source is unavailable:
+
+* Only the affected widget should show the unavailable state.
+* Other widgets should continue to function normally.
+* Do not replace the entire dashboard with an error state.
+* Do not show stale cached values.
+* Preserve the widget's normal location and dimensions where possible.
+* Clearly identify what data/component is unavailable.
+
+Example:
+
+**Controlled Exceptions**
+Data unavailable
+
+Do NOT use only:
+
+**Unavailable**
+
+because the user needs to know what is unavailable.
+
+Other examples could be:
+
+**Performance at a Glance**
+Data unavailable
+
+**Cash Management**
+Data unavailable
+
+**Calendar**
+Data unavailable
+
+The exact wording can be refined by UX, but the component/data name should remain clear.
+
+---
+
+# 7. Stale Timestamp / "As Of" Treatment
+
+The team specifically discussed whether unavailable/cached data should instead be shown with:
+
+* An "as of" timestamp.
+* A stale indicator.
+* A different icon.
+* A greyed-out treatment.
+
+The current decision is:
+
+**Do not solve source unavailability by displaying stale cached data with an "as of" timestamp.**
+
+If the source is unavailable, show the unavailable state instead.
+
+If a future requirement explicitly allows stale data for a particular widget, that should be treated as a separate business/data-freshness rule and should not be assumed globally.
+
+---
+
+# 8. Visual Treatment for Unavailable Widgets
+
+The preferred design direction is a reusable component pattern rather than creating a completely different error treatment for every widget.
+
+For a smaller widget/tile:
+
+* Retain the normal tile/container dimensions.
+* Use the MDS disabled/background treatment where appropriate.
+* Suppress or replace the normal content.
+* Clearly display the widget name and unavailable status.
+
+For a large widget/module such as Calendar:
+
+* Use the same principle.
+* Preserve the overall module/container area.
+* Show the unavailable state within the full module.
+
+The intent is that the unavailable state should not cause the rest of the dashboard to jump or rearrange unnecessarily.
+
+---
+
+# 9. Icon / Spinner Treatment
+
+The team discussed whether the normal widget icon should be replaced by a spinner or another visual indicator.
+
+Do NOT automatically use a spinner for the unavailable state.
+
+Use:
+
+### Loading state
+
+A skeleton/spinner/loading treatment may be appropriate.
+
+### Unavailable state
+
+Show the widget/component as unavailable with clear text.
+
+For example:
+
+**Controlled Exceptions**
+Data unavailable
+
+The final approved spinner/skeleton treatment should follow the MDS/design-system pattern.
+
+If the design system has an approved skeleton or spinner, use it rather than inventing a new component.
+
+---
+
+# 10. Loading vs. Empty vs. Unavailable vs. Global Error
+
+These are four separate states and must not be conflated.
+
+## Loading
+
+The source is expected to respond but data is still being retrieved.
+
+Use:
+
+* Skeleton/loading treatment.
+* Preserve the expected widget dimensions.
+
+## Empty
+
+The source responded successfully but there is no data to display.
+
+Use:
+
+* Appropriate empty-state treatment.
+* Do not describe an empty result as an error.
+
+## Unavailable
+
+The source cannot currently provide the required data.
+
+Use:
+
+* Widget-level unavailable state.
+* Do not display stale cached data.
+
+## Global Error
+
+The overall dashboard/application cannot be loaded or is unavailable.
+
+Use:
+
+* Full-page/global error experience.
+
+---
+
+# 11. Widget Failure vs. Whole Dashboard Failure
+
+## DECISION
+
+The dashboard aggregates data from multiple independent sources.
+
+Therefore, failures must be isolated.
+
+Example:
+
+* Performance at a Glance fails.
+* Required Actions is still available.
+* Calendar is still available.
+
+Result:
+
+* Performance at a Glance shows "Data unavailable."
+* Required Actions remains interactive.
+* Calendar remains interactive.
+
+Do NOT show a full-page error in this situation.
+
+## Full-page failure
+
+Use the full-page error state only when the entire dashboard/application is unavailable.
+
+The design should therefore explicitly support:
+
+**Partial failure**
+
+* Individual widget/component unavailable.
+
+**Complete failure**
+
+* Entire dashboard unavailable.
+
+---
+
+# 12. Global / Full-Page Error Experience
+
+The team wants the global failure experience to be more user-friendly than a technical 404/502 screen.
+
+The design direction discussed includes:
+
+* Friendly illustration or animation.
+* Clear message.
+* Reassurance that the issue is known.
+* Avoid blaming the user.
+* Provide useful next steps where possible.
+
+The team even discussed the idea of a friendly visual/character/illustration to make the failure experience less frustrating.
+
+The exact:
+
+* Illustration.
+* Animation.
+* Copy.
+* Actions/buttons.
+
+are still OPEN design decisions.
+
+Do not treat the specific illustration as finalized.
+
+---
+
+# 13. Source Application Fallback
+
+When an individual widget is unavailable, consider providing access to the underlying source application where that is useful.
+
+Example:
+
+If Cash Management information is unavailable, the user may potentially be directed to My Cash Manager for additional information.
+
+However:
+
+* This should be evaluated per source/widget.
+* Do not automatically add a "Go to source application" button to every unavailable widget.
+* If the source application itself is unavailable, the fallback will not help.
+* The final behavior should depend on the failure scenario.
+
+---
+
+# 14. Branch Selector in Header
+
+The dashboard header/welcome area needs a branch selector.
+
+Some managers may have multiple branches.
+
+The selection behavior should be simple and proportional to the number of branches.
+
+## Fewer than approximately five branches
+
+Use a standard/traditional dropdown.
+
+Display:
+
+* Branch name.
+* Branch text/value.
+* Potentially branch code if required by the final design.
+
+Do NOT introduce:
+
+* Radio buttons.
+* Complex selection controls.
+* Unnecessary multi-step interaction.
+
+For two or three branches, a simple dropdown is considered appropriate.
+
+## More than approximately five branches
+
+Consider a searchable dropdown.
+
+The exact threshold can be finalized during detailed design.
+
+The design should scale without creating an excessively long dropdown.
+
+---
+
+# 15. Branch Switching Behavior
+
+Selecting another branch changes the user's dashboard context.
+
+The behavior is:
+
+1. User opens the branch selector.
+2. User selects another branch.
+3. Dashboard context changes to the selected branch.
+4. The entire dashboard refreshes/reloads.
+5. Data is queried for the newly selected branch.
+6. All widgets represent the newly selected branch.
+
+This is effectively a change of the user's current branch/location context.
+
+Do not refresh only one widget while leaving other widgets associated with the previous branch.
+
+---
+
+# 16. Regional and District Selection
+
+Regional and District selection is different from the simple branch selector.
+
+A separate design discussion is required.
+
+Potentially this may require:
+
+* Hierarchical selection.
+* Search.
+* Grouping.
+* Larger/more complex dropdown.
+* Regional/District context.
+* Different component behavior from the simple branch selector.
+
+Open questions include:
+
+* How the hierarchy should be represented.
+* What information is displayed.
+* Whether users can search.
+* Whether users can select a region/district and then drill into branches.
+* How the dashboard refreshes after selection.
+
+Do not finalize this design based on the simple branch-dropdown pattern.
+
+---
+
+# 17. Calendar / Daily Timeline
+
+The current calendar concept is a time-based daily timeline.
+
+The timeline is organized around specific hours/times.
+
+Therefore:
+
+* Time-specific events fit naturally into the timeline.
+* Events without a specific time do not naturally fit into the current timeline layout.
+
+The current discussion direction was that calendar items shown in this timeline should be associated with a specific time.
+
+However, verify this against the source-system data because source applications may provide:
+
+* Timed events.
+* All-day events.
+* Untimed events.
+
+If untimed events exist, the product/design team needs to determine the appropriate representation rather than forcing them arbitrarily into a time slot.
+
+---
+
+# 18. Old / Previous Calendar Events
+
+A decision is still required for how previous/old events should be represented.
+
+Options discussed include:
+
+* Banner.
+* Top-of-day chips.
+* Compact indicator.
+
+This is an OPEN design decision.
+
+Do not assume one of these options is finalized until UX confirms it.
+
+---
+
+# 19. Calendar Event Interaction
+
+The calendar should remain consistent with the overall dashboard interaction philosophy.
+
+Where an event represents an actionable workflow:
+
+* The user should be able to select it.
+* The interaction should take the user as directly as possible to the appropriate workflow/source application.
+
+Avoid forcing the user through unnecessary intermediary navigation.
+
+---
+
+# 20. Consistency Across All Seven Widgets
+
+There are multiple widgets/data sources on the dashboard, currently discussed as approximately seven widgets.
+
+All widgets should follow the same high-level state model:
+
+**Loading**
+→ loading/skeleton pattern
+
+**Available with data**
+→ normal widget
+
+**Available but no data**
+→ empty state
+
+**Source unavailable**
+→ widget-level unavailable state
+
+**Entire dashboard unavailable**
+→ global/full-page error state
+
+The visual treatment should be consistent while allowing the container size/content layout to differ based on the widget.
+
+---
+
+# 21. UX Design Principles
+
+Use these principles when implementing the UI:
+
+### Direct action
+
+If an item is surfaced as a priority action, allow the user to act on it directly.
+
+### Failure isolation
+
+One failed source should not take down the entire dashboard.
+
+### No misleading stale information
+
+Do not show cached/outdated values as current when the source is unavailable.
+
+### Clear communication
+
+Always identify what is unavailable.
+
+### Preserve context
+
+Keep unavailable widgets in their expected locations/dimensions where practical.
+
+### Progressive disclosure
+
+Show a concise amount of information in the dashboard and allow the user to enter the source workflow for detailed work.
+
+### Consistency
+
+Use common patterns for loading, empty, unavailable and error states across all widgets.
+
+### Resilience
+
+The dashboard should remain useful even when some underlying systems are unavailable.
+
+---
+
+# 22. Questions Raised by Copilot / Team and Their Current Answers
+
+Update the existing Copilot queries with these answers.
+
+### Question: What should happen when source data is unavailable?
+
+**Answer:** Do not display stale cached data. Show the affected widget as unavailable.
+
+### Question: Should we show an "as of" timestamp for cached data?
+
+**Answer:** Not as the default unavailable behavior. Do not display stale cached values simply with an "as of" timestamp.
+
+### Question: Should there be a special stale/offline icon?
+
+**Answer:** No final icon has been approved. The primary requirement is a clear unavailable state. Follow MDS/design-system patterns for the visual treatment.
+
+### Question: Should the unavailable state be shown for the whole dashboard?
+
+**Answer:** No, not when only one source/widget fails.
+
+### Question: What happens when one widget fails?
+
+**Answer:** Only that widget displays the unavailable state. Other widgets remain usable.
+
+### Question: What happens when everything fails?
+
+**Answer:** Show a dedicated full-page/global error state.
+
+### Question: Should the unavailable message simply say "Unavailable"?
+
+**Answer:** No. Identify the affected component/data, for example "Controlled Exceptions - Data unavailable."
+
+### Question: Should the unavailable component keep its existing size?
+
+**Answer:** Yes, where practical. Preserve the container/module dimensions.
+
+### Question: Should we provide a Try Again button?
+
+**Answer:** Not finalized. The current discussion leaned toward simply communicating that the data is unavailable rather than adding unnecessary repeated-click behavior. Treat "Try Again" as OPEN until UX confirms.
+
+### Question: Should the widget icon be replaced by a spinner?
+
+**Answer:** A spinner is appropriate for loading if supported by the design system. Do not use a spinner as the default unavailable-state indicator.
+
+### Question: Should there be a friendly full-page error?
+
+**Answer:** Yes. Design a friendly global error experience. Exact illustration/copy is still OPEN.
+
+### Question: Can we direct users to the source application?
+
+**Answer:** Potentially, for individual widget failures where the source application is available and the fallback is useful. This is not mandatory for every widget.
+
+### Question: How should users with two or three branches switch branches?
+
+**Answer:** Standard dropdown with branch text/name values.
+
+### Question: Do we need search for two or three branches?
+
+**Answer:** No.
+
+### Question: What if the manager has many branches?
+
+**Answer:** Consider a searchable dropdown when the branch list becomes sufficiently large, approximately more than five.
+
+### Question: What happens when another branch is selected?
+
+**Answer:** Refresh the entire dashboard using the selected branch's context/data.
+
+### Question: How should Regional/District selection work?
+
+**Answer:** Separate design discussion required. It may need a searchable/hierarchical/mega-dropdown pattern.
+
+### Question: How should untimed calendar events appear?
+
+**Answer:** The current timeline is time-based. Timed events fit directly. Untimed/all-day events require confirmation/design treatment if they exist in the source data.
+
+### Question: How should old calendar events appear?
+
+**Answer:** OPEN. Banner, top-of-day chips, or another compact indicator are possible approaches.
+
+---
+
+# 23. Items That Must Remain OPEN
+
+Do not convert the following into finalized UI requirements yet:
+
+1. Exact unavailable-state icon.
+2. Exact unavailable-state copy.
+3. Approved MDS skeleton/loading component.
+4. Exact spinner behavior.
+5. Whether a "Try Again" action is provided.
+6. Source-application fallback action/link behavior.
+7. Global error illustration/animation.
+8. Global error copy.
+9. Exact branch-count threshold for searchable dropdown.
+10. Regional/District selector design.
+11. Untimed/all-day calendar event treatment.
+12. Old/previous calendar event treatment.
+13. Final detailed data mapping.
+14. Final architecture estimate.
+15. Final development/technical estimate.
+16. Final testing/UAT estimate.
+
+---
+
+# 24. Implementation Priority
+
+For the first UI/design iteration, prioritize:
+
+### Priority 1
+
+Build the widget-level state framework:
+
+* Loading.
+* Available.
+* Empty.
+* Unavailable.
+
+### Priority 2
+
+Build the global/full-page unavailable/error state.
+
+### Priority 3
+
+Build the Required Actions tray with direct item interaction.
+
+### Priority 4
+
+Build the Branch Selector:
+
+* Simple dropdown for small branch counts.
+* Scalable/searchable approach for larger lists.
+
+### Priority 5
+
+Build/refine the calendar timeline and identify the treatment required for untimed and old events.
+
+### Priority 6
+
+Connect the widgets to the first-pass data/application mapping as source information becomes available.
+
+---
+
+# 25. Overall Product Behavior
+
+The Branch Dashboard should act as a resilient, simplified aggregation layer over multiple enterprise systems.
+
+The dashboard should:
+
+* Surface important information and actions.
+* Keep interactions simple.
+* Take users directly to the relevant workflow.
+* Keep working when individual data sources fail.
+* Clearly identify unavailable data.
+* Never misrepresent stale cached data as current.
+* Preserve the layout when individual widgets fail.
+* Provide a friendly global experience when the entire dashboard is unavailable.
+* Refresh the complete dashboard when the user changes branch context.
+* Use consistent state patterns across all widgets.
+
+The fundamental rule is:
+
+**A failure in one data source should affect only the smallest possible UI component. The rest of the dashboard should remain usable.**
