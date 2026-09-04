@@ -1,0 +1,1122 @@
+Yes. This third email is the strongest clue so far, and when I connect it with the two earlier emails, I think we can now make a much more confident assessment of why you and the other ~9 people were selected.
+
+The pattern across all three communications
+
+There is a very clear progression:
+
+Haus Call → AI adoption → Agentic engineering → Code Agent → Skills/MCP → engineering discipline → feedback from technologists
+
+The latest email is titled:
+
+> “Win with Agentic AI: Discipline is the difference”
+
+
+
+And several statements are especially revealing:
+
+“Agentic engineering is here as the default way to build and ship code.”
+
+Cost and token optimization are becoming everyday engineering concerns.
+
+Model evaluation is still immature.
+
+“Fewer surprises” is a new productivity metric.
+
+Spec reviews and intent carry more weight.
+
+Writing code is becoming cheaper.
+
+Knowing what to build and proving it is correct becomes more important.
+
+Teams are packaging repeatable work into Skills and automation.
+
+The organization is tracking Agent Mode adoption and Power Users.
+
+
+This is a significant shift in the message.
+
+
+---
+
+What I now think the focus group is REALLY about
+
+I would describe the likely objective as:
+
+> "How do we make Haus Call a valuable communication channel for technologists as CCB moves toward an agentic engineering model?"
+
+
+
+Not simply:
+
+> "Do you like our newsletter?"
+
+
+
+The newsletter appears to be one of the mechanisms Haus is using to create awareness, influence behavior and accelerate adoption of the new engineering model.
+
+And they now want feedback from a small group of technologists about whether that communication is actually working.
+
+
+---
+
+Why only 10 people?
+
+This makes sense for a qualitative focus group.
+
+If they wanted to know:
+
+> "Do you like Haus Call?"
+
+
+
+they could send a survey to thousands of people.
+
+Instead, they're bringing together approximately 10 people and giving them an hour with leadership.
+
+That suggests they want depth, opinions, examples and disagreement.
+
+They may be trying to discover things such as:
+
+"What are engineers actually thinking?"
+
+Are they excited about agentic AI?
+
+Are they confused?
+
+Are they overwhelmed?
+
+Do they understand the strategy?
+
+Are they actually using the tools?
+
+What prevents deeper adoption?
+
+What AI topics matter to them?
+
+What do they want to hear directly from leadership?
+
+Is the current communication too high-level?
+
+Do engineers want technical depth?
+
+Do they want practical examples?
+
+What makes them trust an AI-generated solution?
+
+What does "productivity" mean to them now?
+
+
+
+---
+
+And there is a BIG theme here: the definition of productivity is changing
+
+Look at this phrase:
+
+> "Fewer surprises is a new productivity metric."
+
+
+
+That is a very interesting leadership philosophy.
+
+Traditional engineering productivity:
+
+More code → faster delivery → more releases
+
+The new model being described here is closer to:
+
+Better intent → better context → agentic execution → validation → fewer surprises → better outcomes
+
+So the engineer's value moves upward.
+
+Old model
+
+Engineer
+   ↓
+Understand requirement
+   ↓
+Design
+   ↓
+Write code
+   ↓
+Test
+   ↓
+Deploy
+
+Emerging agentic model
+
+Engineer
+   ↓
+Define intent
+   ↓
+Specify constraints
+   ↓
+Agent discovers context
+   ↓
+Agent plans
+   ↓
+Agent implements
+   ↓
+Agent validates
+   ↓
+Human reviews evidence
+   ↓
+Ship
+
+And that explains why Haus says:
+
+> "Writing code is getting cheaper. Knowing what to build, and proving it is correct, is where the leverage is."
+
+
+
+That is probably one of the most important messages for you to understand before the focus group.
+
+
+---
+
+This also explains the previous Code Agent email
+
+The previous email said Code Agent should be used for:
+
+Dependency chain
+
+> Trace callers and dependencies across repositories.
+
+
+
+Pattern detection
+
+> Find implementations of a pattern and compare evidence.
+
+
+
+Configuration discovery
+
+> Find configuration keys and deployment objects.
+
+
+
+Notice what these have in common.
+
+They aren't primarily:
+
+> "Write me some code."
+
+
+
+They are:
+
+> "Help me understand the system."
+
+
+
+That's context discovery.
+
+And then the agent can act.
+
+So the strategy seems to be moving from:
+
+Copilot → code generation
+
+toward:
+
+Agent → understand → reason → plan → execute → validate
+
+That's a much bigger transformation.
+
+
+---
+
+I would expect them to ask you something like this
+
+"What do you think of the direction we're taking with AI?"
+
+A strong answer would be:
+
+> "I see the biggest opportunity as moving beyond AI-assisted coding toward AI-assisted engineering. Code generation is useful, but the bigger value comes when an agent can understand our existing architecture, repositories, dependencies and standards, gather evidence and then help us make or validate engineering decisions."
+
+
+
+Then you can add:
+
+> "But that also means our discipline around intent, specifications, context, validation and governance becomes more important, not less."
+
+
+
+That aligns almost perfectly with Haus's current messaging.
+
+
+---
+
+Another question I think is highly likely
+
+"What would you like to see more of in Haus Call?"
+
+I would say:
+
+> "I'd like more real examples of agentic engineering from teams across the organization. Show the problem, how the agent was used, what context or Skills it needed, what the human had to validate, what went wrong, and what measurable outcome improved."
+
+
+
+That is much stronger than:
+
+> "I'd like more AI articles."
+
+
+
+You're giving them a specific content format.
+
+
+---
+
+And this could be your strongest observation
+
+I'd bring up the difference between adoption and value.
+
+The newsletter currently celebrates metrics such as:
+
+99.1% installed
+
+97.5% active
+
+Power Users increasing
+
+81.2% frequent users
+
+That's useful.
+
+But you could say:
+
+> "The adoption numbers are encouraging, but I think the next question is whether we can connect usage to engineering outcomes. For example, are agents reducing investigation time, reducing defects, identifying blind spots earlier, improving resiliency or shortening delivery cycles?"
+
+
+
+That is an excellent question because it takes the conversation from:
+
+"Are people using AI?"
+
+to:
+
+"Is AI actually changing engineering outcomes?"
+
+
+---
+
+One question I would absolutely ask Haus
+
+If you get the opportunity, ask:
+
+> "As agentic engineering becomes the default way of building and shipping, what capabilities do you think engineers need to develop most? Is the expectation that engineers become better at specification, architecture, validation and agent orchestration rather than spending as much time on individual implementation?"
+
+
+
+This is a very relevant question to everything he's communicating.
+
+
+---
+
+Another potentially powerful question
+
+> "We're talking about fewer surprises as a productivity metric. How do you see that being measured at scale? For example, could agentic workflows eventually help us measure things like unknown dependencies, architecture drift, production defects or rework avoided?"
+
+
+
+This connects directly to the Arch-to-Code Alignment Agent example from the earlier newsletter.
+
+It demonstrates that you aren't just consuming the newsletter. You're connecting the different ideas together.
+
+
+---
+
+And one question around Skills/MCP
+
+The emails repeatedly mention Skills, MCP and maintained sources of truth.
+
+I'd ask:
+
+> "As we create more Skills for different domains, how do we make sure those Skills remain trustworthy and current? Could the quality of the Skill itself become an important part of our engineering discipline?"
+
+
+
+That's a very practical concern.
+
+Because an agent is only as good as:
+
+Context + tools + instructions + source of truth + validation.
+
+
+---
+
+What I would NOT do in the meeting
+
+I wouldn't try to impress Haus by throwing around lots of AI terminology.
+
+Don't turn it into:
+
+> "LLMs + MCP + RAG + agents + orchestration + multi-agent systems..."
+
+
+
+Instead, talk about engineering outcomes.
+
+Use language like:
+
+Context
+
+Intent
+
+Evidence
+
+Validation
+
+Trust
+
+Reliability
+
+Fewer surprises
+
+Engineering productivity
+
+Developer experience
+
+Adoption vs value
+
+Human judgment
+
+Governance
+
+Architecture
+
+Automation
+
+
+That will sound much more grounded.
+
+
+---
+
+My overall assessment
+
+After seeing this third email, I'd revise my earlier assessment from "newsletter focus group" to:
+
+Haus is likely trying to understand how technologists want to be engaged during a significant transformation of engineering toward agentic AI.
+
+The newsletter is the vehicle, but the underlying subject is much bigger.
+
+And because the invitation specifically says "AI and other engineering topics", I would expect the discussion to touch the actual transformation happening now, including Code Agent, agentic workflows, AI adoption, engineering discipline, productivity, Skills, automation and what engineers need from leadership.
+
+You have an opportunity here to give a very strong technology practitioner perspective, especially if you can articulate both sides:
+
+"This is transformational."
+
+and
+
+"Here are the practical things we need to make it trustworthy, useful and sustainable."
+
+If you want, I can next build you a complete 1-hour Haus focus-group preparation pack, including the 20 most likely questions, suggested answers in your natural speaking style, 7 questions you can ask Haus, and a 60-second opening introduction.
+
+
+Absolutely. Now that I have the three Haus communications you shared, I would prepare you differently from a normal employee focus group.
+
+I would treat this as a small, senior-leadership listening session about the future of engineering communication and AI-enabled engineering, with Haus trying to hear directly from technologists.
+
+Your goal should not be to impress him with AI terminology. Your goal should be to come across as a technologist who understands both the promise and the operating-model implications of agentic AI.
+
+
+---
+
+1. First, understand what this meeting probably is
+
+The invitation says the focus is:
+
+Haus Call
+
+content preferences
+
+newsletter habits
+
+leadership communications
+
+AI
+
+engineering topics
+
+what would make technologists more likely to read it
+
+
+But the last two Haus Calls give us the context behind those words.
+
+The communications are increasingly about:
+
+Agentic AI → Code Agent → MCP → Skills → automation → engineering discipline → adoption → productivity → new ways of working
+
+So I think the real question behind the focus group is something like:
+
+> "As CCB Technology changes the way we engineer with AI and agents, how should we communicate with technologists so that the communication is relevant, credible, useful and actionable?"
+
+
+
+That is the lens I would use throughout the meeting.
+
+
+---
+
+2. Your positioning in the meeting
+
+I would position yourself as:
+
+> A practitioner who is excited about agentic AI, but believes the real transformation is not code generation. It is changing how we understand problems, define intent, discover context, make decisions, validate outcomes and operate engineering at scale.
+
+
+
+That is a very strong position because it aligns with Haus's own messaging.
+
+His recent email essentially says:
+
+> Writing code is becoming cheaper. Knowing what to build and proving it is correct is becoming more important.
+
+
+
+Your perspective can build on that.
+
+Your central message
+
+Keep coming back to this:
+
+> "The biggest opportunity isn't AI writing more code. It's AI helping engineers understand the enterprise context, expose blind spots, make better decisions and execute safely."
+
+
+
+That should become your anchor.
+
+
+---
+
+3. Your 30-second introduction
+
+There is a good chance they start with:
+
+"Let's go around and introduce ourselves and tell us what you think about Haus Call."
+
+Don't give a long introduction.
+
+You could say:
+
+> "I've been following Haus Call mainly because I find the connection between the technology strategy and what we're actually doing as engineers valuable. The recent shift toward agentic engineering particularly caught my attention. I think we're moving from AI-assisted coding toward AI-assisted engineering, where context, intent, validation and engineering judgment become increasingly important. For me, the most valuable communications are the ones that connect that strategy to real engineering problems and show what teams are actually learning."
+
+
+
+That's about 30 seconds.
+
+It sounds thoughtful without sounding rehearsed.
+
+
+---
+
+4. The 15 questions I think you should prepare for
+
+Q1. Do you read Haus Call?
+
+Don't simply say yes/no.
+
+Strong answer
+
+> "Yes, particularly when there's a concrete engineering example. The things that make me stop and read are practical examples of how teams are applying AI, what problem they solved, what they learned and what changed as a result."
+
+
+
+If you don't read every edition, don't pretend you do.
+
+You can say:
+
+> "I don't read every edition end-to-end. I tend to engage more deeply when the subject is directly relevant to engineering, AI or technology strategy."
+
+
+
+That is actually useful feedback.
+
+
+---
+
+Q2. What do you like about Haus Call?
+
+I'd say:
+
+> "I like that it gives engineers a view into what leadership is thinking about, rather than only communicating organizational announcements. The recent AI communications are particularly useful because they're trying to explain how engineering itself is changing."
+
+
+
+Then mention the "Fewer surprises" concept.
+
+> "For example, the idea of 'fewer surprises' as a productivity measure made me think differently about productivity. That's more interesting to me than simply measuring how much code gets produced."
+
+
+
+Excellent talking point.
+
+
+---
+
+Q3. What don't you like?
+
+Be constructive.
+
+Don't say:
+
+> "Nothing."
+
+
+
+Instead:
+
+> "Sometimes the strategic message is very strong, but I'd like more of the implementation reality. What did the team actually do? What didn't work? What required human intervention? What were the guardrails? What was the measurable outcome?"
+
+
+
+That's exactly the kind of feedback a communications team can use.
+
+
+---
+
+Q4. What AI topics would you like to see?
+
+Don't answer with a laundry list.
+
+Say:
+
+> "I'd like more on the transition from AI-assisted coding to agentic engineering. Specifically, how agents use enterprise context, Skills and tools, how we evaluate their output, how we establish trust, and how engineering roles change when implementation becomes increasingly automated."
+
+
+
+Then:
+
+> "Real examples would be more valuable to me than generic AI trends."
+
+
+
+
+---
+
+Q5. What would make you more likely to read Haus Call?
+
+This is probably one of the most important questions.
+
+Answer:
+
+> "Give me something I can take back to my team."
+
+
+
+Then explain:
+
+> "For example, take one real engineering problem and show the before-and-after. What was the problem? How did the team use an agent? What context did it need? What did the agent discover? What did the engineer validate? And what outcome improved?"
+
+
+
+That is a very actionable recommendation.
+
+
+---
+
+Q6. How do you feel about the move toward agentic engineering?
+
+This is where you can make a strong contribution.
+
+> "I'm very positive about it. But I think the important distinction is between agentic coding and agentic engineering. Generating code is only one part. The larger opportunity is for agents to understand dependencies, architecture, configuration, organizational patterns and domain context, then help engineers plan, execute and validate."
+
+
+
+Then:
+
+> "That also means engineering discipline becomes more important, not less."
+
+
+
+This aligns almost word-for-word with the philosophy of the recent communications.
+
+
+---
+
+Q7. Do you think AI will change the role of engineers?
+
+Say:
+
+> "Absolutely. I think the center of gravity moves upward. Engineers will spend relatively less time producing individual implementation artifacts and more time defining intent, architecture, constraints, validation criteria and making trade-offs."
+
+
+
+Then a particularly strong sentence:
+
+> "The skill becomes less 'Can I write this code?' and more 'Do I understand the problem well enough to tell an agent what good looks like and verify that it actually achieved it?'"
+
+
+
+That is a great answer.
+
+
+---
+
+Q8. What concerns do you have about agentic AI?
+
+Don't become negative.
+
+Give a balanced answer:
+
+> "My biggest concern isn't whether agents can generate code. It's whether they have the right context and whether we can reliably evaluate what they produce. An agent can be very capable and still make the wrong decision if the context, source of truth or constraints are wrong."
+
+
+
+Then:
+
+> "So I'm particularly interested in evidence, provenance, validation and clear human accountability."
+
+
+
+Very strong.
+
+
+---
+
+Q9. What does "productivity" mean in an AI world?
+
+This is one of my favorite questions for you because Haus himself raised it.
+
+You could say:
+
+> "I think traditional productivity metrics become less meaningful when implementation gets cheaper. Lines of code, number of commits or even raw delivery speed don't necessarily tell us whether we're creating value."
+
+
+
+Then:
+
+> "I like the 'fewer surprises' concept because it moves the conversation toward things like defects avoided, unknown dependencies discovered early, rework reduced, architecture drift detected and better decisions made earlier."
+
+
+
+That's a sophisticated answer.
+
+
+---
+
+Q10. What should leadership communicate more about?
+
+I'd suggest:
+
+Three things:
+
+1. Direction
+
+> Where are we going?
+
+
+
+2. Reality
+
+> What are teams actually learning?
+
+
+
+3. Expectations
+
+> How should engineers change their behavior?
+
+
+
+Then say:
+
+> "I think the third one is particularly important. Engineers need to understand not only what tools we're getting, but what good engineering looks like when those tools become part of the workflow."
+
+
+
+
+---
+
+Q11. Do engineers need more training?
+
+Answer:
+
+> "Yes, but I wouldn't frame it only as tool training. We need to teach engineers how to work with agents effectively."
+
+
+
+Then give examples:
+
+defining intent
+
+providing context
+
+decomposing problems
+
+evaluating agent output
+
+designing validation
+
+understanding agent boundaries
+
+creating reusable Skills
+
+knowing when humans must intervene
+
+
+This is much more forward-looking than "teach everyone how to use Copilot."
+
+
+---
+
+Q12. What about Skills?
+
+This is directly relevant to Haus's messages.
+
+Say:
+
+> "I think Skills are particularly interesting because they turn individual knowledge into reusable organizational capability. But the quality and maintenance of those Skills becomes important. If a Skill becomes a source of truth for an agent, we need confidence that it is current, governed and actually reflects how the domain works."
+
+
+
+Excellent point.
+
+
+---
+
+Q13. What about MCP?
+
+If MCP comes up, don't get dragged into protocol-level details unless they ask.
+
+Your strategic answer:
+
+> "MCP becomes interesting because it gives agents access to the context and capabilities they need. But connectivity by itself isn't the value. The value is what the agent can reliably accomplish once it has that context and those tools."
+
+
+
+Then:
+
+> "I'd be more interested in the engineering outcomes enabled by MCP than MCP adoption itself."
+
+
+
+
+---
+
+Q14. What do you think of the adoption metrics?
+
+Haus's newsletter talks about:
+
+99.1% installed
+
+97.5% active
+
+Power Users
+
+Frequent Users
+
+Agent Mode
+
+Don't criticize the metrics.
+
+Say:
+
+> "The adoption numbers are useful for understanding whether we're reaching people. But I think the next maturity level is connecting adoption to outcomes."
+
+
+
+Then:
+
+> "For example, are Power Users actually reducing investigation time, finding issues earlier, reducing rework or improving quality?"
+
+
+
+That is an excellent leadership-level observation.
+
+
+---
+
+Q15. If you could change one thing about Haus Call, what would it be?
+
+Here's your answer:
+
+> "I'd add more 'show me how' content. Take one real problem from one team and walk through it. Problem, approach, agent involvement, human judgment, evidence, outcome and lessons learned."
+
+
+
+Then finish:
+
+> "That would turn Haus Call from something I consume into something I can learn from and potentially replicate."
+
+
+
+That's probably your best answer to the actual newsletter question.
+
+
+---
+
+5. The 5 questions I would ask Haus
+
+You probably won't get time for all five. Pick one or two.
+
+⭐ Question 1. My top recommendation
+
+> "As agentic engineering becomes the default way to build and ship, how do you see the role of the engineer evolving? What capabilities do you think will distinguish the strongest engineers two or three years from now?"
+
+
+
+This is excellent because you're asking about the future of the profession, not a tool.
+
+
+---
+
+⭐ Question 2. Productivity
+
+> "You mentioned 'fewer surprises' as a new productivity metric. How do you see us measuring that at scale? Could we eventually measure things like unknown dependencies discovered early, rework avoided, architecture drift detected or defects prevented?"
+
+
+
+Very strong.
+
+
+---
+
+⭐ Question 3. Organizational knowledge
+
+This is particularly aligned with your architecture perspective:
+
+> "As agents become more capable, do you see an opportunity for us to build a reusable enterprise knowledge layer where patterns, architectural decisions, Skills and agent learnings become organizational memory rather than each team rediscovering the same context independently?"
+
+
+
+That's a senior architecture question.
+
+
+---
+
+⭐ Question 4. Trust
+
+> "As agents move from answering questions to actually taking actions, where do you see the boundary between autonomous execution and human approval? And how do you think we'll establish trust in those workflows?"
+
+
+
+Very relevant to financial services.
+
+
+---
+
+⭐ Question 5. Haus Call itself
+
+> "If you could change one thing about how Haus Call is consumed by technologists, what would you want to change?"
+
+
+
+This turns the session into a genuine two-way conversation.
+
+
+---
+
+6. One framework I want you to remember during the meeting
+
+Whenever you are asked something difficult, think:
+
+Context → Intent → Agent → Evidence → Human judgment → Outcome
+
+For example:
+
+Context
+
+Does the agent understand our environment?
+
+↓
+
+Intent
+
+Does it understand what we're trying to achieve?
+
+↓
+
+Agent
+
+Can it investigate and execute?
+
+↓
+
+Evidence
+
+Can it show why its recommendation is correct?
+
+↓
+
+Human judgment
+
+Where does the engineer make the final decision?
+
+↓
+
+Outcome
+
+Did engineering actually improve?
+
+This framework can answer almost every AI question they throw at you.
+
+
+---
+
+7. What NOT to do
+
+Don't say:
+
+❌ "AI will replace developers."
+
+❌ "Copilot writes code much faster."
+
+❌ "We just need better prompts."
+
+❌ "Everyone should use agents for everything."
+
+❌ "The adoption numbers prove we're successful."
+
+❌ "MCP is the future."
+
+These are shallow positions.
+
+Instead say:
+
+"The technology is becoming capable. The harder problem is integrating it into a disciplined engineering system."
+
+
+---
+
+8. The most important distinction to communicate
+
+I want you to remember this:
+
+Don't frame the transformation as:
+
+Human → AI
+
+Frame it as:
+
+Individual productivity → team capability → organizational capability
+
+That's a much more strategic perspective.
+
+An engineer using an agent is useful.
+
+A team creating a reusable Skill is better.
+
+An organization creating reusable knowledge, Skills, tools, patterns and workflows that agents can use across teams is potentially transformational.
+
+That's where the enterprise-scale value starts.
+
+
+---
+
+9. If Haus asks you for one big recommendation
+
+Give him this:
+
+> "I'd make Haus Call more of a learning network for technologists. Show us the strategy, but also show us the engineering evidence behind it. Give us real examples of teams using agents, what worked, what failed, what human judgment was required, and what outcomes improved. That would help engineers not only understand where we're going, but learn how to operate effectively in that future."
+
+
+
+That is concise, constructive and strategic.
+
+
+---
+
+10. Your mental model going into the meeting
+
+Don't go in thinking:
+
+> "I have to answer correctly."
+
+
+
+Go in thinking:
+
+> "They selected me because they want a technologist's perspective."
+
+
+
+You don't need to agree with everything.
+
+In fact, a thoughtful disagreement can be more valuable.
+
+For example:
+
+> "I agree that agentic engineering is becoming the default, but I think there's a risk of measuring the wrong thing. Adoption tells us people are using the technology. It doesn't necessarily tell us that we're engineering better. I'd be interested in how we connect adoption to quality, resilience, rework and fewer surprises."
+
+
+
+That's exactly the kind of contribution that makes a focus group useful.
+
+
+---
+
+11. Your "cheat sheet" for tomorrow
+
+If you remember only 10 sentences, remember these:
+
+1. "I see the transition as AI-assisted coding to AI-assisted engineering."
+
+
+2. "Writing code is becoming cheaper. Understanding what to build and proving it is correct becomes more valuable."
+
+
+3. "The quality of context available to the agent is as important as the capability of the model."
+
+
+4. "Agentic engineering makes intent and specification more important, not less."
+
+
+5. "I like the idea of 'fewer surprises' as a productivity metric."
+
+
+6. "Adoption is important, but I'd like to connect adoption to engineering outcomes."
+
+
+7. "Real examples are more valuable to me than generic AI announcements."
+
+
+8. "I'd like to understand what engineers need to learn to work effectively with agents."
+
+
+9. "As agents become autonomous, trust, evidence and human accountability become increasingly important."
+
+
+10. "The biggest opportunity is turning individual AI usage into reusable organizational capability."
+
+
+
+
+---
+
+And one final piece of advice
+
+Don't try to say all of this.
+
+In a 10-person focus group, you will be much more effective if you make 3 or 4 genuinely thoughtful contributions rather than delivering a prepared speech.
+
+Listen carefully to what Haus asks.
+
+When someone else makes a point, build on it:
+
+> "I agree with that, and I'd add one thing..."
+
+
+
+or:
+
+> "That's interesting. The way I see it from an engineering perspective is..."
+
+
+
+or:
+
+> "One thing I'm curious about is..."
+
+
+
+That will sound natural and senior.
+
+And if the conversation moves toward AI, agentic engineering, productivity, Code Agent, Skills, architecture, trust or the future role of engineers, you now have a strong foundation to participate rather than simply answer.
+
+Given your previous work around enterprise AI-native SDLC transformation and your interest in the architectural implications beyond simple coding acceleration, the strongest differentiator for you is to keep bringing the conversation from "AI makes developers faster" to "AI changes how engineering capability is created and scaled."
+
+I would next do a mock Haus focus group with you. I can play Gill Haus and the other participants, ask you one question at a time, let you answer naturally, and then I'll critique your answer and give you a stronger version without making it sound scripted.
