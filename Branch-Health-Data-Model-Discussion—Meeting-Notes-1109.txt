@@ -1,0 +1,311 @@
+# Branch Health Data Model Discussion — Meeting Notes
+
+**Date:** September 11, 2026
+**Topic:** Branch Health Near-Real-Time Data Store and Logical Data Model
+**Status:** Discussion notes — not yet reviewed/ratified. Verify names, figures, and dates against your own recollection before this feeds into a binding artifact (ADR, requirements doc).
+
+---
+
+## 1. Purpose
+
+Define scope and approach for the Branch Health near-real-time data store and determine what's needed to build the high-level logical data model/schema.
+
+The broader architecture supports Know Your Branch (KYB), Branch Health, Branch Analytics, and other future use cases under a common SEAL, with a two-database approach. **Immediate priority is Branch Health** — KYB analytics issues and future requirements will not drive the current data-modeling exercise.
+
+---
+
+## 2. Overall Architecture — Single SEAL, Two Databases
+
+### Database 1 — Near-Real-Time Database
+- Aurora PostgreSQL Global
+- Source of Record (SOR) for Branch Health near-real-time data
+- Supports the Branch Health dashboard and its near-real-time APIs
+- Retention: ~6 months; data beyond that is purged per retention policy
+
+### Database 2 — Analytics Database
+- Aurora PostgreSQL Global
+- For analytical and historical use cases
+- Retention: ~2 years
+- Primary source: Data Lake (current latency ~4–5 hours)
+- If a required dataset isn't in the Data Lake, selected data may be moved from Near-Real-Time DB → Analytics DB
+
+**Key principle:** Replication to Analytics is **use-case driven**, not automatic. Not all near-real-time data gets replicated.
+
+---
+
+## 3. Current Priority: Branch Health
+
+Reasons to start here:
+- Eric already has Branch Health requirements
+- Most identified use cases require near-real-time data
+- Eric has an existing POC
+- Branch Health UI requirements are already in development
+
+KYB and Analytics requirements will be considered later, not as primary drivers now.
+
+---
+
+## 4. Two Branch Health UI Experiences
+
+| Experience | Description |
+|---|---|
+| **All Branches** | Enterprise-level view; branch-level metrics comparable across the population |
+| **Single Branch** | Detailed view for one branch; more granular entity data |
+
+Both UIs will share **one underlying logical data model** rather than separate models.
+
+---
+
+## 5. High-Level Logical Data Model
+
+Conceptual hub-and-spoke model, Branch at center:
+
+```
+                          Employees
+                             |
+       Inventory -------- BRANCH -------- Procurement
+                             |
+             ┌───────────────┼───────────────┐
+             |               |               |
+          Devices       Applications      Incidents
+             |               |               |
+       Device Health   Application Health   Discovery
+                             |
+                       Transactions /
+                       App Analytics
+```
+
+Not a physical schema — a conceptual starting point for Prasad and the architecture team. Detailed ERD follows from this.
+
+---
+
+## 6. DDD vs. Data Modeling
+
+Not competing approaches. Sequence:
+1. Understand Branch Health business domains and use cases
+2. Identify required entities and relationships
+3. Establish the logical data model
+4. Translate into database design and implementation
+
+Immediate deliverable: high-level logical/ER model identifying major domains, entities, Branch relationships, key identifiers, and high-level relationships — **not** every attribute yet.
+
+---
+
+## 7. Branch Health Domains (candidate list, TBD against Eric's requirements)
+
+Branch details, Employees, Inventory, HR, Procurement, Discovery, Device information, Device health, Application information, Application health, Incidents, Transaction information, App analytics, other branch operational data.
+
+**Scope guardrail:** the architecture diagram shows many potential source domains — not everything on the diagram automatically belongs in the Branch Health model. Scope is driven by confirmed requirements only.
+
+---
+
+## 8. Near-Real-Time Data
+
+Examples: application analytics, transaction values/counts, operational/application health, other event-driven metrics.
+
+- Some metrics need availability within **~15 minutes**
+- Some require time-windowed aggregation (5-min, 15-min, or other defined windows)
+
+Model must distinguish **current state/event data** from **time-windowed aggregated metrics**.
+
+---
+
+## 9. Analytics / Non-Near-Real-Time Data
+
+Examples: OSAT scores, OSAT categories/subcategories, Chase sales, other business/sales analytics.
+
+Freshness is **not necessarily "daily" by default** — each metric needs an explicit maximum acceptable age (≤15 min / hourly / 4–5 hrs / daily / weekly / monthly). Data shouldn't be allowed to go stale just because it's labeled "analytics."
+
+---
+
+## 10. Eric's Requirements List (in progress)
+
+Two categories:
+1. **Near-real-time** — needed within ~15 min or another explicit SLA
+2. **Non-near-real-time / Analytics** — defined max acceptable age, not immediate
+
+Per item, capture: Dataset/metric, Domain, Source, Feed (Kafka/API/Splunk/batch), Freshness requirement, Current lag, Target lag, Data type (event/state/aggregate), Aggregation (if applicable), Consumer (All Branches / Single Branch / both).
+
+**Target delivery: approximately Monday (Sept 14, 2026 — verify exact date with Eric).**
+
+---
+
+## 11. Source Systems & Ingestion (discussed, not finalized)
+
+BLDS, BDIS/BDS, VIS, Quantum, Splunk/CCB Splunk, Kafka/event feeds, Data Lake, other Enterprise Platform sources.
+
+**Guardrail:** don't assume everything comes from Splunk or Kafka — identify actual source/ingestion per metric. Model stays entity-oriented; source/ingestion details captured as separate metadata.
+
+---
+
+## 12. Splunk / KYB Distinction — Important Scope Boundary
+
+Today's KYB Branch Analytics relies on a manually maintained spreadsheet process and downstream platforms; some data can be several months old.
+
+**Explicit decision:** whether Branch Health's fresher data could eventually feed KYB is a **KYB/Analytics use case, out of current Branch Health scope.** Any future consumption (field mapping, DB source selection, replacement of stale source) is deferred to a future KYB MVP2 / Analytics activity.
+
+---
+
+## 13. Branch Network Profile / KYB Issue (context, not in-scope)
+
+Existing KYB process characteristics (as described in the meeting — verify against source docs):
+- ~460 columns
+- ~5,000 branch records
+- Periodic/monthly file-based processing
+- Data potentially several months behind
+
+Includes transaction info, OSAT, sales/business metrics. **Agreed: the new Branch Health DB will not reproduce this dataset wholesale** — Eric will identify only the elements Branch Health actually needs.
+
+---
+
+## 14. Potential Future KYB Benefit (not current scope)
+
+```
+Current:      Manual/Excel → existing process → KYB (stale)
+
+Potential:    Branch Health source → Near-Real-Time DB →
+              Selected Analytics data → KYB
+```
+
+Exact field mapping/consumption to be decided later.
+
+---
+
+## 15. Data Lake & Analytics DB Paths
+
+- **Path A:** Data Lake → Analytics DB (when dataset exists in Data Lake; ~4–5 hr latency)
+- **Path B:** Near-Real-Time DB → Analytics DB (when dataset isn't in Data Lake and a valid downstream use case exists)
+
+Transfer cadence discussed: ~4–5 hours (not finalized).
+
+---
+
+## 16. Replication Principle
+
+> Do not move the entire Near-Real-Time dataset into Analytics simply because it exists there.
+
+Only data with an actual downstream requirement gets persisted to Analytics. Keeps Analytics focused, avoids unnecessary data movement/storage.
+
+**Example — BLDS:** Branch Health needs it in Near-Real-Time DB; KYB/Analytics may also need it in Analytics DB. If not available via Data Lake, it can be transferred from Near-Real-Time → Analytics at the agreed cadence. This is a per-dataset decision, not a blanket rule.
+
+---
+
+## 17. Eagle Data — MVP1 Temporary State
+
+- **MVP1 current state:** manually updated ~every two weeks
+- **Target state:** daily automated refresh once the required on-prem service is available
+
+Document explicitly as: MVP1 current state → temporary workaround → target-state daily automated feed. The two-week manual cadence is **not** the permanent architecture requirement.
+
+---
+
+## 18. Data Retention
+
+| DB | Retention | Notes |
+|---|---|---|
+| Near-Real-Time | ~6 months | Purge/delete after 6 months (not a simple truncate); required historical data must already exist in Analytics before purge |
+| Analytics | ~2 years | Only required datasets persisted |
+
+No separate hot/cold storage tier was established within the Near-Real-Time DB. Confirmed requirement: 6-month retention → purge.
+
+```
+Source Systems
+      ↓
+Near-Real-Time DB (6 months)
+      │
+      ├──→ Selected data → Analytics DB (2 years) → Historical use cases
+      │
+      └── After 6 months → Purge
+```
+
+Action: identify which datasets need historical retention **before** they hit the 6-month purge point.
+
+---
+
+## 19. No Dashboard Action/Workflow Requirement
+
+Dashboard is for visibility/monitoring only. No current requirement for user-initiated actions, workflow execution, or action buttons (explicitly: no "Reach out to Eric" button). Model supports read/insight/monitoring, not transactional write-back.
+
+---
+
+## 20. Existing Architecture Diagram (context)
+
+- **Inbound:** Branch Operations, CCB Data & Analytics, ATM Channel, Enterprise Platform sources
+- **APIs/UI:** All Branches General Analytics API/UI; All Branches Branch Health Near-Real-Time API/UI; Single Branch Branch Health Near-Real-Time API/UI
+- **Databases:** Aurora PostgreSQL Global (Near-Real-Time/SOR); Aurora PostgreSQL Global (Analytics/Data Lake)
+
+Guardrail restated: the logical model is driven by confirmed requirements, not every box on the diagram.
+
+---
+
+## 21. What Prasad Needs to Produce (v1)
+
+High-level model showing: Branch as central entity, major domains, major entities per domain, key relationships, major identifiers, high-level data flow context where useful. **Not** a full field-level schema yet. Bubble-style conceptual model is the acceptable first form.
+
+---
+
+## 22. Proposed Modeling Sequence
+
+```
+Eric's Requirements → Identify Domains → Identify Entities →
+Identify Branch Relationships → Identify Source + Freshness →
+Identify Event/State/Aggregate → High-Level Model →
+Logical ER Model → Database Design
+```
+
+---
+
+## 23. Proposed Requirement Matrix (template — values TBD from Eric's list)
+
+| Domain | Metric/Entity | Source | Feed Type | Freshness | Data Pattern | UI |
+|---|---|---|---|---|---|---|
+| Branch | Branch details | BLDS/TBD | API/Batch | TBD | Current state | Both |
+| Employee | Employee details | TBD | TBD | TBD | Current state | Single Branch |
+| Inventory | Inventory | TBD | TBD | TBD | Current state/event | Single Branch |
+| Procurement | Procurement | TBD | TBD | TBD | Current state | Single Branch |
+| Device | Device health | BDIS/TBD | Event/API | ≤15 min | Current state/event | Both |
+| Application | Application health | Kafka/Splunk/TBD | Event | ≤15 min | Event + aggregate | Both |
+| Transactions | Transaction metrics | TBD | Event | ≤15 min | Aggregated | Both |
+| Incidents | Incidents | TBD | Event/API | TBD | Event/current state | Both |
+| Discovery | Discovery | VIS/TBD | TBD | TBD | Current state | Single Branch |
+| OSAT | OSAT score | TBD | Batch | TBD | Periodic | Both |
+| Sales | Sales metrics | TBD | Batch | TBD | Periodic | Both |
+
+---
+
+## 24. Action Items
+
+**Eric**
+- Compile Branch Health requirements, split into near-real-time / non-near-real-time
+- Identify freshness/SLA, source/feed (where known), aggregation needs per metric
+- Target: ~Monday
+
+**Prasad**
+- Begin preliminary logical data model from Eric's requirements
+- Branch as central entity; identify major domains/entities/relationships
+- Keep v1 high level
+
+**Architecture/Data team**
+- Review Eric's requirements
+- Validate source/feed and freshness assumptions
+- Determine logical relationships
+- Review preliminary model with stakeholders
+- Revisit Analytics/KYB implications later
+
+**KYB**
+- No action required now — existing freshness issues are known but out of current scope
+- Future KYB MVP2 to determine whether Branch Health data can replace/supplement existing sources
+
+**Open item:** Sri/posters decision — revisit after the data model is developed and reviewed.
+
+---
+
+## 25. Scope Statement (for top of project documentation)
+
+> Current Scope: Develop a high-level logical data model for the Branch Health Near-Real-Time Database, supporting both the All Branches and Single Branch Branch Health experiences. The model will be based on confirmed Branch Health domains, entities, relationships, source systems, and freshness requirements. Near-real-time requirements, particularly metrics requiring approximately 15-minute freshness, will be clearly distinguished from data that can be refreshed less frequently. KYB Analytics, existing KYB field mapping, and broader Analytics database requirements are outside the current modeling scope and will be addressed separately as future use cases where applicable.
+
+---
+
+## Note on ADR-007
+
+This freshness classification (near-real-time ≤15min vs. analytics with defined max-age) has conceptual overlap with ADR-007's four-bucket dependency classification. ADR-007 is still in draft pending Jay/Eric sign-off — recommend reviewing this against ADR-007 explicitly rather than merging it in automatically, since ADRs shouldn't be modified without confirmed PO intent.
