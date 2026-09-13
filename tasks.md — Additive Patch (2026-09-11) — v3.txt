@@ -1,0 +1,56 @@
+# tasks.md — Additive Patch (2026-09-11) — v3
+
+**Source meeting:** Branch Health Data Model Discussion, Sept 11, 2026 — see `branch-health-data-model-meeting-notes-2026-09-11.md`
+**Patch type:** Additive only. Append **after the Epic 6 block**. Do not renumber or touch existing `E1`–`E6` tasks.
+
+**Correction from v2:** removed "Epic 7" framing. Epics in this file are PO-defined scope (`Ref: PO pkg §N`), and Eric Prock has not packaged this work as an epic. This is architecture/discovery-track work, same bucket as the existing "Phase 0" architecture-hardening work tracked in `docs/13_ProjectManagement/section-completion-plan.md` — not a numbered epic.
+
+---
+
+## Copilot Apply Instructions
+
+1. Open `tasks.md`.
+2. Locate the end of the **Epic 6 — Nearby Branches, Financial Centers & ATMs** block (last item currently `E6-T8`).
+3. Insert the section below immediately after it, as its own labeled track — not as "Epic 7" or any PO-epic-numbered section.
+4. Task ID prefix `DISC-T` used to distinguish from epic tasks (`E{n}-T{n}`) without implying PO scope. If a different non-epic tracking convention already exists elsewhere in the repo (e.g. matching `section-completion-plan.md`'s own ID scheme), use that instead and flag the substitution back to Santosh.
+5. Formatting matches existing convention: `- [ ]` to-do / `- [x]` done, ⚠️ **Flag (...)** for open questions, 🔴 **Blocked** for external dependencies. Do not add ✅ implementation checkmarks until actually implemented.
+6. Do not edit `section-completion-plan.md` as part of this patch — flag there separately only with Santosh's confirmation.
+
+---
+
+## New Section to Insert
+
+```
+## Data Model & Architecture Discovery
+(Non-epic track — architecture/discovery work, not yet packaged as a PO epic by Eric Prock.
+ Same bucket as Phase 0 architecture-hardening work in section-completion-plan.md.)
+
+Ref: Branch Health Data Model Discussion, 2026-09-11 · branch-health-data-model-meeting-notes-2026-09-11.md
+
+- [ ] DISC-T1: Compile Branch Health data requirements, split into near-real-time (~15 min SLA or explicit)
+  and non-near-real-time/analytics categories. Capture per item: dataset/metric, domain, source, feed type,
+  freshness requirement, current lag, target lag, data type (event/state/aggregate), aggregation, consumer
+  (All Branches / Single Branch / both). Owner: Eric Prock. Target: ~2026-09-14 (verify exact date).
+  Ref: meeting notes §10, §26.
+
+- [ ] DISC-T2: Build preliminary high-level logical data model — Branch as central entity, major domains,
+  major entities, key relationships, major identifiers. Bubble/hub-and-spoke conceptual form acceptable
+  for v1; full field-level schema out of scope for this task. Owner: Prasad. Depends on DISC-T1.
+  Ref: meeting notes §5, §21, §26.
+
+- [ ] DISC-T3: Review compiled requirements; validate source/feed and freshness assumptions; determine
+  logical relationships; review preliminary model with stakeholders. Owner: Architecture/Data team.
+  Depends on DISC-T1. Ref: meeting notes §26.
+
+- [ ] DISC-T4: ⚠️ Flag (cross-doc): freshness classification (near-real-time ≤15min vs. analytics with
+  defined max-age) overlaps conceptually with ADR-007's four-bucket dependency classification. ADR-007
+  is still in draft pending Jay/Eric Prock sign-off — do NOT merge this into ADR-007 without explicit PO
+  confirmation. Owner: TBD (Santosh to assign). Ref: meeting notes §8–§10; ADR-007 (draft).
+
+- [ ] DISC-T5: [Deferred — KYB MVP2 scope, not active work] Determine whether/how KYB can consume fresher
+  Branch Health data in place of existing stale sources (currently manual/Excel-based, ~460 columns,
+  ~5,000 branch records, monthly cadence). Includes field mapping and Analytics DB source selection.
+  Status: logged only, no owner/date assigned. Ref: meeting notes §12–§14.
+
+Open item (not a task): Sri/posters decision — revisit after DISC-T2 model is reviewed. No owner/date yet.
+```
