@@ -83,3 +83,17 @@ Shared structure across all four popovers — build ONE `RequiredActionPopover` 
    - contextual to the tile/lens showing it (e.g. escalates as due date approaches)
    Building it wrong means the badge will visibly disagree between two tiles that both link to the same action.
 3. **No retry/refresh button in tile errors** — confirm whether a button was scoped for this sprint or whether "refresh the page" literally means browser refresh only.
+
+
+Reference: /02_UX/branch-health-ux-states-spec.md (exact copy + component
+structure for error and popover states — screenshots in this folder are
+for human reference only, do not attempt to read them)
+
+1. Implement section 1 as one reusable PageError component with the 3 
+   variants listed
+2. Implement section 2 as one reusable TileError component; use the 
+   'variant' prop, do not fork two components
+3. Implement section 3 as one reusable RequiredActionPopover component 
+   driven by the shared data source, not per-tile hardcoded lists
+4. Do NOT resolve open questions 1–3 in section 4 — leave a // TODO: 
+   confirm with UX comment at each affected line instead of guessing
