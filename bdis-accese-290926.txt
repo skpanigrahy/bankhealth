@@ -1,0 +1,154 @@
+This discussion is essentially clarifying the data architecture and MVP approach for Branch Health/KYB, especially how your existing UI will move from mock data to real data.
+
+What I understand from the discussion
+
+1. UI is already built
+
+Your web console/Tableau-facing UI is largely complete.
+
+Currently it uses mock data.
+
+The immediate need is to connect it to real data, with VDS being the first source/use case.
+
+
+2. Two different data needs are being discussed
+
+Need	Proposed approach
+
+Near-real-time branch/device information	Kafka + short-term storage
+Historical/reporting/analytics	Data Lake
+Branch Manager console	Consume appropriate real-time/reporting APIs
+ML/control-plane use cases	Longer historical data from Data Lake
+
+
+The important distinction is that Kafka should not become the long-term historical store. A short retention window, such as 5-7 days, could support operational/real-time needs, while older data belongs in the Data Lake or another analytical store.
+
+3. Data Lake The Data Lake is expected to consolidate data from multiple sources. Different use cases will require different historical windows:
+
+Real-time: current state
+
+7 days: some operational reports
+
+30 days: performance/trend reports
+
+Potentially much longer: historical analysis, such as 5 years
+
+Larger windows may also be required for anomaly detection and ML/control-plane decisions.
+
+
+4. Control Plane is a different use case The discussion makes an important architectural distinction:
+
+> Alert → ML/model determines outcome → action is dynamically generated/enforced.
+
+
+
+That is different from the Branch Health reporting experience, where the Branch Manager is the persona consuming information and deciding what to do.
+
+So I would keep these separate architecturally:
+
+┌──────────────────────┐
+                    │     Data Sources     │
+                    │ VDS / Devices / etc. │
+                    └──────────┬───────────┘
+                               │
+                    ┌──────────▼───────────┐
+                    │        Kafka         │
+                    │  Event / Real-time   │
+                    └──────────┬───────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 │                           │
+        ┌────────▼────────┐         ┌────────▼────────┐
+        │ Short-term     │         │    Data Lake     │
+        │ operational DB │         │ Historical data  │
+        │ 5-7 days       │         │ 30d / years      │
+        └────────┬────────┘         └────────┬────────┘
+                 │                           │
+                 └─────────────┬─────────────┘
+                               │
+                     ┌─────────▼─────────┐
+                     │ Branch Health API │
+                     └─────────┬─────────┘
+                               │
+                     ┌─────────▼─────────┐
+                     │   Web Console     │
+                     │ Branch Manager    │
+                     └───────────────────┘
+
+For tomorrow's GPS meeting
+
+I would not go into the meeting assuming the architecture is already decided.
+
+Since you said you currently have almost zero background on their API, your primary objective should be to understand what data/API they actually provide and how it is intended to be consumed.
+
+These are the questions I would take:
+
+1. What exactly does GPS provide?
+
+
+2. Which devices/hardware are covered?
+
+
+3. What APIs are available today?
+
+
+4. Is the API real-time, near-real-time, or batch?
+
+
+5. What events/data does the API expose?
+
+
+6. What is the payload/schema?
+
+
+7. What is the expected API call pattern?
+
+
+8. Is there an event/Kafka interface in addition to REST APIs?
+
+
+9. What authentication/security mechanism is required?
+
+
+10. What is the expected SLA/latency?
+
+
+11. Are historical records available through the API?
+
+
+12. What is the retention period?
+
+
+13. Is the Notification API part of GPS, and what exactly does it provide?
+
+
+14. Can the API support the fields required by your existing Branch Health UI?
+
+
+15. Is GPS expecting your application to call their API, or are they going to publish data/events for your application to consume?
+
+
+
+The key thing you should clarify
+
+Your immediate question isn't really:
+
+> "Should we use Kafka or Data Lake?"
+
+
+
+It is:
+
+> "What is the authoritative source for each piece of Branch Health data, what interface does that source expose, and what latency/history does each use case require?"
+
+
+
+Once you establish that, the Kafka/Data Lake decision becomes much easier.
+
+And because your UI is already built with mock data, I would use that as the starting point in tomorrow's discussion:
+
+> "I already have the Branch Health UI working with mock data. I want to understand the real data contract from GPS/VDS and identify the API/event source that can replace each mock-data field."
+
+
+
+That will make the discussion very concrete rather than turning it into a generic architecture conversation.
