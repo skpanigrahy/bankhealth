@@ -167,3 +167,61 @@ For Carson, I would send these three primary attachments:
 And include your name, location and inspiration description in the email body or the accompanying PDF.
 
 The SVG/AI question: since the guideline you showed does not specify a required file format, I would not fabricate an SVG from the raster artwork. The PNG files are suitable visual design exports. If Carson's linked guideline later specifies AI/SVG/EPS/PDF, we should follow that exact requirement. ❶
+
+
+I've revised the concept based directly on Carson's feedback and the examples he sent.
+
+1. Design File. Front
+
+Clean artwork, without a T-shirt or model.
+
+Download Front Design
+
+2. Design File. Back
+
+Clean artwork, without a T-shirt or model.
+
+Download Back Design
+
+3. Combined Design File
+
+Front + back artwork together.
+
+Download Combined Front + Back Design
+
+4. T-Shirt Mockup
+
+Now changed from the polo to a regular crew-neck T-shirt, with the design shown on both front and back.
+
+Download T-Shirt Mockup
+
+5. Color Options
+
+I also prepared the limited-color variations Carson suggested.
+
+Download Color Options
+
+The primary version is:
+
+Navy T-shirt + White + CBC Blue
+
+with charcoal and black alternatives.
+
+6. Name + Location
+
+Santosh Kumar Panigrahy
+Hyderabad, India
+
+7. Inspiration
+
+“One CBC Technology. A Stronger Tomorrow Together.”
+
+> This design represents CBC Technology as one global team, connected across geographies, cultures and disciplines. The connected world and network lines symbolize collaboration across people, platforms and locations. The simple technology-forward visual language reflects innovation, security and modernization, while the people, communities and impact elements connect our technology work to customers and colleagues. The limited color palette is intentionally clean and wearable, making the design practical for an everyday T-shirt while preserving a strong global CBC Technology identity.
+
+
+
+Complete submission
+
+Download Complete Revised Submission PDF
+
+I think this revised direction is much closer to what Carson is asking for. The important change is that we have kept your original global team / One CBC Technology idea, but translated it into a simpler, more wearable T-shirt design rather than a detailed polo graphic. ❶
