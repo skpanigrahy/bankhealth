@@ -102,3 +102,39 @@ Santosh
 
 
 One important point: the contest says all artwork must be original and you must have the rights to the artwork used. So before sending it, I would keep the design based on original generated artwork and avoid incorporating any third-party copyrighted logos, photographs, or stock illustrations. ❶
+
+
+
+
+Worked for 1m 21s
+
+Absolutely. I’ve structured it exactly around the four items the contest asks for:
+
+1. Design File
+
+Download Design File - PNG
+
+2. T-Shirt Mockup
+
+Download T-Shirt Mockup - Front & Back
+
+3. Name + Location
+
+Name: Santosh Kumar Panigrahy
+Location: Hyderabad, India
+
+4. Brief Inspiration / Description
+
+One CBC Technology. A Stronger Tomorrow Together.
+
+> The design captures our journey as one global CBC Technology team, walking together towards a brighter tomorrow. The flowing path represents collective progress, from collaboration and new ideas to secure and modern platforms that create real impact for our customers and colleagues.
+
+The global landmarks and connected world represent our diverse teams and worldwide reach. The rising path symbolizes a stronger, more innovative future we are building together. The design reflects our people, our purpose, and our commitment to modernize core banking technology and make a meaningful difference, today and for generations to come.
+
+
+
+Complete submission document
+
+Download Complete Submission PDF
+
+For the email, I would attach the PNG design file + PNG mockup, and use the name/location/description in the email or PDF as required by Carson. ❶
