@@ -114,3 +114,56 @@ Complete package
 Download Submission Package PDF
 
 One caveat: the artwork files I'm giving you here are high-resolution PNG artwork exports, not editable vector source files. Since the contest instructions you showed do not specify a required file format, PNG/PDF is reasonable for submission. If Carson's linked guidelines specifically require AI/SVG/EPS/PSD, then we should follow that requirement instead. ❶
+
+
+Done. I’ve now separated the actual artwork from the T-shirt mockup, which is the correct way to package this contest entry.
+
+1. Design File
+
+Front artwork only, no T-shirt/model:
+Download Front Design File
+
+Back artwork only, no T-shirt/model:
+Download Back Design File
+
+Combined Front + Back artwork:
+Download Combined Design File
+
+2. T-Shirt Mockup
+
+This is separate from the artwork and shows the white cotton polo with navy collar/sleeves, front and back.
+
+Download T-Shirt Mockup
+
+3. Name + Location
+
+Santosh Kumar Panigrahy
+Hyderabad, India
+
+4. Brief Inspiration / Description
+
+“One CBC Technology. A Stronger Tomorrow Together.”
+
+> This design represents CBC Technology as one global team, connected across geographies, cultures and disciplines. The people moving together and the connected world symbolize collaboration, inclusion and our global reach. The flowing journey and landmarks represent our diverse teams and shared purpose. The five themes, Collaborate, Innovate, Secure, Modernize and Impact, reflect our commitment to building resilient, secure and modern core banking technology that creates meaningful value for customers and colleagues, today and for a stronger tomorrow.
+
+
+
+Complete package
+
+Download Complete Submission Package PDF
+
+For Carson, I would send these three primary attachments:
+
+1. Front Design File
+
+
+2. Back Design File
+
+
+3. T-Shirt Mockup
+
+
+
+And include your name, location and inspiration description in the email body or the accompanying PDF.
+
+The SVG/AI question: since the guideline you showed does not specify a required file format, I would not fabricate an SVG from the raster artwork. The PNG files are suitable visual design exports. If Carson's linked guideline later specifies AI/SVG/EPS/PDF, we should follow that exact requirement. ❶
