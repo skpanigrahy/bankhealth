@@ -1,0 +1,505 @@
+
+We talked about more sessions, right, in our last touchpoint, and then we have a call tomorrow. Just a reminder, any agenda items, like if we want to just come up with the agenda, doesn't mean it all has to be in one meeting, right? It's just a week. I just want to get what you all want to cover, so we can just, like schedule it, put it in there, and then, you know, if we do three things into the first meeting, I can just cross those off the list, right? Yeah, do that. No, no, I know. I know you're out. I saw you. Don't worry about it. It's just a reminder. I just want to make sure I get those on the calendar, and we'll talk more in our touchpoint tomorrow. And I think we have the three, we'll talk about tomorrow, but, like again, our three: so farm clearinghouse stuff, one; two, Gaia, because that is going to make all of this other stuff that we're doing, right, connect; and then three, I didn't realize the push, the Snowflake to Data Lake. Yeah, that was maybe this was information, but now we put it, focus on the... It's third. Yeah, it's third. Our smart SDK will bounce in between once I have the meeting with Controls this afternoon. I have to have a control in place before I'm allowed to move that forward. That one will slide in there somewhere, and that's more of, like, it's ready to go status versus priority, right? Because I'm pretty sure they have already tested it and are ready for production. They just need the control said, hey, you can't until I get a control for it. So I'll talk to them about that. But yes, you're right. It's the lowest of them right now, because it's an accepted. From what I was told, it was an approved exception because they came to them late. Yeah. So, okay. That is really all I had. I don't want to take up a whole lot of time if we don't need to, but, Santosh, like anything you guys need? Yeah, so maybe I need some confirmation from Prasanth and you about because to start all the stuff to fetch the real data, I think we need to start with the BLDS part, because that is where we will get the branch manager details and the other hierarchy and all. Okay, so what I want to know is that because they have, I think, there are two things, right? There are two mechanisms, I think, by split what are the use cases that we have for the BLDS, just not to be ambiguous. There are two things: one is our branch manager hierarchy that we need to fetch from BLDS, and the second thing is nearby branches. So for branch manager hierarchy, I think we have decided to go with Kafka subscription only. No other options whatsoever on the table for this, right? That is one confirmation. It's two parts, actually, Santosh. It's going to be BLDS and Workforce. Workforce gives the role. Workforce, I didn't hear you. It's already integrated in KYB today in the data, but Workforce is what we were talking about earlier, to add to the data diagram. Okay, so then that would be the source, source of record? You need both. No, I'm just saying it's not just BLDS. You need both for building the two scenarios we just talked about. Okay. Okay, so what I have understood is that for branch manager hierarchy we will subscribe the Kafka, Kafka subscriptions, and for nearby branch we will use the REST API, which is already built, I guess. So yes, yes. We need both information, because again, Workforce is always the source, I believe, source of the truth of who is really where. BLDS is an update to that data. I don't want something to be behind when a manager changed. Right. Workforce should always be the true, like who is the manager. Correct me if I'm wrong, I think we thought pull this resource information from the existing KYB, right? Yeah, yeah. That's what I'm talking about with the whole, this is where I'm struggling with, remember when Chapa was saying analytical versus real-time? Yeah. And she kept telling— she told me I had to create a, like, you had to create a whole another section, and we have to, it's like we're replicating that data. Remember she said, yeah? That's what I'm not getting. It's like, right. You can create it as a table structure that we can just go grab from KYB source, right, their side of the house. But it sounded like she— that's what we need to clarify, you and I. Yes. On Friday. Like, it's in the diagram. Okay, cool. They're getting it daily. We're getting it daily. Are we both consumers of the feed now? Yeah. Yeah. Do you agree? Like, I don't understand why we would do that. I figured... Yeah, we just points. Yeah, yeah. Yeah, like that, like branch data. They get the BLDS data that Santosh is talking about. They also get that daily, just like we do. Like why can't we just go grab it from there? Yeah, but BLDS guys, they already confirmed, right? So they are not source of record. They have explicitly said that they are not authoritative for the hierarchical content. No, that's why we go to Workforce. Okay, perfect. So that is clear then. Okay, so then... Yeah, that's why I want Workforce. They are the branch data, yes, manager, a field correct, but they are not the source of that branch's manager is true. Okay, perfect. Yeah. Yep. Yeah, you got it. That's why we'll go to Workforce. Yeah. And coming for BDIS, so for the device. So I think last time what we had discussed, they have only one record, that is TCR. TCR. Yeah. So and for that we have finalized that we will go for data lake only, right? What is the... ethanol, what there? Yeah. They have four things, four mechanisms, four ways we can consume their data: one is Kafka, another is Snowflake, they kept in Data Brick as well, and they have Data Lake. So what we have finalized, data lake way, right? We will directly fetch from the data lake. Well, my question there on that is, are we always asking them for all of the devices, statuses? So in that instance, right, we're going to API call to get Eric's location. So Eric DND and his TCR status, right? Yeah, but we are not going to store anything, right? So in our table. Yeah, no, I don't want to store anything, but that's the idea, right? We would just go and grab it every time it loads. Okay. And then how do we— then we just auto refresh the API? Again, Santosh, I'm not disagreeing. I'm just like, okay, then, like, let's the... really, you know, can handle the load, right? So if we have, again, I'll pull... Yeah. So that's what I'm thinking. Yeah, that's what I'm thinking. And also I was talking to the BDS guy, Lakshmi, that how about it? Because I couldn't commit without discussing with you guys. So how would we... if they will create a refined data, refined table, okay, whatever we need, we will just let them know, we just need this, this data. They will fire the query from their end, and they will keep all those things in that table. We will just read that table and store it off. So that whenever, whatever the refresh frequency or whatever the data that we are looking for, it will be already there in their table, and we will just fetch the refined table without, means, storing the raw data. Because the volume will be heavy, right? So with them. So if we will keep on firing that, so that network bandwidth as well as the load will be onto us. So instead of doing that, if we will simply tell them, okay, this is what we are looking for from your side, and keep it in a refined table and give it to us, we will simply read those things so that it will be faster. I'm okay with that strategy with one or two devices. But what happens when we have 10 or 15 per branch? Yeah, so that's what I'm saying. That is the reason why I'm thinking of a refined table strategy. Okay. So they will, they will all the query, whatever we require. Yeah. And they will keep it in the table in the interval whatever we want, suppose 15 minutes or 5 minutes or whatever that is. So they will keep on refreshing from their end, okay? And they will put it there in the table. We just simply use those things and store it in our warehouse. Okay. Let's do this. Can we write this out in a great, like we can add it to the confirmation? I don't care where it is. Like let's get this on paper in a design, right? And these rules that we're kind of talking through, and make sure everyone kind of, one, understands, but two, then agrees to it. Yeah. So, yeah. So I was talking to Lakshmi. If required, he also told if we want, so he is ready to join also join the call, because he's leading that BDS part. So, yeah. Let's do this. Let's document it first. Let's us review it internally. So if you don't mind, can you write all this out? Sure, yeah. And then let's this group sit down, review it, just make sure we're good with that strategy, and then yes, let's pass it on
+Yes. This touchpoint actually clarified several important architecture decisions. I would capture it as a design/confirmation note before the next meeting, especially around BLDS/Workforce and BDIS device data.
+
+Key decisions from the discussion
+Near-term agenda / priorities
+
+Farm Clearinghouse
+Gaia, which is expected to connect/support the broader flow
+Snowflake → Data Lake migration
+Smart SDK is lower priority and essentially waiting for the required Controls approval/control. It is otherwise believed to be production-ready.
+Branch Manager hierarchy
+
+Workforce is the authoritative source of truth for the actual manager/role relationship.
+BLDS is not authoritative for hierarchy. BLDS provides updates/data but should not be treated as the source of truth.
+KYB needs both Workforce and BLDS information for the relevant use cases.
+Need to clarify whether KYB can consume already-processed branch data rather than independently duplicating the same feed.
+Nearby Branches
+
+The existing REST API is expected to be used for nearby-branch information.
+This should be confirmed as part of the final design.
+BDIS / device data
+
+BDIS currently exposes data through multiple mechanisms:
+Kafka
+Snowflake
+Databricks
+Data Lake
+The current direction is Data Lake.
+The important open question is not simply where the data comes from, but how KYB should consume it efficiently.
+Proposed BDIS refined-data strategy
+
+Rather than KYB repeatedly querying large/raw device datasets, BDIS could maintain a refined table containing only the fields KYB needs.
+BDIS would periodically refresh that refined table from its underlying data.
+KYB would consume the smaller/refined dataset.
+Refresh frequency needs to be agreed, for example 5, 15 minutes, etc.
+This avoids unnecessary raw-data storage, network traffic, and query load on KYB.
+However, the design must account for scale, especially if there are 10–15 devices per branch rather than only one or two.
+Important design principle
+
+The team wants this documented before implementation.
+The internal team should review and agree on the strategy first.
+After agreement, BDIS/Lakshmi can be brought into the discussion for confirmation and implementation feasibility.
+Draft confirmation/design note
+KYB Data Source and Consumption Strategy
+1. Purpose
+This document captures the current understanding and proposed approach for consuming branch hierarchy, workforce, nearby-branch, and BDIS/device data for KYB.
+
+The intent is to document the proposed rules and responsibilities so that the KYB team can review and agree on the design before engaging the respective source teams.
+
+2. Branch Manager Hierarchy
+Sources involved
+Two sources are relevant:
+
+Workforce
+
+BLDS
+
+Workforce
+Workforce should be treated as the authoritative source of truth for the current manager/role relationship.
+
+It determines who is actually assigned to a branch and what role they hold.
+
+BLDS
+BLDS provides branch-related data and updates, but BLDS has explicitly indicated that it is not the authoritative source for branch hierarchy.
+
+Therefore, BLDS should not be treated as the final source of truth for determining the current branch manager.
+
+Proposed approach
+KYB should use Workforce as the authoritative source for manager/role information and use BLDS where its branch data/update information is required.
+
+The exact consumption mechanism, including Kafka subscription and any existing KYB data feed that can be reused, should be confirmed during the design review.
+
+3. Nearby Branches
+KYB requires nearby-branch information as a separate use case.
+
+The current understanding is that an existing REST API is available for this purpose.
+
+Proposed approach:
+
+KYB → Existing Nearby Branch REST API → Nearby Branch Information
+
+The API contract, response fields, latency, refresh requirements, and expected volume should be confirmed before implementation.
+
+4. BDIS Device Data
+BDIS currently has multiple mechanisms through which its data can potentially be consumed:
+
+Kafka
+
+Snowflake
+
+Databricks
+
+Data Lake
+
+The current direction is to consume the required BDIS/device information through the Data Lake.
+
+The currently identified BDIS use case includes TCR/device-related information required by KYB.
+
+5. BDIS Refined Data Strategy
+A concern with directly querying large/raw BDIS datasets is scalability.
+
+KYB may eventually need information for multiple devices per branch. The volume could therefore increase significantly if KYB performs repeated queries against raw data.
+
+Proposed strategy
+Instead of having KYB repeatedly query the raw dataset:
+
+KYB identifies the exact fields required from BDIS.
+
+BDIS creates/maintains a refined dataset/table containing only those required fields.
+
+BDIS periodically refreshes this refined dataset from its underlying Data Lake/data sources.
+
+KYB consumes the refined dataset.
+
+KYB can then persist only the information required for its own application use cases, rather than duplicating the complete raw BDIS dataset.
+
+Conceptually:
+
+BDIS Raw/Data Lake → BDIS Transformation/Query → Refined KYB Dataset → KYB
+
+Benefits
+Reduces raw-data duplication.
+
+Reduces network traffic.
+
+Reduces query load on KYB.
+
+Avoids KYB repeatedly processing large datasets.
+
+Allows BDIS to optimize the extraction/query logic close to the source.
+
+Makes refresh frequency configurable.
+
+Provides a cleaner contract between BDIS and KYB.
+
+6. Important Scalability Consideration
+The design should not assume that each branch has only one or two devices.
+
+The solution should support scenarios where a branch may have approximately 10–15 devices or potentially more.
+
+The following should therefore be confirmed:
+
+Expected number of devices per branch.
+
+Total number of branches.
+
+Expected total device volume.
+
+Required refresh frequency.
+
+Expected concurrent KYB reads.
+
+Whether the refined table can support the expected query volume.
+
+Whether indexing/partitioning is required.
+
+Whether the refined dataset should be branch-keyed and/or device-keyed.
+
+Retention requirements.
+
+SLA/latency expectations for data freshness.
+
+7. Existing KYB Data and Duplication
+An additional question remains around the existing KYB data flow.
+
+If another KYB component is already consuming the same branch/BLDS data on a daily basis, the team should determine whether the new KYB capability can consume that existing processed data rather than creating another independent copy of the same information.
+
+This needs to be clarified, particularly in the context of the distinction between:
+
+Analytical data
+
+Near-real-time data
+
+Existing KYB source data
+
+New refined source datasets
+
+The goal should be to avoid unnecessary duplication while still meeting the real-time requirements of the Branch Manager experience.
+
+8. Decisions to Confirm
+The following items should be explicitly confirmed by the team:
+
+Area	Proposed Direction	Confirmation Needed
+Manager/role source of truth	Workforce	Yes
+BLDS hierarchy authority	Not authoritative	Yes
+BLDS consumption	Required where applicable	Yes
+Manager hierarchy integration	Kafka / agreed Workforce-BLDS flow	Yes
+Nearby branches	Existing REST API	Yes
+BDIS source	Data Lake	Yes
+BDIS raw data consumed directly by KYB	Preferably no	Yes
+BDIS refined dataset	Proposed	Yes
+Refined dataset owner	BDIS	Yes
+Refresh frequency	To be determined	Yes
+Multiple devices per branch	Must be supported	Yes
+Existing KYB data reuse	Investigate before duplicating	Yes
+9. Next Steps
+KYB team to review this proposed strategy internally.
+
+Confirm the Workforce + BLDS responsibilities and integration mechanism.
+
+Confirm the existing nearby-branch REST API contract.
+
+Define the exact BDIS fields required by KYB.
+
+Discuss the refined BDIS dataset/table approach with Lakshmi/BDIS.
+
+Determine an appropriate refresh frequency.
+
+Validate scalability for multiple devices per branch.
+
+Agree on the final architecture and data ownership.
+
+Document the agreed design and share it with the relevant source teams for confirmation.
+
+Proceed with implementation only after the source/data strategy is agreed.
+
+For tomorrow's touchpoint, I would make the main question:
+“Can we agree on the source-of-truth and data-consumption model first, particularly Workforce vs BLDS and the BDIS refined-table approach, before we start building the real-data integration?”
+
+That should prevent the team from getting into implementation before the ownership and data-flow decisions are settled.
+
+And then once we understand the strategy and the data we'll get, then we can start designing. Yep. So, okay, only two questions. So, branches can have two managers or just one manager? So they have one manager and assistant. Okay, so always have an assistant. Okay, it's one true, but I'm assuming we might have to do the manager-assistant manager just because there will be a day I'm not there, right? So I'm the manager, Will's the assistant. There will be a day, at least once a week, where I'm not there, but he's running it. Cool. So the manager assistant will eventually have access to the dashboard? Yeah, in the workforce information table that we were talking about with Jampa and Live, we can see all that. Because here, I'll show it to you. It's actually already in KYB. Okay. I'll show it to you real quick. That's why I was like, why are we doing this over? Not usually why I was asking. Now you get my frustration with this one. Wait a second, there's a lot of data. Like, well, let's not repeat it. KYB, right? If we go into this branch, right here is directory. Okay. Branch manager, regional, district, associate banker. See this other branch manager that's assigned associate banker. There's their obsolete, right? So we can see everybody that's either branch manager, assistant branch manager, with all of this information. And this is all the stuff that they're already reading in KYB. That's updated daily. Updated daily. So always one branch manager, but the associate branch manager will also have access. The assistant will, right? So again, there could be two roles, and there might be one that says branch manager because they're, like, mentoring or helping. So what we'll look for is we're going to look for probably two roles and say these two roles. If you have one of these two roles, you can do it. Yeah. Okay. Yep. That's why I want to get more into this data too, and that's also why I don't want to replicate it. Sorry. Yeah. But we should dive into this data behind the scenes in KYB to see how it looks. Yeah. I don't know if they're doing a front-end manipulation based on job code. You know what I mean? Like they say, oh, BT 1234 means branch manager. We would have to do that on our front end, right? Like, oh, that's how you're reading that code. Yeah, that's not the pull. Like, either we get it from KYB, or when the direction is to pull the information, then we have to have this mapping. Yep. Yep. That's why I want to explore this more. So what we should do for this one, like let's dive into this data when we get into this more with the transition, but yeah. But to your point, we would read one or three. We got to look at the data, like how many job codes actually marry over and how this data looks. But then, yes, we'll have an inclusion list, and if you're in that inclusion list, you get access. If you're not, you can't see it. Yep. Okay. Cool. Eric, can I see that workforce core base what you are saying? That's what I don't know. That's the KYB stuff that should be been on the transition call with, right? Okay. Maybe Jameson might be able to help us there, like see what that data looks like. Is it Jameson and who's the other? Oh gosh. Justin. Justin. Okay. Okay. I would ask them, like, hey, can you guys show me what this looks like? Like, what's it look like in the database for KYB? Sure, sure. Yeah, I think Bhagavathar and all this task for Santosh will deep dive into the...
+…
+Yes. This adds an important clarification to the previous design. The key point is that KYB already has the workforce/branch-role data, so before creating another integration or dataset, the team should understand and potentially reuse what already exists.
+
+Additional decisions / clarifications
+1. Branch leadership model
+
+A branch has one primary Branch Manager.
+There can also be an Assistant Branch Manager / Associate Branch Manager.
+The assistant can operate the branch when the primary manager is unavailable.
+Therefore, the dashboard authorization should not be designed as “only Branch Manager.”
+It should be based on an approved role inclusion list.
+2. Dashboard access
+The likely rule is:
+
+If the user's workforce role/job code belongs to the approved Branch Manager or Assistant Branch Manager role set, they can access the Branch Manager dashboard.
+
+This is better than hardcoding a single role because there may be multiple job codes that map to the business roles.
+
+3. KYB already contains this data
+The existing KYB directory apparently already contains information such as:
+
+Branch Manager
+Assistant/Associate Branch Manager
+Regional roles
+District roles
+Associate Banker
+Other branch personnel
+The data is reportedly updated daily.
+
+Therefore, the team should first investigate the existing KYB data model rather than immediately creating another copy of Workforce/BLDS data.
+
+4. Important technical question
+We need to determine whether KYB is already receiving the business role directly, or whether KYB receives something like a job code and the frontend/business logic translates that code into:
+
+Job Code → Business Role → Access
+
+For example:
+
+Workforce/KYB Data
+       |
+       v
+   Job Code
+       |
+       v
+Role Mapping
+       |
+       +---- Branch Manager
+       |
+       +---- Assistant Branch Manager
+       |
+       +---- Other Role
+              |
+              v
+        Dashboard Access
+If the existing KYB data already provides the normalized role, we should reuse it. If it only provides job codes, we need to understand and document the mapping.
+
+What I would add to the design document
+KYB Branch Manager Access Model
+1. Branch Leadership Structure
+The branch is expected to have:
+
+One primary Branch Manager.
+
+An Assistant Branch Manager / Associate Branch Manager who can operate the branch when the primary manager is unavailable.
+
+Therefore, the KYB dashboard authorization model should support both roles.
+
+2. Access Rule
+Dashboard access should be determined by the user's workforce role/job-code information.
+
+The initial proposed rule is:
+
+A user is eligible for the Branch Manager dashboard if their role/job code belongs to the approved Branch Manager or Assistant Branch Manager inclusion list.
+
+This avoids assuming that there is only one job code representing each business role.
+
+3. Existing KYB Data
+The existing KYB application already appears to consume workforce-related information and expose branch personnel through the Directory view.
+
+The data includes information such as:
+
+Branch Manager
+
+Assistant/Associate Branch Manager
+
+Regional roles
+
+District roles
+
+Associate Banker
+
+Other branch personnel
+
+The data is currently refreshed daily.
+
+Before creating a new data feed or duplicating this information, the team should investigate the existing KYB data model and determine whether the required information can be reused.
+
+4. Data Model Investigation
+The team needs to understand exactly what KYB receives and stores.
+
+Questions to answer:
+
+What is the underlying database/table structure?
+
+Which source provides the data?
+
+Is the data sourced from Workforce, BLDS, or another existing KYB feed?
+
+What fields identify the user?
+
+What fields identify the branch?
+
+Is the business role provided directly?
+
+Or does KYB receive a job code?
+
+If a job code is provided, where is the mapping from job code to business role maintained?
+
+Are Branch Manager and Assistant Branch Manager represented by one or multiple job codes?
+
+How frequently is the data refreshed?
+
+Is the data already sufficient for dashboard authorization?
+
+5. Preferred Design Principle
+Avoid creating another copy of workforce hierarchy data if the existing KYB data already satisfies the requirement.
+
+The preferred sequence is:
+
+Understand existing KYB data → Validate source and freshness → Validate role mapping → Reuse where possible → Create a new integration only if required
+
+6. Required Follow-up
+The KYB transition/data team should provide a walkthrough of the existing workforce-related data.
+
+Specifically, Jameson/Justin or the appropriate KYB data owners should show:
+
+Database/table structure.
+
+Sample records.
+
+Relevant fields.
+
+Job codes.
+
+Role mappings.
+
+Branch-to-user relationship.
+
+Refresh mechanism.
+
+Source system.
+
+Once this is understood, the team can finalize the dashboard authorization design and determine whether any additional Workforce/BLDS integration is actually necessary.
+
+This is a good question to put on tomorrow's agenda:
+
+“Can we walk through the existing KYB workforce data model and understand exactly what we already have, including the job-code-to-role mapping? Before we build another feed, I want to confirm whether we can reuse the existing data.”
+
+That question connects directly with the earlier discussion about not unnecessarily replicating data.
+
+So I think they are asking to send about the proposal and why understanding the usecase so that if all agree we will go with the refined table logic
+Exactly. The ask is not yet to implement the refined-table approach. They want you to document the proposal, explain the use case and rationale, and get internal agreement first. If everyone agrees, then you take the refined-table approach forward with BDIS.
+
+I would frame it this way:
+
+What you should send to the team
+Proposal: BDIS Refined Data Table for KYB
+1. Objective
+As part of the KYB Branch Manager dashboard, we need to consume device/TCR information from BDIS.
+
+Before finalizing the integration approach, we want to align on the use case, required data, data freshness, and the most efficient way for KYB to consume the information.
+
+2. Use Case
+The KYB dashboard needs to display relevant device information for a branch, including the required TCR/device status information.
+
+The dashboard may need to support multiple devices within a branch. Therefore, the solution should be designed for the expected scale rather than assuming only one or two devices per branch.
+
+The data needs to be sufficiently fresh for the Branch Manager experience while avoiding unnecessary load on either KYB or BDIS.
+
+3. Current BDIS Data Options
+BDIS currently has multiple mechanisms through which data can potentially be consumed:
+
+Kafka
+
+Snowflake
+
+Databricks
+
+Data Lake
+
+The current direction is to use the Data Lake as the underlying source.
+
+However, directly querying large/raw datasets every time KYB needs device information may create unnecessary processing, network, and query load.
+
+4. Proposed Approach: Refined Table
+We propose that BDIS maintain a refined table/dataset containing only the fields required by KYB.
+
+Conceptually:
+
+BDIS Data Lake / Raw Data
+
+↓
+
+BDIS transformation/query
+
+↓
+
+Refined KYB dataset/table
+
+↓
+
+KYB consumes required data
+
+The BDIS team would perform the required processing and refresh the refined dataset at an agreed frequency.
+
+KYB would then consume the smaller, purpose-specific dataset rather than repeatedly querying the raw data.
+
+5. Why This Approach
+The proposal is primarily driven by scalability and efficiency.
+
+Benefits
+Avoids KYB querying large raw datasets.
+
+Reduces network traffic between systems.
+
+Reduces query/processing load on KYB.
+
+Allows BDIS to optimize the extraction logic close to the source.
+
+Provides a clear and focused data contract between BDIS and KYB.
+
+Avoids storing unnecessary raw BDIS data in KYB.
+
+Allows the refresh frequency to be explicitly agreed based on the business requirement.
+
+6. Important Questions Before Finalizing
+Before implementing this approach, we should confirm:
+
+What exact BDIS fields does KYB require?
+
+How many devices can a branch have?
+
+What is the expected total device volume?
+
+How fresh does the data need to be?
+
+What refresh frequency is appropriate: 5 minutes, 15 minutes, etc.?
+
+Can BDIS support the proposed refined dataset?
+
+What should be the ownership of the refined dataset?
+
+What is the expected query volume from KYB?
+
+Does the refined dataset need indexing/partitioning for branch/device queries?
+
+Are there any existing BDIS/KYB datasets that can already satisfy this requirement?
+
+7. Proposed Decision
+The proposal is not to proceed directly with implementation yet.
+
+First:
+
+Understand the use case → Identify required fields → Validate expected volume/freshness → Review the refined-table approach → Obtain agreement
+
+If the KYB and BDIS teams agree that the refined-table approach meets the requirements, we can proceed with this design.
+
+8. Next Step
+The KYB team will review the proposal internally.
+
+Once aligned, we can have the BDIS team, including Lakshmi, review the approach and confirm the feasibility, refresh strategy, data ownership, and implementation details.
+
+The objective is to agree on the data strategy first and then proceed with detailed technical design.
+
+One important point: I would avoid saying “we have finalized Data Lake” in the proposal. Say “current direction is Data Lake” until the team formally confirms it.
+
+That keeps the discussion open while making the refined-table proposal the concrete option you're asking them to approve.
+
+
+
+
+⋮⋮⋮⋮⋮⋮⋮⋮⋮⋮⋮⋮
