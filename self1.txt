@@ -1,0 +1,97 @@
+1. What you achieved
+
+In 2026, I focused on delivering reliable and secure technology outcomes, modernizing existing platforms, applying AI to improve engineering productivity, and progressing business-focused initiatives with potential for broader organizational impact. Alongside my core BAU commitments, I contributed to Branch Health, intelligent certificate observability, application modernization, FinOps innovation, and accessibility initiatives.
+
+**1. Advanced the Branch Health Dashboard and established the foundation for an integrated operational view**
+
+Initiated and progressed the Branch Health Dashboard, a business-focused initiative intended to provide branch managers with a consolidated view of branch health and operational priorities. Developed the initial UI using AI-assisted engineering and aligned it with JPMorganChase-approved MDS styling. The experience covers key capabilities including Required Actions, Control Exceptions, Today's Meetings, Tech Readiness, Performance at a Glance, Nearby Branches/ATMs, and Notifications.
+
+Beyond UI development, worked through the architectural and data-integration considerations needed to progress toward a dependable, real-data-driven solution. This included assessing source-system integration approaches, operational versus analytical data requirements, data freshness, retention, and the proposed separation of near-real-time operational data from historical analytics. Also explored API and data dependencies across relevant source systems, including ARM/Kafka, Cortex, BDIS, and Snowflake.
+
+Considered the operational requirements for timely status visibility and the user experience for identifying urgent, upcoming, and outstanding actions. The design approach aims to provide a consolidated overview while preserving source-system ownership of detailed information and actions.
+
+This work established the initial user-facing foundation and clarified important technical dependencies for moving from a UI backed by mock data toward an integrated MVP. The next phase is to finalize priority data contracts, resolve dependencies with source-system owners, and validate the solution using real data.
+
+**2. Improved AppTime email processing reliability, scalability, and operational efficiency**
+
+Completed the objective to optimize and enhance the AppTime email processing system for high-volume event processing, targeting support for more than 15 million events. Addressed recurring functional and operational issues, including notification flooding for seal 85103, failures affecting high-volume seals such as 21090, a non-functional email switch API, and the accumulation of email records older than 90 days.
+
+Fixed the email switch API, optimized the email processing flow to handle varying event volumes more generically, corrected the old-data deletion flow, and incorporated requested email header and body changes. These improvements addressed key processing bottlenecks and strengthened the system's ability to support high-volume processing and reliable email operations.
+
+**3. Progressed CertGuardian Neo toward intelligent certificate observability and advisory**
+
+Progressed CertGuardian Neo as a unified certificate observability solution bringing server-side and client-side certificate information into a single dashboard, with an AI assistant intended to provide contextual knowledge and actionable insights. Developed CertGuardian skills to make certificate-related capabilities available within the developer IDE, bringing certificate awareness closer to the development lifecycle.
+
+Investigated and integrated Cryptolite with AppTime Service and CertGuardian Neo to identify relevant opportunities for cryptographic visibility and advisory. Also resolved LLM Suite API onboarding for CertGuardian Neo.
+
+This work establishes a foundation for more proactive certificate-risk identification, reduced manual analysis, and better-informed remediation. Productionization and validation of the advisory capabilities remain important next steps, with outcomes to be measured against the defined objective targets.
+
+**4. Accelerated platform modernization through reusable AI-assisted Photon upgrade skills**
+
+Modernized four applications: App Availability UI, App Availability Agent, DevOps Pipeline App, and DevOps Pipeline Service. Progressed Photon upgrades from 3.4.1 to 3.5.12, then to 3.5.15, and subsequently to 4.1.0. Executed these upgrades using Photon upgrade skills rather than relying on a purely manual approach. The initial upgrade from 3.4.1 to 3.5.12 was completed in one day. I am continuing the upgrade work toward Photon 4.1.1.
+
+This approach applies reusable, repeatable AI-assisted engineering to technology lifecycle management, supporting modernization consistency and reducing reliance on repetitive manual upgrade activities.
+
+**5. Strengthened application security, compliance, and platform stability**
+
+Delivered security, compliance, and operational improvements across the application portfolio. Fixed the CSRF vulnerability in AppTime App and released the change on February 27. Addressed the AppTime Service email relay's RFC 5321 compliance requirement, resolved the Gaia buildpack issue affecting AppTime UI, and progressed the application password migration from EPV-AIM to GSM.
+
+Resolved Farm Break issues affecting AppTime Service and DevOps Pipeline App. Also contributed to the recreation of the UAT/Dev GOS database following a storage purge incident.
+
+These contributions supported secure engineering practices, compliance requirements, and the stability and continued operation of business-critical applications.
+
+**6. Applied AI to engineering productivity, knowledge reuse, and development workflows**
+
+Created a comprehensive codebase knowledge foundation for AppTime Service and AppTime App, including Claude and GitHub Copilot instruction and agent configuration files. This provides structured application context for AI-assisted development and creates a foundation for more consistent and reusable engineering workflows.
+
+Applied Photon upgrade skills to recurring modernization work and developed CertGuardian skills to bring relevant capabilities closer to developers in their IDEs. Also used AI-assisted development to accelerate the initial Branch Health UI implementation while retaining responsibility for the engineering approach, requirements, and alignment with approved design standards.
+
+My focus has been on applying AI to practical engineering problems and developing reusable capabilities, rather than treating AI usage itself as the outcome. Establishing measurable productivity and quality improvements remains an opportunity for the next cycle.
+
+**7. Contributed to ARIA innovation with potential for broader FinOps and firm-wide impact**
+
+Submitted an ARIA idea for the hackathon and participated in exploring AI-driven capabilities with potential to address FinOps needs. The initiative attracted interest from the FinOps central team, which reached out to discuss incorporating the capabilities into a broader solution. There was also interest in collaborating with the Fusion team to explore addressing gaps in existing capabilities and potentially extending the solution firm-wide.
+
+Although my primary focus remained on BAU delivery, application reliability, security, and modernization, the interest generated by ARIA demonstrated the potential for my innovation work to address needs beyond my immediate team. This provides an opportunity to build on stakeholder interest and explore a reusable solution with broader organizational value.
+
+I also submitted ideas through ACES for Innovation Week, contributing to the broader culture of experimentation and continuous improvement.
+
+**8. Supported wider technology priorities and contributed to an inclusive workplace**
+
+Contributed to the initiation of the Bank Manager Home Page project, Branch Health UI enhancements, the 700303 seal decommission process, and ADLC pipeline adoption analysis. These activities supported wider technology and business priorities alongside my ongoing application responsibilities.
+
+Throughout the year, I participated in the Accessibility Business Resource Group (BRG), contributing beyond my immediate engineering and delivery responsibilities. This ongoing involvement reflects my commitment to inclusion, accessibility, and respectful collaboration.
+
+Overall, my contributions combined dependable delivery of core engineering commitments with operational improvements, security and compliance, AI-assisted engineering, platform modernization, business-focused dashboard development, and innovation with potential for broader organizational impact.
+
+2. How you achieved
+I approached my responsibilities with a focus on ownership, engineering quality, risk awareness, continuous improvement, and alignment with Global Technology priorities. I balanced BAU delivery with modernization and innovation, applying AI and reusable engineering approaches where they could provide practical value.
+
+**Ownership and delivery discipline:** Took responsibility for identifying and resolving underlying technical issues rather than treating recurring symptoms in isolation. Addressed high-volume email-processing problems, fixed the email switch API and old-data deletion flow, and resolved platform stability issues while progressing security and compliance requirements. Focused on practical outcomes and reliable operation of existing services.
+
+**Business-oriented engineering and critical thinking:** Approached Branch Health from the branch manager's operational needs rather than treating it as a UI-only exercise. Considered how operational information, required actions, exceptions, notifications, and source-system links should come together in a single experience. Examined data freshness, retention, source-system ownership, and integration dependencies to distinguish near-real-time operational needs from historical analytics. This helped clarify the technical decisions and dependencies that need to be resolved before progressing to an integrated MVP.
+
+**AI as a force multiplier:** Applied AI-assisted engineering to practical delivery needs, including Photon upgrades, application knowledge-base creation, reusable developer skills, and the initial Branch Health UI. Focused on reusable skills, contextual instructions, and repeatable workflows that can support consistent engineering practices. The next step is to quantify the impact on delivery speed, engineering quality, and manual effort.
+
+**Reuse, automation, and technology lifecycle efficiency:** Prioritized leveraging existing technology assets and creating reusable approaches before introducing additional solutions. Photon upgrade skills provide a repeatable approach to modernization across multiple applications. CertGuardian skills and application-specific AI instructions create foundations for extending engineering capabilities across teams. These efforts align with Global Technology priorities around automation, reuse, and productivity.
+
+**Security, resiliency, and responsible engineering:** Addressed security vulnerabilities, compliance requirements, operational failures, and data-management issues with a focus on protecting application integrity and maintaining reliable services. Treated security and operational stability as core delivery requirements and progressed changes through applicable engineering and release processes.
+
+**Collaboration and broader organizational impact:** Balanced immediate operational commitments with initiatives intended to deliver longer-term value. CertGuardian Neo addresses the opportunity to improve certificate visibility and advisory, while ARIA explores AI-driven FinOps capabilities with potential for wider reuse. The interest from the FinOps central team and potential collaboration with Fusion provide a foundation for further exploration. Realizing this potential will require focused prioritization, stakeholder alignment, and follow-through.
+
+**Inclusion and continuous learning:** Participated in ARIA and ACES innovation activities and contributed to the Accessibility BRG throughout the year. These activities reflect my commitment to continuous learning, innovation, accessibility, and contributing beyond my immediate responsibilities.
+
+My overall approach has been to combine dependable engineering execution with business-oriented problem solving, reusable AI-assisted workflows, and forward-looking technology initiatives, while remaining accountable for operational reliability, security, and the firm's standards.
+
+3. OPtional Details
+### Development priorities for the next cycle
+
+**1. Progress Branch Health toward an integrated MVP.** Finalize priority API and data contracts with source-system owners, resolve critical integration dependencies, validate data freshness and accuracy, and deliver an incremental capability using real data. Gather stakeholder feedback to assess operational usefulness and guide subsequent releases.
+
+**2. Measure AI-assisted engineering productivity.** Establish baselines for selected workflows and track upgrade cycle time, manual effort, quality, and repeatability. Extend reusable Photon upgrade skills, developer skills, and application-specific AI instructions where measurable value can be demonstrated.
+
+**3. Progress CertGuardian Neo toward production readiness.** Complete remaining integration and validation work for the unified certificate dashboard and AI assistant. Establish evidence-based measurements against the defined targets for reducing manual analysis, identifying certificate-expiry risks proactively, and improving response time.
+
+**4. Build on ARIA's FinOps stakeholder interest.** Engage with the FinOps central team and explore collaboration with Fusion to clarify the business problem, ownership, and feasibility of a reusable solution. Define a practical next step that balances innovation with core delivery commitments.
+
+**5. Strengthen cross-team execution and inclusive engineering.** Make dependencies, risks, and decisions visible early, agree on owners and next steps, and escalate material blockers with evidence and proposed options. Continue contributing to the Accessibility BRG and incorporating accessibility considerations into engineering practices.
